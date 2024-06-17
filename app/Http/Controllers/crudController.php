@@ -57,4 +57,65 @@ if($insert){
 
 }
 
+public function show($id){
+
+    $data= croud_model::find($id);
+    if($data->count() > 0){
+        return response()->json([
+            'status'=> '200',
+            'message'=> 'success',
+            'data'=> $data
+        ],200);
+
+    }else{
+    return response()->json([
+        'status'=> '404',
+        'message'=> 'No Data Found',
+        'data'=> ''
+    ],404);
+}
+}
+
+public function update(Request $request, int $id){
+
+    $obj=croud_model::find($id);
+    if($obj){
+        $obj->update([
+            'name'=>$request->name,
+            'position'=>$request->position,
+            'phone'=>$request->phone,
+            ]);
+            return response()->json([
+                'status'=>'200',
+                'message'=>'update successful',
+                'data'=>$request->all()
+            ],200);
+    }else{
+        return response()->json([
+            'status'=>'500',
+            'message'=>'Something Went wrong',
+            'data'=>$request->all()
+        ],500);
+    }
+}
+
+public function delete($id){
+    $obj=croud_model::find($id);
+    if($obj){
+        $obj->delete();
+            return response()->json([
+                'status'=>'200',
+                'message'=>'Delete success',
+                'data'=>''
+            ],200);
+    }else{
+        return response()->json([
+            'status'=>'500',
+            'message'=>'Something Went wrong',
+            'data'=>''
+        ],500);
+    }
+
+}
+
 }

@@ -13,3 +13,6 @@ Route::get('/test',function(){
 });
 Route::get('view',[crudController::class,'index']);
 Route::post('add',[crudController::class,'store']);
+Route::get('view/{id}',[crudController::class,'show']);
+Route::put('view/{id}/edit',[crudController::class,'update']);
+Route::delete('view/{id}/delete',[crudController::class,'delete']);

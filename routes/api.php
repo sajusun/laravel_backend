@@ -9,7 +9,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/test',function(){
-    //return json_decode('{"Peter":35,"Ben":37,"Joe":43}');
+    return json_decode('{"Peter":35,"Ben":37,"Joe":43}');
 });
 Route::get('view',[crudController::class,'index']);
 Route::post('add',[crudController::class,'store']);

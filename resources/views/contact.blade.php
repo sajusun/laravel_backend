@@ -39,7 +39,7 @@
         </div>
     </section>
     <!--================ End Banner Area =================-->
-    
+
     <!--================Contact Area =================-->
     <section class="contact_area section_gap">
         <div class="container">
@@ -64,7 +64,8 @@
                     </div>
                 </div>
                 <div class="col-lg-9">
-                    <form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                    <form class="row contact_form" action="{{ route('contact') }}" method="post" id="contactForm" novalidate="novalidate">
+                        @csrf
                         <div class="col-md-6">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
@@ -82,17 +83,17 @@
                             </div>
                         </div>
                         <div class="col-md-12 text-right">
-                            <button type="submit" value="submit" class="primary_btn">
+                            <button type="submit"  class="primary_btn">
                                 <span>Send Message</span>
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div id="mapBox" class="mapBox" 
-                data-lat="40.701083" 
-                data-lon="-74.1522848" 
-                data-zoom="13" 
+            <div id="mapBox" class="mapBox"
+                data-lat="40.701083"
+                data-lon="-74.1522848"
+                data-zoom="13"
                 data-info="PO Box CT16122 Collins Street West, Victoria 8007, Australia."
                 data-mlat="40.701083"
                 data-mlon="-74.1522848">
@@ -100,11 +101,11 @@
         </div>
     </section>
     <!--================Contact Area =================-->
-        
+
         <!--================Footer Area =================-->
         @include('includable/footer');
     <!--================End Footer Area =================-->
-    
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="js/jquery-3.2.1.min.js"></script>

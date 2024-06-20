@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ContactUsController;
 
 Route::get('/', function () {
     return view('index');
 });
+
 
 Route::get('about', function () {
     return view('about');
@@ -29,13 +31,16 @@ Route::get('blog', function () {
 Route::get('single-blog', function () {
     return view('single-blog');
 });
-Route::get('contact', function () {
-    return view('contact');
-});
+// Route::get('contact', function () {
+//     return view('contact');
+// });
+Route::get('/contact', [ContactUsController::class, 'create'])->name('contact');
+Route::post('/contact', [ContactUsController::class, 'store']);
 
 
 
 
+// need auth
 
 Route::get('/dashboard', function () {
     return view('dashboard');

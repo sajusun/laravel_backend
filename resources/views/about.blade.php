@@ -39,7 +39,7 @@
         </div>
     </section>
     <!--================ End Banner Area =================-->
-    
+
    <!--================ Start About Us Area =================-->
 	<section class="about_area section_gap">
         <div class="container">
@@ -56,13 +56,12 @@
                             Introduce about <br>
                             myself</h2>
                         <p>
-                            Whose given. Were gathered. There first subdue greater. Bearing you Whales heaven 
-                            midst their. Beast creepeth. Fish days.
+                            I craft high-performance native Android apps, breathing life into ideas with Kotlin and Java.
+
                         </p>
                         <p>
-                            Is give may shall likeness made yielding spirit a itself together created after sea 
-                            is in beast beginning signs open god you're gathering whose gathered cattle let. 
-                            Creature whales fruit unto meat the life beginning all in under give two.
+                            My passion lies in optimizing code, designing intuitive interfaces, and delivering smooth user
+                            journeys. From concept to launch,I translate vision into reality, making Android devices come alive.
                         </p>
                         <a class="primary_btn" href="#"><span>Download CV</span></a>
                     </div>
@@ -155,7 +154,7 @@
                             </div>
                             <div class="ml-15">
                                 <p>call us now</p>
-                                <h3>(+1)-800-555-6789</h3>
+                                <h3>(+880) 171-947-0793</h3>
                             </div>
                         </div>
                     </div>
@@ -262,7 +261,7 @@
         </div>
     </div>
     <!--================ End Testimonial Area =================-->
-    
+
     <!--================ Start Newsletter Area =================-->
     <section class="newsletter_area">
         <div class="container">
@@ -271,7 +270,7 @@
                     <div class="subscription_box text-center">
                         <h2 class="text-uppercase text-white">get update from anywhere</h2>
                         <p class="text-white">
-                            Bearing Void gathering light light his eavening unto dont afraid. 
+                            Bearing Void gathering light light his eavening unto dont afraid.
                         </p>
                         <div class="subcribe-form" id="mc_embed_signup">
                             <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
@@ -289,11 +288,11 @@
         </div>
     </section>
     <!--================ End Newsletter Area =================-->
-        
+
         <!--================Footer Area =================-->
         @include('includable/footer');
     <!--================End Footer Area =================-->
-    
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="js/jquery-3.2.1.min.js"></script>

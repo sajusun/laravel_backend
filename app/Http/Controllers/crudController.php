@@ -2,11 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\croud_model;
+use Illuminate\Support\Facades\Hash;
 
 class crudController extends Controller
 {
+
+
+    public function login(Request $request)
+    {
+       $data=User::where('email',$request->email)->first();
+        if($data && Hash::check($request->password,$data->password)){
+
+            $token=$data->createToken('auth-token')->plainTextToken;
+
+            return response()->json([
+                'status'=> '200',
+                'message'=> 'success',
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'data'=> $data->password
+            ],200);
+
+        }else{
+            return response()->json([
+                'status'=> '404',
+                'message'=> 'No Data Found',
+                'data'=> ""
+            ],404);
+        }
+
+    }
     //
     public function index(){
         $data= croud_model::all();

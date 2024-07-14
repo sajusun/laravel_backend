@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactUsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\crudController;
@@ -20,15 +21,25 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 
 //............
-Route::get('/test',function(){
-    return json_decode('{"Peter":35,"Ben":37,"Joe":43}');
-});
+//Route::get('/test',function(){
+//    return json_decode('{"Peter":35,"Ben":37,"Joe":43}');
+//});
 
-Route::post('login',[crudController::class,'login']);
+Route::post('api_login',[crudController::class,'login']);
 
 Route::get('view',[crudController::class,'index']);
 Route::post('add',[crudController::class,'store']);
 Route::get('view/{id}',[crudController::class,'show']);
 Route::put('view/{id}/edit',[crudController::class,'update']);
 Route::delete('view/{id}/delete',[crudController::class,'delete']);
+
+//contact us api
+Route::post('contact/add',[ContactUsController::class,'add']);
+Route::get('contact/list',[ContactUsController::class,'index']);
+Route::get('contact/list/{id}',[ContactUsController::class,'show']);
+Route::get('contact/search/{arg}',[ContactUsController::class,'search']);
+Route::put('contact/list/{id}/edit',[ContactUsController::class,'update']);
+Route::delete('contact/{id}/delete',[ContactUsController::class,'delete']);
+
+
 

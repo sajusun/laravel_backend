@@ -14,25 +14,34 @@ class crudController extends Controller
 
     public function login(Request $request)
     {
-        $data = User::where('email', $request->email)->first();
-        if ($data && Hash::check($request->password, $data->password)) {
-
-            $token = $data->createToken('auth-token')->plainTextToken;
-
-            return response()->json([
-                'status' => '200',
-                'message' => 'success',
-                'access_token' => $token,
-                'token_type' => 'Bearer',
-                'data' => $data->password
-            ], 200);
-
-        } else {
+        $validator = validator()->make($request->all(),[
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        if($validator->fails){
             return response()->json([
                 'status' => '404',
-                'message' => 'No Data Found',
-                'data' => ""
+                'message' => $validator,
+                'data' => $request->all()
             ], 404);
+        }else{
+            $data = User::where('email', $request->email)->first();
+            if ($data && Hash::check($request->password, $data->password)) {
+                $token = $data->createToken($request->email)->plainTextToken;
+                return response()->json([
+                    'status' => '200',
+                    'message' => 'success',
+                    'access_token' => $token,
+                    'token_type' => 'Bearer',
+                ], 200);
+
+            } else {
+                return response()->json([
+                    'status' => '404',
+                    'message' => 'Login failed',
+                    'data' => $request->all()
+                ], 404);
+            }
         }
 
     }

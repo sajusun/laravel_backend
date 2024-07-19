@@ -12,7 +12,7 @@ Route::get('/user', function (Request $request) {
 //user register
 //Route::post('register',)
 
-//protected route
+// All protected route
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('ui',function (){
@@ -24,9 +24,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 //Route::get('/test',function(){
 //    return json_decode('{"Peter":35,"Ben":37,"Joe":43}');
 //});
-
+//All public routes
 Route::post('api_login',[crudController::class,'login']);
 
+//crud functions.........
 Route::get('view',[crudController::class,'index']);
 Route::post('add',[crudController::class,'store']);
 Route::get('view/{id}',[crudController::class,'show']);

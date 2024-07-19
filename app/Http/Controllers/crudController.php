@@ -18,10 +18,10 @@ class crudController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
-        if($validator->fails){
+        if($validator->fails()){
             return response()->json([
                 'status' => '404',
-                'message' => $validator,
+                'message' => $validator->errors(),
                 'data' => $request->all()
             ], 404);
         }else{

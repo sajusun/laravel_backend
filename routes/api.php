@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\email_subscription_controller;
 use App\Http\Controllers\ContactUsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +26,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 //    return json_decode('{"Peter":35,"Ben":37,"Joe":43}');
 //});
 //All public routes
-Route::post('api_login',[crudController::class,'login']);
+Route::any('login',[crudController::class,'login']);
+Route::any('news_later',[email_subscription_controller::class,'store']);
 
 //crud functions.........
 Route::get('view',[crudController::class,'index']);

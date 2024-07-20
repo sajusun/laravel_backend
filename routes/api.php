@@ -27,7 +27,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 //});
 //All public routes
 Route::any('login',[crudController::class,'login']);
-Route::any('news_later',[email_subscription_controller::class,'store']);
+Route::any('news_later/add',[email_subscription_controller::class,'store']);
+Route::get('news_later/list',[email_subscription_controller::class,'index']);
+Route::get('news_later/list/{id}/delete',[email_subscription_controller::class,'destroy']);
+
+
 
 //crud functions.........
 Route::get('view',[crudController::class,'index']);

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\email_subscription_controller;
 use App\Http\Controllers\API\Expenses_App_In_controller;
+use App\Http\Controllers\API\Expenses_App_Out_controller;
 use App\Http\Controllers\ContactUsController;
 use App\Models\expensesApp_In;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ Route::get('/user', function (Request $request) {
 // All protected route.................................................
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
-    Route::get('ui',function (){
+    Route::any('/ui',function (){
         return "hello world";
     });
 });
@@ -24,7 +25,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 
 //All public routes..........................................................
-Route::any('login',[crudController::class,'login']);
+Route::post('login',[crudController::class,'login']);
 
 //subscription api routes...........
 Route::any('news_later/add',[email_subscription_controller::class,'store']);
@@ -47,11 +48,17 @@ Route::get('contact/search/{arg}',[ContactUsController::class,'search']);
 Route::put('contact/list/{id}/edit',[ContactUsController::class,'update']);
 Route::delete('contact/{id}/delete',[ContactUsController::class,'delete']);
 
-//expenses app api
-Route::get('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
-Route::get('expenses_app/in/list/{user_id}',[Expenses_App_In_controller::class,'index']);
+//expenses app api.............
+Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
+Route::any('expenses_app/in/list/{user_id}',[Expenses_App_In_controller::class,'index']);
 Route::get('expenses_app/in/list/{id}/view',[Expenses_App_In_controller::class,'show']);
-Route::get('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);
-Route::get('expenses_app/in/list/{id}/delete',[Expenses_App_In_controller::class,'delete']);
+Route::any('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);
+Route::delete('expenses_app/in/list/{id}/delete',[Expenses_App_In_controller::class,'delete']);
+
+Route::any('expenses_app/out/add',[Expenses_App_Out_controller::class,'store']);
+Route::any('expenses_app/out/list/{user_id}',[Expenses_App_Out_controller::class,'index']);
+Route::get('expenses_app/out/list/{id}/view',[Expenses_App_Out_controller::class,'show']);
+Route::patch('expenses_app/out/list/{id}/update',[Expenses_App_Out_controller::class,'update']);
+Route::delete('expenses_app/out/list/{id}/delete',[Expenses_App_Out_controller::class,'delete']);
 //All public routes End..........................................................
 

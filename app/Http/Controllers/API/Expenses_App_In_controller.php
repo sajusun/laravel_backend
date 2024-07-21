@@ -14,14 +14,14 @@ class Expenses_App_In_controller extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $list=expensesApp_In::where('user_id',request('user_id'),)->get(['id','date','details','amount']);
-        if($list->count()>0){
+        $list = expensesApp_In::where('user_id', request('user_id'))->get(['id', 'date', 'details', 'amount']);
+        if ($list->count() > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'List all Expenses App In',
                 'data' => $list
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'No data found'
@@ -34,13 +34,13 @@ class Expenses_App_In_controller extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $data=expensesApp_In::create(request()->all());
-        if($data){
+        $data = expensesApp_In::create(request()->all());
+        if ($data) {
             return response()->json([
                 'success' => true,
                 'message' => 'Data inserted successfully',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Data insert failed',
@@ -53,14 +53,14 @@ class Expenses_App_In_controller extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $find=expensesApp_In::find($id);
-        if($find){
+        $find = expensesApp_In::find($id);
+        if ($find) {
             return response()->json([
                 'success' => true,
                 'message' => 'Data found',
                 'data' => $find
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Data not found',
@@ -73,13 +73,14 @@ class Expenses_App_In_controller extends Controller
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        $data=expensesApp_In::where('id',$id)->update(['details'=>request()->details,'amount'=>request()->amount]);
-        if($data){
+        $data = expensesApp_In::where('user_id', request('user_id'))->where('id', $id)->
+        update(['details' => request()->details, 'amount' => request()->amount]);
+        if ($data->count() > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'Data updated successfully',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Data update failed',
@@ -92,18 +93,18 @@ class Expenses_App_In_controller extends Controller
      */
     public function destroy(string $id): JsonResponse
     {
-            $data=expensesApp_In::where('id',$id)->delete();
-            if($data){
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Data removed successfully',
-                ]);
-            }else{
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Data removed failed',
-                ]);
-            }
+        $data = expensesApp_In::where('id', $id)->where('user_id', request('user_id'))->delete();
+        if ($data->count() > 0) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data removed successfully',
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data removed failed',
+            ]);
+        }
 
     }
 }

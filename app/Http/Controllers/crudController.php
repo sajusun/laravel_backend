@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ContactUs;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\croud_model;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +13,7 @@ class crudController extends Controller
 {
 
 
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $validator = validator()->make($request->all(),[
             'email' => 'required|email',
@@ -29,25 +30,25 @@ class crudController extends Controller
             if ($data && Hash::check($request->password, $data->password)) {
                 $token = $data->createToken($request->email)->plainTextToken;
                 return response()->json([
-                    'status' => '200',
-                    'message' => 'success',
+                    'success' => true,
+                    'message' => 'login successfully',
                     'access_token' => $token,
                     'token_type' => 'Bearer',
-                ], 200);
+                ]);
 
             } else {
                 return response()->json([
-                    'status' => '404',
+                    'success' => false,
                     'message' => 'Login failed',
                     'data' => $request->all()
-                ], 404);
+                ]);
             }
         }
 
     }
 
     //
-    public function index()
+    public function index(): JsonResponse
     {
         $data = croud_model::all();
         if ($data->count() > 0) {

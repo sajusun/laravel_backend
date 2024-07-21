@@ -8,8 +8,8 @@
 	<link rel="icon" href="img/favicon.png" type="image/png">
 	<title>dev Portfolio</title>
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="css/bootstrap.css">
-
+	<link rel="stylesheet" href="../css/bootstrap.css">
+{{--@vite(['resources/css/bootstrap.css'])--}}
 	<link rel="stylesheet" href="vendors/linericon/style.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="vendors/nice-select/css/nice-select.css">
 	<!-- main css -->
 	<link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
@@ -567,6 +568,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../js/bootstrap.js"></script>
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/popper.js"></script>
 	<script src="js/bootstrap.min.js"></script>

@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\ContactUs;
 use App\Models\croud_model;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ContactUsController extends Controller
 {
     //
-    public function create()
+    public function create(): Factory|\Illuminate\Foundation\Application|View|Application
     {
         return view('contact');
     }
 
 //   for web ui interface
-    public function store(Request $request) {
+    public function store(Request $request): Factory|\Illuminate\Foundation\Application|View|Application
+    {
         $contact=ContactUs::create([
         'name'=>$request->name,
         'email'=>$request->email,
@@ -25,11 +29,15 @@ class ContactUsController extends Controller
         ]);
 
         if($contact){
-            return view('contact');
+            return view('contact')->with('message','Your message has been sent');
+        }else{
+            return view('contact')->with('message','Something went wrong');
         }
+
     }
 //    for api interface
-    public function add(Request $request) {
+    public function add(Request $request): JsonResponse
+    {
         $contact=ContactUs::create([
             'name'=>$request->name,
             'email'=>$request->email,

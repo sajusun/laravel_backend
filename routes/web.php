@@ -8,7 +8,6 @@ Route::get('/', function () {
     return view('index');
 });
 
-
 Route::get('about', function () {
     return view('about');
 });
@@ -30,6 +29,13 @@ Route::get('blog', function () {
 });
 Route::get('single-blog', function () {
     return view('single-blog');
+});
+//expenses app
+Route::get('expenses-app/user', function () {
+    return view('expensesApp.user');
+});
+Route::get('expenses-app/in', function () {
+    return view('expensesApp.expenses_in');
 });
 // Route::get('contact', function () {
 //     return view('contact');

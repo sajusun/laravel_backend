@@ -67,15 +67,29 @@ class email_subscription_controller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): JsonResponse
     {
-        //
+
+            $data = email_free_subscription::where('id', $id)->update(['email' => $request->email]);
+            if ($data) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'email subscription update successfully',
+                ]);
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'email subscription update failed',
+
+                ]);
+            }
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
         $subscription=email_free_subscription::find($id);
         if ($subscription) {

@@ -7,16 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static create(array $all)
- * @method static insert(array $all)
- * @method static where(string $string, mixed $request)
  * @method static find(string $id)
+ * @method static where(string $string, string $id)
  */
-class email_free_subscription extends Model
+class expensesApp_In extends Model
 {
     use HasFactory;
-    protected $table = 'email_free_subscription';
+    protected $table = 'expenses_apps_in';
     protected $fillable = [
-        'email',
-        'subscription_at'
+        'user_id',
+        'date',
+        'details',
+        'amount'
     ];
 }

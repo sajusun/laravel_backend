@@ -104,14 +104,14 @@ class crudController extends Controller
         $data = croud_model::find($id);
         if ($data->count() > 0) {
             return response()->json([
-                'status' => '200',
+                'success' => true,
                 'message' => 'success',
                 'data' => $data
             ], 200);
 
         } else {
             return response()->json([
-                'status' => '404',
+                'success' => false,
                 'message' => 'No Data Found',
                 'data' => ''
             ], 404);

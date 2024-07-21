@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->date('subscription_at');
+            $table->datetime('updated_at')->nullable();
 
         });
     }

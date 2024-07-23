@@ -37,6 +37,13 @@ Route::get('expenses-app/user', function () {
 Route::get('expenses-app/in', function () {
     return view('expensesApp.expenses_in');
 });
+Route::get('expenses-app/in/add', function () {
+    return view('expensesApp.expenses_in_add');
+});
+Route::get('expenses-app/ui', function () {
+    return view('expensesApp.test');
+});
+
 // Route::get('contact', function () {
 //     return view('contact');
 // });

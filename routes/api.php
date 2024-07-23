@@ -15,10 +15,13 @@ Route::get('/user', function (Request $request) {
 
 
 // All protected route.................................................
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => 'api'], function () {
 
-    Route::any('/ui',function (){
-        return "hello world";
+    Route::any('/ui',function (Request $request){
+        return response()->json([
+            'message'=>"auth",
+            'request'=>$request
+        ]);
     });
 });
 // All protected routes End ..............................................

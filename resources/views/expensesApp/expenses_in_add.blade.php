@@ -22,28 +22,39 @@
 
 <body>
 <div class="container">
-  <h2>List</h2>
-    <br>
-<section id="data_table">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Date</th>
-            <th>Details</th>
-            <th>Amount</th>
-        </tr>
-        </thead>
-        <tbody id="t_body">
-
-        </tbody>
-    </table>
-</section>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button id="refresh" type="submit" class="btn btn-default">refresh</button>
+    <h2>Add Income</h2>
+    <form class="form-horizontal" action="/api/expenses_app/in/add">
+        @csrf
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="date">Date:</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" id="date" placeholder="Enter Date" name="date">
+            </div>
         </div>
-    </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="details">Details:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="details" placeholder="Enter Details" name="details">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="details">Amount:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="amount" placeholder="Enter Amount" name="amount">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="remark">Remark:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="remark" placeholder="Remark Here" name="remark">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 <!-- Optional JavaScript -->
@@ -63,28 +74,4 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 <script src="/js/gmaps.min.js"></script>
 <script src="/js/theme.js"></script>
-<script>
-    $(document).ready(function(){
-        let tbody=$('#t_body');
-        function getlist() {
-         var element=""
-            $.get('http://localhost:8000/api/expenses_app/in/list/1',function(data, status){
-                let list=data['data'];
-                console.log(list.length);
-                console.log(status);
-                for (let i=0;i<list.length;i++){
-            element+="<tr><td>"+list[i].id+"</td> <td>"+list[i].date +"</td><td>"+list[i].details+"</td><td>"+list[i].amount+"</td></tr>"
-
-                    console.log(list[i]);
-                }
-                tbody.empty();
-                tbody.append(element);
-            });
-        }
-        getlist();
-        $("#refresh").click(function(){
-          getlist();
-        });
-    });
-</script>
 </html>

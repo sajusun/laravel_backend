@@ -4,8 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\email_free_subscription;
+use http\Client\Curl\User;
+use Illuminate\Auth\TokenGuard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\Guard;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class email_subscription_controller extends Controller
 {
@@ -34,10 +39,12 @@ class email_subscription_controller extends Controller
     public function store(Request $request): JsonResponse
     {
         $find=email_free_subscription::where('email',request('email'))->get();
+        $key=$request->string('token');
         if ($find->count() > 0) {
             return response()->json([
                 'success' => false,
-                'message' => 'Email already Subscribed'
+                'message' => 'Email already Subscribed',
+                'data' =>$request
             ]);
         }else {
             $data = email_free_subscription::insert(['email' => $request->email, 'subscription_at' => date('Y-m-d')]);

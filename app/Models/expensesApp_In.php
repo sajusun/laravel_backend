@@ -18,6 +18,8 @@ class expensesApp_In extends Model
         'user_id',
         'date',
         'details',
-        'amount'
+        'amount',
+        'remarks',
     ];
+
 }

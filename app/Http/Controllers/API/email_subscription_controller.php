@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\email_free_subscription;
 use http\Client\Curl\User;
+use Illuminate\Auth\GuardHelpers;
 use Illuminate\Auth\TokenGuard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -44,7 +45,6 @@ class email_subscription_controller extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Email already Subscribed',
-                'data' =>$request
             ]);
         }else {
             $data = email_free_subscription::insert(['email' => $request->email, 'subscription_at' => date('Y-m-d')]);

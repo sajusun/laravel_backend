@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\expensesApp_In;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Expenses_App_In_controller extends Controller
 {
@@ -14,7 +15,7 @@ class Expenses_App_In_controller extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $list = expensesApp_In::where('user_id', request('user_id'))->get(['id', 'date', 'details', 'amount']);
+        $list = expensesApp_In::where('user_id', auth::id())->get(['id', 'date', 'details', 'amount']);
         if ($list->count() > 0) {
             return response()->json([
                 'success' => true,
@@ -34,7 +35,13 @@ class Expenses_App_In_controller extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $data = expensesApp_In::create(request()->all());
+        $data = expensesApp_In::create([
+            'date' => request('date'),
+            'details' => request('details'),
+            'amount' => request('amount'),
+            'remarks' => request('remarks'),
+            'user_id' => auth::id(),
+        ]);
         if ($data) {
             return response()->json([
                 'success' => true,

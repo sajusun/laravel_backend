@@ -27,7 +27,7 @@ return new class extends Migration
             $table->date('date');
             $table->string('details');
             $table->float('amount');
-            $table->string('remark')->nullable();
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }
@@ -39,6 +39,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('expenses_apps');
+        Schema::dropIfExists('expenses_apps_out');
+        Schema::dropIfExists('expenses_apps_in');
     }
 };

@@ -5,7 +5,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="headers" content="knfdkjdkj">
     <link rel="icon" href="img/favicon.png" type="image/png">
     <title>dev Portfolio</title>
     <!-- Bootstrap CSS -->
@@ -52,7 +51,8 @@
             <button id="login_btn" type="button" class="btn btn-default">Submit</button>
         </div>
     </div>
-        <form method="post" class="form-horizontal" action="http://localhost:8000/api/ui">
+        <form method="post" enctype="application/x-www-form-urlencoded" class="form-horizontal"
+              action="http://localhost:8000/api/ui?Authorization=%20Bearer%205%7Cp0HKvj8vehbjroz5HlYVhSv7dY5BnFwyhhISzw0A0524b45a">
             @csrf
             <div class="form-group">
                 <label class="control-label col-sm-2" for="email">Email:</label>
@@ -94,20 +94,18 @@
 
     $(document).ready(function(){
         $("#login_btn").click(function(){
-ajax();
+get();
         });
-        function ajax() {
-            $.get('http://localhost:8000/api/ui?token=jnjh',{
-                    headers:{
-                        Authorization: "12|nCphqDxOSH2MOiktrGcUmVoq2AWQmRfssBC8BavL544e89d0"
-                    }
-                }
-                ,function(data, status){
+        function get() {
+            $.get('http://localhost:8000/api/ui',
+                {headers:{'Authorization':'Bearer 5|p0HKvj8vehbjroz5HlYVhSv7dY5BnFwyhhISzw0A0524b45a'}}
+                ,function(data, status,){
                     console.log(data);
                     console.log(status);
                     //alert(data + status);
-                });
+                },'json');
         }
+
         function loadDoc() {
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function() {
@@ -115,9 +113,11 @@ ajax();
                     console.log(this.responseText);
                 }
             };
-            xhttp.open("GET", "http://localhost:8000/api/ui", false);
-           // xhttp.setRequestHeader("Content-type", "application/json");
-            xhttp.setRequestHeader("Authorization", "NBJKNotQG65vAW1F5vmXrFocJdFRSymzct6vnWtSd48fd333");
+            xhttp.open("GET", "http://localhost:8000/api/ui?key=4|6rfMA2qfJdipotJMqVYubYaGEd0RZwzqhMwRjoLG2a498e82", false);
+
+            xhttp.setRequestHeader('Authorization', '4|6rfMA2qfJdipotJMqVYubYaGEd0RZwzqhMwRjoLG2a498e82');
+            xhttp.setRequestHeader('Accept','Application/json');
+            xhttp.setRequestHeader('contentType','json');
             xhttp.send();
         }
     });

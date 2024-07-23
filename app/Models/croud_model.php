@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class croud_model extends Model
 {
     use HasFactory;
-    protected $table = "employe";
+    protected $table = "employee";
     protected $fillable =[
         'name',
         'position',

@@ -4,10 +4,10 @@ use App\Http\Controllers\API\email_subscription_controller;
 use App\Http\Controllers\API\Expenses_App_In_controller;
 use App\Http\Controllers\API\Expenses_App_Out_controller;
 use App\Http\Controllers\ContactUsController;
-use App\Models\expensesApp_In;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\crudController;
+use Laravel\Sanctum\PersonalAccessToken;
 
 Route::get('/user', function (Request $request) {
   return $request->user();
@@ -15,12 +15,14 @@ Route::get('/user', function (Request $request) {
 
 
 // All protected route.................................................
-Route::group(['middleware' => 'api'], function () {
+Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::any('/ui',function (Request $request){
         return response()->json([
-            'message'=>"auth",
-            'request'=>$request
+            'message'=>"authorize",
+            'test'=>$request->user(),
+            'link'=>$request->header(),
+            'request'=>$request->getUri()
         ]);
     });
 });
@@ -52,8 +54,8 @@ Route::put('contact/list/{id}/edit',[ContactUsController::class,'update']);
 Route::delete('contact/{id}/delete',[ContactUsController::class,'delete']);
 
 //expenses app api.............
-Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
-Route::any('expenses_app/in/list/{user_id}',[Expenses_App_In_controller::class,'index']);
+Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store'])->middleware('auth:sanctum');
+Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index'])->middleware('auth:sanctum');
 Route::get('expenses_app/in/list/{id}/view',[Expenses_App_In_controller::class,'show']);
 Route::any('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);
 Route::delete('expenses_app/in/list/{id}/delete',[Expenses_App_In_controller::class,'delete']);

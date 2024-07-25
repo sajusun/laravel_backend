@@ -5,6 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="Authorization" content="hellosir">
+    @csrf
     <link rel="icon" href="img/favicon.png" type="image/png">
     <title>dev Portfolio</title>
     <!-- Bootstrap CSS -->
@@ -51,8 +53,8 @@
             <button id="login_btn" type="button" class="btn btn-default">Submit</button>
         </div>
     </div>
-        <form method="post" enctype="application/x-www-form-urlencoded" class="form-horizontal"
-              action="http://localhost:8000/api/ui?Authorization=%20Bearer%205%7Cp0HKvj8vehbjroz5HlYVhSv7dY5BnFwyhhISzw0A0524b45a">
+        <form method="get" enctype="application/json" class="form-horizontal"
+              action="http://localhost:8000/api/ui?api_token=2|b2U7Up4ON4hhmMprFjxRLamjINygHKrdnJZj0TNlaf52fb3c">
             @csrf
             <div class="form-group">
                 <label class="control-label col-sm-2" for="email">Email:</label>
@@ -94,11 +96,11 @@
 
     $(document).ready(function(){
         $("#login_btn").click(function(){
-get();
+loadDoc();
         });
         function get() {
-            $.get('http://localhost:8000/api/ui',
-                {headers:{'Authorization':'Bearer 5|p0HKvj8vehbjroz5HlYVhSv7dY5BnFwyhhISzw0A0524b45a'}}
+            $.get('http://localhost:8000/api/ui?api_token=2|b2U7Up4ON4hhmMprFjxRLamjINygHKrdnJZj0TNlaf52fb3c',
+                {headers:{'Authorization':'5|p0HKvj8vehbjroz5HlYVhSv7dY5BnFwyhhISzw0A0524b45a'}}
                 ,function(data, status,){
                     console.log(data);
                     console.log(status);
@@ -113,9 +115,9 @@ get();
                     console.log(this.responseText);
                 }
             };
-            xhttp.open("GET", "http://localhost:8000/api/ui?key=4|6rfMA2qfJdipotJMqVYubYaGEd0RZwzqhMwRjoLG2a498e82", false);
+            xhttp.open("GET", "http://localhost:8000/api/ui?api_token=2|b2U7Up4ON4hhmMprFjxRLamjINygHKrdnJZj0TNlaf52fb3c", false);
 
-            xhttp.setRequestHeader('Authorization', '4|6rfMA2qfJdipotJMqVYubYaGEd0RZwzqhMwRjoLG2a498e82');
+            xhttp.setRequestHeader('Authorization', '2|b2U7Up4ON4hhmMprFjxRLamjINygHKrdnJZj0TNlaf52fb3c');
             xhttp.setRequestHeader('Accept','Application/json');
             xhttp.setRequestHeader('contentType','json');
             xhttp.send();

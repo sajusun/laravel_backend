@@ -15,7 +15,7 @@ class Expenses_App_In_controller extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $list = expensesApp_In::where('user_id', auth::id())->get(['id', 'date', 'details', 'amount']);
+        $list = expensesApp_In::where('user_id', ApiTokenController::getIdByToken($request))->get(['id', 'date', 'details', 'amount']);
         if ($list->count() > 0) {
             return response()->json([
                 'success' => true,
@@ -40,7 +40,7 @@ class Expenses_App_In_controller extends Controller
             'details' => request('details'),
             'amount' => request('amount'),
             'remarks' => request('remarks'),
-            'user_id' => auth::id(),
+            'user_id' => ApiTokenController::getIdByToken($request),
         ]);
         if ($data) {
             return response()->json([

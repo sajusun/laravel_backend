@@ -20,6 +20,12 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+        Schema::table('users', function ($table) {
+            $table->string('api_token', 80)->after('password')
+                ->unique()
+                ->nullable()
+                ->default(null);
+        });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

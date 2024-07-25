@@ -1,12 +1,17 @@
 <?php
 
+use App\Http\Controllers\API\ApiTokenController;
+use App\Http\Controllers\API\ApiUser;
 use App\Http\Controllers\API\email_subscription_controller;
 use App\Http\Controllers\API\Expenses_App_In_controller;
 use App\Http\Controllers\API\Expenses_App_Out_controller;
 use App\Http\Controllers\ContactUsController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\crudController;
+use Laravel\Sanctum\Guard;
+use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
 Route::get('/user', function (Request $request) {
@@ -15,14 +20,22 @@ Route::get('/user', function (Request $request) {
 
 
 // All protected route.................................................
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => 'apiUser:apiUser'], function () {
+    //expenses app api.............
+    Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
+    Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
 
-    Route::any('/ui',function (Request $request){
+
+    Route::any('/ui',function (Request $request) {
         return response()->json([
-            'message'=>"authorize",
-            'test'=>$request->user(),
-            'link'=>$request->header(),
-            'request'=>$request->getUri()
+            'Authorization'=> $request->header('Authorization'),
+            'bearer'=> $request->bearerToken(),
+            'token'=>$request->query('api_token'),
+            //'id'=> PersonalAccessToken::findToken($request->query('api_token'))['id'],
+             //'oo'=>ApiTokenController::getUserByToken($request),
+            'user-id'=>ApiTokenController::getIdByToken($request),
+            'token-id'=>ApiTokenController::getTokenId($request)
+
         ]);
     });
 });
@@ -53,9 +66,9 @@ Route::get('contact/search/{arg}',[ContactUsController::class,'search']);
 Route::put('contact/list/{id}/edit',[ContactUsController::class,'update']);
 Route::delete('contact/{id}/delete',[ContactUsController::class,'delete']);
 
-//expenses app api.............
-Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store'])->middleware('auth:sanctum');
-Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index'])->middleware('auth:sanctum');
+////expenses app api.............
+//Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store'])->middleware('auth:sanctum');
+//Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index'])->middleware('auth:sanctum');
 Route::get('expenses_app/in/list/{id}/view',[Expenses_App_In_controller::class,'show']);
 Route::any('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);
 Route::delete('expenses_app/in/list/{id}/delete',[Expenses_App_In_controller::class,'delete']);

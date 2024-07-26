@@ -95,9 +95,9 @@
 
 <html>
 <head>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!------ Include the above in your HEAD tag ---------->
     <style rel="stylesheet">
 
@@ -376,11 +376,12 @@
         </div>
 
         <!-- Login Form -->
-        <form>
-            <input type="text" id="login" class="fadeIn second" name="email" placeholder="Email">
+        <form  action="#">
+            <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email">
             <input type="text" id="password" class="fadeIn third" name="password" placeholder="Password">
-            <input type="submit" class="fadeIn fourth" value="Log In">
+            <input id="login_btn" type="Button" class="fadeIn fourth" value="Log In">
         </form>
+
 
         <!-- Remind Passowrd -->
         <div id="formFooter">
@@ -392,6 +393,30 @@
 
 </body>
 </html>
+<script>
+
+    $(document).ready(function(){
+
+        $("#login_btn").click(function(){
+             email=$("#email").val();
+             pass=$("#password").val();
+             //link=$("#link").val();
+            //console.log(link);
+             $.post('http://localhost:8000/api/login', {
+                 'email':email,
+                 'password':pass
+             },function(data, status){
+                 if (status && data['success']){
+                     sessionStorage.token=data['access_token'];
+                     window.location.href='http://localhost:8000/expenses-app/in/list'
+                 }
+                console.log(data['access_token']);
+                console.log(data);
+
+             });
+        });
+    });
+</script>
 
 
 

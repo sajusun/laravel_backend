@@ -56,9 +56,14 @@ class ApiTokenController extends Controller
     }
     static public function getTokenId(Request $request)
     {
-        return PersonalAccessToken::findToken(self::getToken($request))['id'];
+        if(self::getToken($request)!==null) {
+            if (PersonalAccessToken::findToken(self::getToken($request))) {
+                return PersonalAccessToken::findToken(self::getToken($request))['id'];
+            }
+        }
+        return null;
     }
-    static public function getToken(Request $request): string|null
+    static private function getToken(Request $request): string|null
     {
         if ($request->bearerToken()!==null){
             return $request->bearerToken();
@@ -69,7 +74,7 @@ class ApiTokenController extends Controller
         if ($request->query('api_token')!==null) {
             return  $request->query('api_token');
         }
-        return false;
+        return null;
     }
 
 

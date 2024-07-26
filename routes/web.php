@@ -31,10 +31,10 @@ Route::get('single-blog', function () {
     return view('single-blog');
 });
 //expenses app
-Route::get('expenses-app/user', function () {
+Route::any('expenses-app/user', function () {
     return view('expensesApp.user');
 });
-Route::get('expenses-app/in', function () {
+Route::get('expenses-app/in/list', function () {
     return view('expensesApp.expenses_in');
 });
 Route::get('expenses-app/in/add', function () {

@@ -20,7 +20,7 @@ Route::get('/user', function (Request $request) {
 
 
 // All protected route.................................................
-Route::group(['middleware' => 'apiUser:apiUser'], function () {
+Route::group(['middleware' => 'apiUser'], function () {
     //expenses app api.............
     Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
     Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
@@ -31,8 +31,6 @@ Route::group(['middleware' => 'apiUser:apiUser'], function () {
             'Authorization'=> $request->header('Authorization'),
             'bearer'=> $request->bearerToken(),
             'token'=>$request->query('api_token'),
-            //'id'=> PersonalAccessToken::findToken($request->query('api_token'))['id'],
-             //'oo'=>ApiTokenController::getUserByToken($request),
             'user-id'=>ApiTokenController::getIdByToken($request),
             'token-id'=>ApiTokenController::getTokenId($request)
 

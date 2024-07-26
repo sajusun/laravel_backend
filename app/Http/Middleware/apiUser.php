@@ -24,10 +24,10 @@ class apiUser
     public function handle(Request $request, Closure $next): Response
     {
 
-        if (ApiTokenController::getToken($request)==null || ApiTokenController::getToken($request)=='') {
+        if (ApiTokenController::getTokenId($request)==null) {
 
                 return response()->json([
-                    'User' => 'Invalid Authorization Request',
+                    'message' => 'Unauthenticated Request',
                 ]);
             }
        // Auth::attempt(['email'=>'sajuislam266@gmail.com','password'=>'$2y$12$1KsQPxxehwvqXVw9enB1CuNXPownnL1EJb0AiD2uqi3zkMZbc6Pwy']);

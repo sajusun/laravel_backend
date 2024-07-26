@@ -32,6 +32,7 @@
             <th>Date</th>
             <th>Details</th>
             <th>Amount</th>
+            <th>action</th>
         </tr>
         </thead>
         <tbody id="t_body">
@@ -68,12 +69,14 @@
         let tbody=$('#t_body');
         function getlist() {
          var element=""
-            $.get('http://localhost:8000/api/expenses_app/in/list/1',function(data, status){
+            $.get('http://localhost:8000/api/expenses_app/in/list/?api_token='+sessionStorage.getItem('token')
+                ,function(data, status){
                 let list=data['data'];
                 console.log(list.length);
                 console.log(status);
                 for (let i=0;i<list.length;i++){
-            element+="<tr><td>"+list[i].id+"</td> <td>"+list[i].date +"</td><td>"+list[i].details+"</td><td>"+list[i].amount+"</td></tr>"
+            element+="<td>"+list[i].id+"</td> <td>"+list[i].date +"</td><td>"+list[i].details+"</td><td>"+list[i].amount+"</td></td>"
+                    +"<td><button>edit</button>|<button>delete</button></td></tr>"
 
                     console.log(list[i]);
                 }

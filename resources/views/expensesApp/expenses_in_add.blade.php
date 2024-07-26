@@ -23,7 +23,7 @@
 <body>
 <div class="container">
     <h2>Add Income</h2>
-    <form class="form-horizontal" action="/api/expenses_app/in/add">
+    <form>
         @csrf
         <div class="form-group">
             <label class="control-label col-sm-2" for="date">Date:</label>
@@ -46,12 +46,12 @@
         <div class="form-group">
             <label class="control-label col-sm-2" for="remark">Remark:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="remark" placeholder="Remark Here" name="remark">
+                <input type="text" class="form-control" id="remarks" placeholder="Remark Here" name="remarks">
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button id="submitBtn" type="button" class="btn btn-default">Submit</button>
             </div>
         </div>
     </form>
@@ -74,4 +74,32 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
 <script src="/js/gmaps.min.js"></script>
 <script src="/js/theme.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
 </html>
+
+<script>
+
+    $(document).ready(function(){
+
+        $("#submitBtn").click(function(){
+            const email = $("#date").val();
+            const details=$("#details").val();
+            const amount=$("#amount").val();
+            const remarks=$("#remarks").val();
+
+            $.post('http://localhost:8000/api/expenses_app/in/add?api_token='+sessionStorage.getItem('token'), {
+                'email':email,
+                'details':details,
+                'amount':amount,
+                'remarks':remarks,
+            },function(data, status){
+                console.log(status);
+                console.log(data);
+
+            });
+        });
+    });
+</script>

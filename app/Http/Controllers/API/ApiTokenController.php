@@ -38,6 +38,16 @@ class ApiTokenController extends Controller
         return DB::table('personal_access_tokens')->where('id', $id)->first()->tokenable_id;
 
     }
+    static public function isTokenValid(Request $request): JsonResponse
+    {
+        $id= self::getTokenId($request);
+        if ($id!==null){
+            return response()->json(['isValid' => true]);
+        }else{
+            return response()->json(['isValid' => false]);
+        }
+
+    }
      static public function getIdByToken(Request $request)
     {
         //$id= PersonalAccessToken::findToken(self::getTokenId($request));

@@ -31,6 +31,9 @@ Route::get('single-blog', function () {
     return view('single-blog');
 });
 //expenses app
+Route::any('expenses-app/app', function () {
+    return view('expensesApp.app');
+});
 Route::any('expenses-app/user', function () {
     return view('expensesApp.user');
 });

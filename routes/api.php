@@ -22,8 +22,9 @@ Route::get('/user', function (Request $request) {
 // All protected route.................................................
 Route::group(['middleware' => 'apiUser'], function () {
     //expenses app api.............
-    Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
+    Route::any('/expenses_app/in/add/',[Expenses_App_In_controller::class,'store']);
     Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
+    Route::any('expenses_app/isValid/',[ApiTokenController::class,'isTokenValid']);
 
 
     Route::any('/ui',function (Request $request) {
@@ -32,7 +33,7 @@ Route::group(['middleware' => 'apiUser'], function () {
             'bearer'=> $request->bearerToken(),
             'token'=>$request->query('api_token'),
             'user-id'=>ApiTokenController::getIdByToken($request),
-            'token-id'=>ApiTokenController::getTokenId($request)
+            'token-id'=>ApiTokenController::isTokenValid($request)
 
         ]);
     });

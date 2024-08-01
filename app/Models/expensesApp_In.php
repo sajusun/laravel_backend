@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static create(array $all)
  * @method static find(string $id)
  * @method static where(string $string, string $id)
+ * @method static insert(array $array)
  */
 class expensesApp_In extends Model
 {

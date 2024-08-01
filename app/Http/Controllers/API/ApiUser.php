@@ -51,6 +51,6 @@ class ApiUser extends Guard
     }
     static public function api_login(Request $request): void
     {
-        Guard::class->__invoke($request);
+       // Guard::class->__invoke($request);
     }
 }

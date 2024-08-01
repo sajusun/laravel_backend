@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class Expenses_App_In_controller extends Controller
 {
     /**
@@ -35,17 +36,28 @@ class Expenses_App_In_controller extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+
+
+//$data=$request->headers;
+    $request->validate([
+    'date' => 'required|date',
+    'details' => 'required|string',
+    'amount' => 'required|int',
+    'remarks' => 'nullable|String'
+]);
         $data = expensesApp_In::create([
             'date' => request('date'),
             'details' => request('details'),
             'amount' => request('amount'),
             'remarks' => request('remarks'),
-            'user_id' => ApiTokenController::getIdByToken($request),
+            'user_id' => Auth::user()->getAuthIdentifier(),
         ]);
+
         if ($data) {
             return response()->json([
                 'success' => true,
-                'message' => 'Data inserted successfully',
+                'message' => 'Added successfully',
+
             ]);
         } else {
             return response()->json([

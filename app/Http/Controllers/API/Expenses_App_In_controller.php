@@ -39,12 +39,18 @@ class Expenses_App_In_controller extends Controller
 
 
 //$data=$request->headers;
-    $request->validate([
+    $validate=$request->validate([
     'date' => 'required|date',
     'details' => 'required|string',
     'amount' => 'required|int',
     'remarks' => 'nullable|String'
 ]);
+    if (!$validate){
+        return response()->json([
+            'success' => false,
+            'message' => $validate
+        ]);
+    }
         $data = expensesApp_In::create([
             'date' => request('date'),
             'details' => request('details'),
@@ -65,6 +71,7 @@ class Expenses_App_In_controller extends Controller
                 'message' => 'Data insert failed',
             ]);
         }
+
     }
 
     /**

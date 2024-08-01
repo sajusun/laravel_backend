@@ -20,7 +20,7 @@ Route::any('/user', function (Request $request) {
 Route::group(['middleware' => 'apiUser:api'], function () {
     //expenses app api.............
     //Route::post('expenses_app/in/add/',[Expenses_App_In_controller::class,'store']);
-    Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
+   // Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
     Route::any('expenses_app/isValid/',[ApiTokenController::class,'isTokenValid']);
 
 
@@ -34,6 +34,10 @@ Route::group(['middleware' => 'apiUser:api'], function () {
 
         ]);
     });
+});
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
+    Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
 });
 // All protected routes End ..............................................
 
@@ -63,7 +67,7 @@ Route::put('contact/list/{id}/edit',[ContactUsController::class,'update']);
 Route::delete('contact/{id}/delete',[ContactUsController::class,'delete']);
 
 ////expenses app api.............
-Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store'])->middleware('auth:sanctum');
+//Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store'])->middleware('auth:sanctum');
 //Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index'])->middleware('auth:sanctum');
 Route::get('expenses_app/in/list/{id}/view',[Expenses_App_In_controller::class,'show']);
 Route::any('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);

@@ -2,23 +2,8 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="img/favicon.png" type="image/png">
-    <title>dev Portfolio</title>
+    <title>Add</title>
     @include('expensesApp.layout.header_files');
-{{--    <!-- Bootstrap CSS -->--}}
-{{--    <link rel="stylesheet" href="/css/bootstrap.css">--}}
-
-{{--    <link rel="stylesheet" href="/vendors/linericon/style.css">--}}
-{{--    <link rel="stylesheet" href="/css/font-awesome.min.css">--}}
-{{--    <link rel="stylesheet" href="/vendors/owl-carousel/owl.carousel.min.css">--}}
-{{--    <link rel="stylesheet" href="/css/magnific-popup.css">--}}
-{{--    <link rel="stylesheet" href="/vendors/nice-select/css/nice-select.css">--}}
-{{--    <!-- main css -->--}}
-{{--    <link rel="stylesheet" href="/css/style.css">--}}
-{{--    <link rel="stylesheet" href={{asset('css/style.css')}}>--}}
 </head>
 
 <body>
@@ -39,20 +24,20 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="details">Amount:</label>
+            <label class="control-label col-sm-2" for="amount">Amount:</label>
             <div class="col-sm-10">
                 <input type="number" class="form-control" id="amount" placeholder="Enter Amount" name="amount">
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="remark">Remark:</label>
+            <label class="control-label col-sm-2" for="remarks">Remark:</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="remarks" placeholder="Remark Here" name="remarks">
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button id="submitBtn" type="button" class="btn btn-default">Submit</button>
+                <button id="submitBtn" type="button" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>
@@ -91,40 +76,45 @@
             let amount = $("#amount").val();
             let remarks = $("#remarks").val();
             const url = "http://localhost:8000/api/expenses_app/in/add/";
-            let dataobj  = {
-                date: date,
-                details : details,
-                amount : amount,
-                remarks : remarks
-            }
 
-            customAjax();
+
+            //customAjax();
+            sendData();
             function customAjax() {
 
-                // $.ajax({
-                //     type: 'POST',
-                //     url: url,
-                //     contentType:'text/xml; charset=utf-8',
-                //     accept:'Application/json',
-                //     data: {'email':'email',
-                //             'details':"details",
-                //             'amount':"amount",
-                //             'remarks':"remarks"
-                //         },
-                //     processData:false,
-                //     // headers: {
-                //     //     "Authorization":"Bearer "+sessionStorage.getItem('token'),
-                //     // }
-                //     //OR
-                //     beforeSend: function(xhr) {
-                //      xhr.setRequestHeader("Authorization","Bearer "+sessionStorage.getItem('token'));
-                //     //  xhr.setRequestHeader("My-Second-Header", "second value");
-                //     }
-                // }).done(function (data) {
-                //     console.log(data)
-                // });
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    contentType:'text/xml; charset=utf-8',
+                    accept:'Application/json',
+                    data: JSON.stringify({
+                    date: date,
+                    details: details,
+                    amount: amount,
+                    remarks: remarks
+                }),
+                    processData:true,
+                    // headers: {
+                    //     "Authorization":"Bearer "+sessionStorage.getItem('token'),
+                    // }
+                    //OR
+                    beforeSend: function(xhr) {
+                     xhr.setRequestHeader("Authorization","Bearer "+sessionStorage.getItem('token'));
+                    },
+                    success: function(data) {
+                        console.log(data.responseJSON)
+                        //console.log(response)
+                    },
+                    errors:function (data) {
+                        console.log(data.responseJSON)
+                    },
+                    complete:function (xhr,status) {
+                        console.log(status)
+                        console.log(xhr.responseText)
+                    }
+                });
 
-                    console.log(dataobj)
+
                 $.ajax({
                     url: url,
                     headers: {
@@ -139,31 +129,42 @@
                         amount: amount,
                         remarks: remarks
                     }),
+                    processData:true,
                     dataType: 'json',
                     success: function(data) {
                         console.log(data);
+                        //console.log(JSON.stringify(data))
                     },
                     error: function(data) {
-                        var errors = data.responseJSON;
+                        let errors = data.responseJSON;
                         console.log(errors);
                     }
                 })
-                //  .done(function (data){
-                //   console.log(data)
-                //  });
+                 //    .done(function (data){
+                 //  console.log(data.responseText)
+                 //  console.log("resp"+ data)
+                 // });
             }
 
-            function post() {
-                $.post('http://localhost:8000/api/expenses_app/in/add/?api_token=' + sessionStorage.getItem('token')
-                    , {
-                        'email': email,
-                        'details': details,
-                        'amount': amount,
-                        'remarks': remarks
-                    }, function (data, status) {
-                        console.log(status);
-                        console.log(data);
-                    }, "json",);
+            function sendData() {
+                const formData = new FormData();
+                formData.append("date", date);
+                formData.append("details", details);
+                formData.append("amount", amount);
+                formData.append("remarks", remarks);
+
+                const xhttp = new XMLHttpRequest();
+
+                xhttp.open("POST", url,true);
+                xhttp.setRequestHeader('Accept','Application/json');
+                xhttp.setRequestHeader('contentType','json');
+                xhttp.setRequestHeader('Authorization', 'Bearer '+sessionStorage.getItem('token'));
+
+                xhttp.onload = () => {
+                    // Request finished. Do processing here.
+                    console.log(xhttp.responseText)
+                };
+                xhttp.send(formData);
             }
 
         });

@@ -4,7 +4,9 @@
 <head>
     <title>Add</title>
     @include('expensesApp.layout.header_files');
-</head>
+    <!-- choose one -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    </head>
 
 <body>
 <div class="container">

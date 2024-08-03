@@ -38,6 +38,9 @@ Route::group(['middleware' => 'apiUser:api'], function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
     Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
+    Route::get('expenses_app/in/list/{id}/view',[Expenses_App_In_controller::class,'show']);
+    Route::any('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);
+    Route::get('expenses_app/in/list/{id}/delete',[Expenses_App_In_controller::class,'destroy']);
 });
 // All protected routes End ..............................................
 
@@ -69,9 +72,9 @@ Route::delete('contact/{id}/delete',[ContactUsController::class,'delete']);
 ////expenses app api.............
 //Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store'])->middleware('auth:sanctum');
 //Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index'])->middleware('auth:sanctum');
-Route::get('expenses_app/in/list/{id}/view',[Expenses_App_In_controller::class,'show']);
-Route::any('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);
-Route::delete('expenses_app/in/list/{id}/delete',[Expenses_App_In_controller::class,'delete']);
+//Route::get('expenses_app/in/list/{id}/view',[Expenses_App_In_controller::class,'show']);
+//Route::any('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);
+//Route::delete('expenses_app/in/list/{id}/delete',[Expenses_App_In_controller::class,'delete']);
 
 Route::any('expenses_app/out/add',[Expenses_App_Out_controller::class,'store']);
 Route::any('expenses_app/out/list/{user_id}',[Expenses_App_Out_controller::class,'index']);

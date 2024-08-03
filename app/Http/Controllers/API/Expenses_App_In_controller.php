@@ -119,16 +119,16 @@ class Expenses_App_In_controller extends Controller
      */
     public function destroy(string $id): JsonResponse
     {
-        $data = expensesApp_In::where('id', $id)->where('user_id', request('user_id'))->delete();
-        if ($data->count() > 0) {
+        $data = expensesApp_In::where('id', $id)->where('user_id', Auth::user()->getAuthIdentifier())->delete();
+        if ($data) {
             return response()->json([
                 'success' => true,
-                'message' => 'Data removed successfully',
+                'message' => 'Remove successfully',
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Data removed failed',
+                'message' => 'Remove failed',
             ]);
         }
 

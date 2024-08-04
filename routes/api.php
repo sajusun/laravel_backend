@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
     Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
     Route::get('expenses_app/in/list/{id}/view',[Expenses_App_In_controller::class,'show']);
-    Route::any('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);
+    Route::post('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);
     Route::get('expenses_app/in/list/{id}/delete',[Expenses_App_In_controller::class,'destroy']);
 });
 // All protected routes End ..............................................

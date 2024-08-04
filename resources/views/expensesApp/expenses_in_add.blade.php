@@ -12,7 +12,7 @@
 <div class="container">
     <h2>Add Income</h2>
     <form>
-        @csrf
+
         <div class="form-group">
             <label class="control-label col-sm-2" for="date">Date:</label>
             <div class="col-sm-10">

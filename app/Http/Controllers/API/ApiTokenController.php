@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Guard;
@@ -36,6 +37,16 @@ class ApiTokenController extends Controller
     {
         $id= self::getTokenId($request);
         return DB::table('personal_access_tokens')->where('id', $id)->first()->tokenable_id;
+
+    }
+    static public function isValid(Request $request): JsonResponse
+    {
+        $id= Auth::id();
+        if ($id!==null){
+            return response()->json(['isValid' => true]);
+        }else{
+            return response()->json(['isValid' => false]);
+        }
 
     }
     static public function isTokenValid(Request $request): JsonResponse

@@ -43,6 +43,9 @@ Route::get('expenses-app/in/list', function () {
 Route::get('expenses-app/in/add', function () {
     return view('expensesApp.expenses_in_add');
 });
+Route::get('expenses-app/in/single-view', function () {
+    return view('expensesApp.layout.singleView');
+});
 Route::get('expenses-app/ui', function () {
     return view('expensesApp.test');
 });

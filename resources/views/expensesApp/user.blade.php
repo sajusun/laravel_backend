@@ -2,43 +2,8 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="img/favicon.png" type="image/png">
-    <title>dev Portfolio</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.css">
-
-    <link rel="stylesheet" href="/vendors/linericon/style.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/vendors/owl-carousel/owl.carousel.min.css">
-    <link rel="stylesheet" href="/css/magnific-popup.css">
-    <link rel="stylesheet" href="/vendors/nice-select/css/nice-select.css">
-    <!-- main css -->
-    <link rel="stylesheet" href="/css/style.css">
-
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/popper.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/stellar.js"></script>
-<script src="/js/jquery.magnific-popup.min.js"></script>
-<script src="/vendors/nice-select/js/jquery.nice-select.min.js"></script>
-<script src="/vendors/isotope/imagesloaded.pkgd.min.js"></script>
-<script src="/vendors/isotope/isotope-min.js"></script>
-<script src="/vendors/owl-carousel/owl.carousel.min.js"></script>
-<script src="/js/jquery.ajaxchimp.min.js"></script>
-<script src="/js/mail-script.js"></script>
-<!--gmaps Js-->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-<script src="/js/gmaps.min.js"></script>
-<script src="/js/theme.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Income List</title>
+    @include('expensesApp.layout.header_files');
     <!------ Include the above in your HEAD tag ---------->
     <style rel="stylesheet">
 
@@ -55,7 +20,7 @@
 
         a {
             color: #92badd;
-            display:inline-block;
+            display: inline-block;
             text-decoration: none;
             font-weight: 400;
         }
@@ -65,11 +30,10 @@
             font-size: 16px;
             font-weight: 600;
             text-transform: uppercase;
-            display:inline-block;
+            display: inline-block;
             margin: 40px 8px 10px 8px;
             color: #cccccc;
         }
-
 
 
         /* STRUCTURE */
@@ -93,8 +57,8 @@
             max-width: 450px;
             position: relative;
             padding: 0px;
-            -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
-            box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+            -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
             text-align: center;
         }
 
@@ -106,7 +70,6 @@
             -webkit-border-radius: 0 0 10px 10px;
             border-radius: 0 0 10px 10px;
         }
-
 
 
         /* TABS */
@@ -121,10 +84,9 @@
         }
 
 
-
         /* FORM TYPOGRAPHY*/
 
-        input[type=button], input[type=submit], input[type=reset]  {
+        input[type=button], input[type=submit], input[type=reset] {
             background-color: #56baed;
             border: none;
             color: white;
@@ -134,8 +96,8 @@
             display: inline-block;
             text-transform: uppercase;
             font-size: 13px;
-            -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
-            box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
+            -webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
+            box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
             -webkit-border-radius: 5px 5px 5px 5px;
             border-radius: 5px 5px 5px 5px;
             margin: 5px 20px 40px 20px;
@@ -146,11 +108,11 @@
             transition: all 0.3s ease-in-out;
         }
 
-        input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
+        input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
             background-color: #39ace7;
         }
 
-        input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {
+        input[type=button]:active, input[type=submit]:active, input[type=reset]:active {
             -moz-transform: scale(0.95);
             -webkit-transform: scale(0.95);
             -o-transform: scale(0.95);
@@ -187,7 +149,6 @@
         input[type=text]::placeholder {
             color: #cccccc;
         }
-
 
 
         /* ANIMATIONS */
@@ -229,23 +190,46 @@
         }
 
         /* Simple CSS3 Fade-in Animation */
-        @-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-        @-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        @-webkit-keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @-moz-keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
 
         .fadeIn {
-            opacity:0;
-            -webkit-animation:fadeIn ease-in 1;
-            -moz-animation:fadeIn ease-in 1;
-            animation:fadeIn ease-in 1;
+            opacity: 0;
+            -webkit-animation: fadeIn ease-in 1;
+            -moz-animation: fadeIn ease-in 1;
+            animation: fadeIn ease-in 1;
 
-            -webkit-animation-fill-mode:forwards;
-            -moz-animation-fill-mode:forwards;
-            animation-fill-mode:forwards;
+            -webkit-animation-fill-mode: forwards;
+            -moz-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
 
-            -webkit-animation-duration:1s;
-            -moz-animation-duration:1s;
-            animation-duration:1s;
+            -webkit-animation-duration: 1s;
+            -moz-animation-duration: 1s;
+            animation-duration: 1s;
         }
 
         .fadeIn.first {
@@ -288,10 +272,9 @@
             color: #0d0d0d;
         }
 
-        .underlineHover:hover:after{
+        .underlineHover:hover:after {
             width: 100%;
         }
-
 
 
         /* OTHERS */
@@ -301,7 +284,7 @@
         }
 
         #icon {
-            width:60%;
+            width: 60%;
         }
 
     </style>
@@ -313,16 +296,18 @@
 
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_nFqg830P_VriGxOXvv4QbA13rkzVC8YwRA&s" id="icon" alt="User Icon" />
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_nFqg830P_VriGxOXvv4QbA13rkzVC8YwRA&s"
+                 id="icon" alt="User Icon"/>
         </div>
-
         <!-- Login Form -->
-        <form  action="#">
-            <input type="text" id="email" class="fadeIn second" name="email" placeholder="Email">
-            <input type="text" id="password" class="fadeIn third" name="password" placeholder="Password">
+        <form action="#">
+            <input type="text" id="email" class="fadeIn second" value="" name="email" placeholder="Email">
+            <input type="text" id="password" class="fadeIn third" value="" name="password" placeholder="Password">
+            <br>
+            <span id="loginMgs" style="height: 30px;text-align: center"></span>
+            <br>
             <input id="login_btn" type="Button" class="fadeIn fourth" value="Log In">
         </form>
-
 
         <!-- Remind Passowrd -->
         <div id="formFooter">
@@ -336,25 +321,30 @@
 </html>
 <script>
 
-    $(document).ready(function(){
+    $(document).ready(function () {
+       let loginMgs= $('#loginMgs');
 
-        $("#login_btn").click(function(){
-             email=$("#email").val();
-             pass=$("#password").val();
-             //link=$("#link").val();
-            //console.log(link);
-             $.post('http://localhost:8000/api/login', {
-                 'email':email,
-                 'password':pass
-             },function(data, status){
-                 if (status && data['success']){
-                     sessionStorage.token=data['access_token'];
-                     window.location.href='http://localhost:8000/expenses-app/app'
-                 }
+        $("#login_btn").click(function () {
+           let email = $("#email").val();
+           let pass = $("#password").val();
+           if (email ==="" || pass===""){
+               loginMgs.text('Enter Required Field');
+           }
+
+            $.post('http://localhost:8000/api/login', {
+                'email': email,
+                'password': pass
+            }, function (data, status) {
+                if (data['success']) {
+                    setToken(data['access_token']);
+                    window.location.href = 'http://localhost:8000/expenses-app/app'
+                }else{
+                    loginMgs.text(data['message']);
+                }
                 console.log(data['access_token']);
                 console.log(data);
 
-             });
+            });
         });
     });
 </script>

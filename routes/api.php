@@ -21,7 +21,7 @@ Route::group(['middleware' => 'apiUser:api'], function () {
     //expenses app api.............
     //Route::post('expenses_app/in/add/',[Expenses_App_In_controller::class,'store']);
    // Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
-    Route::any('expenses_app/isValid/',[ApiTokenController::class,'isTokenValid']);
+//    Route::any('expenses_app/isValid/',[ApiTokenController::class,'isTokenValid']);
 
 
     Route::any('/ui',function (Request $request) {
@@ -36,6 +36,7 @@ Route::group(['middleware' => 'apiUser:api'], function () {
     });
 });
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('expenses_app/isValid/',[ApiTokenController::class,'isValid']);
     Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
     Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
     Route::get('expenses_app/in/list/{id}/view',[Expenses_App_In_controller::class,'show']);

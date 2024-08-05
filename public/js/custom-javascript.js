@@ -1,14 +1,33 @@
 // page link var
 const host = 'http://localhost:8000/';
-const home_Page = `${host}expenses-app/app`;
-const login_Page = `${host}expenses-app/user`;
-const in_add_Page = `${host}expenses-app/in/add`;
-const in_list_Page = `${host}expenses-app/in/list`;
-const in_view_Page = `${host}expenses-app/in/single-view`;
-
+const expensesApp = "expenses-app";
+const home_Page = `${host+expensesApp}/user`;
+const login_Page = `${host+expensesApp}/login`;
+const in_add_Page = `${host+expensesApp}/in/add`;
+const in_list_Page = `${host+expensesApp}/in/list`;
+const in_view_Page = `${host+expensesApp}/in/single-view`;
+let revoke_;
 // api link
-const isValidLik = `${host}api/expenses_app/isValid`;
+const isValidLik = `${host}api/user/isValid`;
+const loginLik = `${host}api/user/login`;
 
+function to_home() {
+    window.location.href=home_Page;
+}
+function to_profile() {
+    window.location.href=`${home_Page}/profile`;
+}
+function to_settings() {
+    window.location.href=home_Page+"/settings";
+}
+function to_contact() {
+    window.location.href=home_Page+"/contact";
+}
+function logout() {
+    revoke_()
+    //setToken('null');
+    window.location.href=login_Page;
+}
 function setToken(key) {
     sessionStorage.setItem(`${host}key`, key);
 }
@@ -21,7 +40,7 @@ $(document).ready(function () {
     checkUser_();
 
     function checkUser_() {
-        const isValid = `${host}api/expenses_app/isValid`;
+        const isValid = isValidLik;
         let xHttp = new XMLHttpRequest();
         xHttp.open("GET", isValid, true);
         xHttp.setRequestHeader('Accept', 'Application/json');
@@ -31,7 +50,26 @@ $(document).ready(function () {
             let data = JSON.parse(xHttp.responseText);
             if (data['isValid'] !== true) {
                 if (window.location.href !== login_Page) {
-                    window.location.href = 'http://localhost:8000/expenses-app/user';
+                    window.location.href = login_Page;
+                }
+            }
+        };
+        xHttp.send();
+    }
+     revoke_= function revokeUser_() {
+        const revokeLink = `${host}api/user/logout`;
+        let xHttp = new XMLHttpRequest();
+        xHttp.open("GET", revokeLink, true);
+        xHttp.setRequestHeader('Accept', 'Application/json');
+        xHttp.setRequestHeader('contentType', 'json');
+        xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
+        xHttp.onload = () => {
+            let data = JSON.parse(xHttp.responseText);
+            console.log(data)
+            if (data['success'] !== true) {
+                if (window.location.href !== login_Page) {
+                   // window.location.href = login_Page;
+                    window.refresh();
                 }
             }
         };
@@ -49,6 +87,11 @@ $(document).ready(function () {
 
     })
 });
+
+function dangerAlertBox(setElement, message) {
+    return `<div class="alert alert-danger" role="alert">${message}</div>`;
+}
+
 let div = ''
 
 $(document).ready(function () {
@@ -74,7 +117,7 @@ $(document).ready(function () {
     let remarksInput = $("#remarks");
 
     //
-    let url = "http://localhost:8000/api/expenses_app/in/list/";
+    let url = `${host}api/expenses_app/in/list/`;
     let id = '';
     let tbody = $('#t_body');
     let refresh = $('#refreshIcon');
@@ -90,18 +133,18 @@ $(document).ready(function () {
         xHttp.open("GET", url, true);
         xHttp.setRequestHeader('Accept', 'Application/json');
         xHttp.setRequestHeader('contentType', 'json');
-        xHttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+        xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
         xHttp.onload = () => {
             let toJson = JSON.parse(xHttp.responseText);
             let list = toJson['data'];
             if (toJson['success']) {
                 for (let i = 0; i < list.length; i++) {
                     element += `<tr id='${list[i].id}'>
-<td> ${i + 1} </td>
-<td> ${list[i].date} </td>
-<td> ${list[i].details}</td>
- <td>${list[i].amount}</td>
- <td>${list[i].remarks}</td>
+<td class='clickable'> ${i + 1} </td>
+<td class='clickable'> ${list[i].date} </td>
+<td class='clickable'> ${list[i].details}</td>
+ <td class='clickable'>${list[i].amount}</td>
+ <td class='clickable'>${list[i].remarks}</td>
 <td class='d-flex justify-content-between'>
 <i type='button' class='material-icons text-secondary update'>edit_square</i>
 <i type='button' class='material-icons text-danger delete'>delete</i>
@@ -130,12 +173,12 @@ $(document).ready(function () {
         xHttp.open("POST", updateLink, true);
         xHttp.setRequestHeader('Accept', 'Application/json');
         xHttp.setRequestHeader('contentType', 'json');
-        xHttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+        xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
         xHttp.onload = () => {
             let toJson = JSON.parse(xHttp.responseText);
             let mgs = toJson['message'];
             let status = toJson['success'];
-            console.log(`${status} : ${mgs}`);
+            //console.log(`${status} : ${mgs}`);
             if (!status) {
                 updateStatus.text("update failed");
                 updateElement('default');
@@ -155,12 +198,12 @@ $(document).ready(function () {
         xHttp.open("GET", deleteLink, true);
         xHttp.setRequestHeader('Accept', 'Application/json');
         xHttp.setRequestHeader('contentType', 'json');
-        xHttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+        xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
         xHttp.onload = () => {
             let toJson = JSON.parse(xHttp.responseText);
             let mgs = toJson['message'];
             let status = toJson['success'];
-            console.log(`${status} : ${mgs}`);
+           // console.log(`${status} : ${mgs}`);
             mgsArea.text(mgs);
             c_delete.prop("disabled", false);
             fetchData();
@@ -217,14 +260,17 @@ $(document).ready(function () {
         }
         // div = event.target;
     });
-    $("#t_body").click(function (event) {
-        if (event.target !== event.target.parentElement.lastElementChild) {
-            console.log('true');
-            //container.load('http://localhost:8000/expenses-app/in/single-view');
-        } else {
-            console.log('false');
-        }
-        console.log(event.target.parentElement);
+    $("#t_body").on('click','.clickable',function (event) {
+        // if (event.target !== event.target.parentElement.lastElementChild) {
+        //     console.log('true');
+        //container.load(in_view_Page);
+        window.location.href=in_view_Page;
+        //
+        // } else {
+        //     console.log('false');
+        // }
+         console.log(this.parentElement)
+        // console.log(event.target.parentElement);
     });
 
     c_delete.click(function () {

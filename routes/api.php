@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\ApiTokenController;
 use App\Http\Controllers\API\ApiUser;
 use App\Http\Controllers\API\email_subscription_controller;
 use App\Http\Controllers\API\Expenses_App_In_controller;
@@ -24,30 +23,34 @@ Route::group(['middleware' => 'apiUser:api'], function () {
 //    Route::any('expenses_app/isValid/',[ApiTokenController::class,'isTokenValid']);
 
 
-    Route::any('/ui',function (Request $request) {
-        return response()->json([
-            'Authorization'=> $request->header('Authorization'),
-            'bearer'=> $request->bearerToken(),
-            'token'=>$request->query('api_token'),
-            'user-id'=>ApiTokenController::getIdByToken($request),
-            'token-id'=>ApiTokenController::isTokenValid($request)
-
-        ]);
-    });
+//    Route::any('/ui',function (Request $request) {
+//        return response()->json([
+//            'Authorization'=> $request->header('Authorization'),
+//            'bearer'=> $request->bearerToken(),
+//            'token'=>$request->query('api_token'),
+//            'user-id'=>ApiTokenController::getIdByToken($request),
+//            'token-id'=>ApiTokenController::isTokenValid($request)
+//
+//        ]);
+//    });
 });
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('expenses_app/isValid/',[ApiTokenController::class,'isValid']);
     Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
     Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
     Route::get('expenses_app/in/list/{id}/view',[Expenses_App_In_controller::class,'show']);
     Route::post('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);
     Route::get('expenses_app/in/list/{id}/delete',[Expenses_App_In_controller::class,'destroy']);
 });
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/user/logout',[apiUser::class,'destroy']);
+    Route::get('/user/isValid/',[apiUser::class,'isValid']);
+
+});
 // All protected routes End ..............................................
 
 
 //All public routes..........................................................
-Route::post('login',[crudController::class,'login']);
+Route::post('/user/login',[apiUser::class,'login']);
 
 //subscription api routes...........
 Route::any('news_later/add',[email_subscription_controller::class,'store']);

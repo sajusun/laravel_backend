@@ -13,39 +13,39 @@ class crudController extends Controller
 {
 
 
-    public function login(Request $request): JsonResponse
-    {
-        $validator = validator()->make($request->all(),[
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-        if($validator->fails()){
-            return response()->json([
-                'status' => '404',
-                'message' => $validator->errors(),
-                'data' => $request->all()
-            ], 404);
-        }else{
-            $data = User::where('email', $request->email)->first();
-            if ($data && Hash::check($request->password, $data->password)) {
-                $token = $data->createToken($request->email)->plainTextToken;
-                return response()->json([
-                    'success' => true,
-                    'message' => 'login successfully',
-                    'access_token' => $token,
-                    'token_type' => 'Bearer',
-                ]);
-
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Login failed',
-                    'data' => $request->all()
-                ]);
-            }
-        }
-
-    }
+//    public function login(Request $request): JsonResponse
+//    {
+//        $validator = validator()->make($request->all(),[
+//            'email' => 'required|email',
+//            'password' => 'required'
+//        ]);
+//        if($validator->fails()){
+//            return response()->json([
+//                'status' => '404',
+//                'message' => $validator->errors(),
+//                'data' => $request->all()
+//            ], 404);
+//        }else{
+//            $data = User::where('email', $request->email)->first();
+//            if ($data && Hash::check($request->password, $data->password)) {
+//                $token = $data->createToken($request->email)->plainTextToken;
+//                return response()->json([
+//                    'success' => true,
+//                    'message' => 'login successfully',
+//                    'access_token' => $token,
+//                    'token_type' => 'Bearer',
+//                ]);
+//
+//            } else {
+//                return response()->json([
+//                    'success' => false,
+//                    'message' => 'Login failed',
+//                    'data' => $request->all()
+//                ]);
+//            }
+//        }
+//
+//    }
 
     //
     public function index(): JsonResponse

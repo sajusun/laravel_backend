@@ -304,7 +304,7 @@
             <input type="text" id="email" class="fadeIn second" value="" name="email" placeholder="Email">
             <input type="text" id="password" class="fadeIn third" value="" name="password" placeholder="Password">
             <br>
-            <span id="loginMgs" style="height: 30px;text-align: center"></span>
+            <span id="loginMgs" style="height: 30px;text-align: center;display: inline-table;margin-top: 20px;"></span>
             <br>
             <input id="login_btn" type="Button" class="fadeIn fourth" value="Log In">
         </form>
@@ -328,23 +328,26 @@
            let email = $("#email").val();
            let pass = $("#password").val();
            if (email ==="" || pass===""){
-               loginMgs.text('Enter Required Field');
+               //loginMgs.text('Enter Required Field');
+               loginMgs.html(`<div class='alert alert-danger'>Enter Required Field</div>`);
+           }else {
+               $.post('http://localhost:8000/api/user/login', {
+                   'email': email,
+                   'password': pass
+               }, function (data, status) {
+                   if (data['success']) {
+                       setToken(data['access_token']);
+                       window.location.href = home_Page;
+                   }else{
+                       loginMgs.html(`<div class='alert alert-danger' role='alert'>${data['message']}</div>`);
+                   }
+                   console.log(data);
+                   //console.log(data);
+
+               });
            }
 
-            $.post('http://localhost:8000/api/login', {
-                'email': email,
-                'password': pass
-            }, function (data, status) {
-                if (data['success']) {
-                    setToken(data['access_token']);
-                    window.location.href = 'http://localhost:8000/expenses-app/app'
-                }else{
-                    loginMgs.text(data['message']);
-                }
-                console.log(data['access_token']);
-                console.log(data);
 
-            });
         });
     });
 </script>

@@ -8,6 +8,9 @@
     </head>
 
 <body>
+<!-- Navbar -->
+@include('expensesApp.layout.navBar');
+<!-- Navbar -->
 <div class="container">
     <h2>Add Income</h2>
     <form>

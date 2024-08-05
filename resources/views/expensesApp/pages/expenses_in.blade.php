@@ -7,6 +7,8 @@
 </head>
 
 <body>
+{{--navbar--}}
+@include('expensesApp.layout.navBar')
 <div class="container">
     <h2>List</h2>
     <br>

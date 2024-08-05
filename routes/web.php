@@ -31,32 +31,39 @@ Route::get('single-blog', function () {
     return view('single-blog');
 });
 //expenses app
-Route::any('expenses-app/app', function () {
+Route::any('expenses-app/user', function () {
     return view('expensesApp.app');
 });
-Route::any('expenses-app/user', function () {
-    return view('expensesApp.user');
+Route::any('expenses-app/login', function () {
+    return view('expensesApp.pages.login');
 });
 Route::get('expenses-app/in/list', function () {
-    return view('expensesApp.expenses_in');
-});
-Route::get('expenses-app/in/add', function () {
-    return view('expensesApp.expenses_in_add');
+    return view('expensesApp.pages.expenses_in');
 });
 Route::get('expenses-app/in/single-view', function () {
-    return view('expensesApp.layout.singleView');
+    return view('expensesApp.layout.pages.singleView');
 });
-Route::get('expenses-app/ui', function () {
-    return view('expensesApp.test');
+Route::get('expenses-app/in/add', function () {
+    return view('expensesApp.pages.expenses_in_add');
 });
+
+Route::get('expenses-app/user/contact', function () {
+    return view('expensesApp.pages.contact');
+});
+
+Route::get('expenses-app/user/profile', function () {
+    return view('expensesApp.pages.profile');
+});
+Route::get('expenses-app/user/settings', function () {
+    return view('expensesApp.pages.settings');
+});
+
 
 // Route::get('contact', function () {
 //     return view('contact');
 // });
 Route::get('/contact', [ContactUsController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactUsController::class, 'store']);
-
-
 
 
 // need auth
@@ -71,4 +78,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

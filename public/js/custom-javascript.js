@@ -6,6 +6,7 @@ const login_Page = `${host+expensesApp}/login`;
 const in_add_Page = `${host+expensesApp}/in/add`;
 const in_list_Page = `${host+expensesApp}/in/list`;
 const in_view_Page = `${host+expensesApp}/in/single-view`;
+// dont remove this var
 let revoke_;
 // api link
 const isValidLik = `${host}api/user/isValid`;
@@ -38,7 +39,6 @@ function getToken() {
 
 $(document).ready(function () {
     checkUser_();
-
     function checkUser_() {
         const isValid = isValidLik;
         let xHttp = new XMLHttpRequest();
@@ -78,14 +78,11 @@ $(document).ready(function () {
 
 
     $("#inAdd").click(function () {
-        // console.log('add')
         window.location.href = 'http://localhost:8000/expenses-app/in/add';
-    })
-    $("#viewList").click(function () {
-        // console.log('list')
+    });
+    $("#viewList").click( function () {
         window.location.href = 'http://localhost:8000/expenses-app/in/list';
-
-    })
+    });
 });
 
 function dangerAlertBox(setElement, message) {
@@ -94,7 +91,7 @@ function dangerAlertBox(setElement, message) {
 
 let div = ''
 
-$(document).ready(function () {
+function list() {
 
     let container = $('.container');
     // modal item var
@@ -202,7 +199,7 @@ $(document).ready(function () {
         xHttp.onload = () => {
             let toJson = JSON.parse(xHttp.responseText);
             let mgs = toJson['message'];
-            let status = toJson['success'];
+           // let status = toJson['success'];
            // console.log(`${status} : ${mgs}`);
             mgsArea.text(mgs);
             c_delete.prop("disabled", false);
@@ -260,7 +257,7 @@ $(document).ready(function () {
         }
         // div = event.target;
     });
-    $("#t_body").on('click','.clickable',function (event) {
+    $("#t_body").on('click','.clickable',function () {
         // if (event.target !== event.target.parentElement.lastElementChild) {
         //     console.log('true');
         //container.load(in_view_Page);
@@ -316,4 +313,4 @@ $(document).ready(function () {
 
     // call function on document is loaded
     fetchData();
-});
+}

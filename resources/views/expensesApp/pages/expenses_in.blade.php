@@ -1,16 +1,15 @@
-<!doctype html>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
     <title>Income List</title>
-    @include('expensesApp.layout.header_files');
+    @include('expensesApp.layout.header_files')
 </head>
 
 <body>
 {{--navbar--}}
 @include('expensesApp.layout.navBar')
+{{--navbar--}}
 <div class="container">
-    <h2>List</h2>
     <br>
     <section id="data_table">
         <table class="table table-bordered">
@@ -105,7 +104,12 @@
     </div>
 </div>
 </body>
-
+@include('expensesApp.layout.bottom_script_files');
+<script>
+    $(function() {
+        list();
+    });
+</script>
 <script>
 //     let div = ''
 //
@@ -320,7 +324,6 @@
 //         // call function on document is loaded
 //         fetchData();
 //     });  //// end document ready function
-
 
 </script>
 </html>

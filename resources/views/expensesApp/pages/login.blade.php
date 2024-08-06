@@ -316,7 +316,7 @@
 
     </div>
 </div>
-
+@include('expensesApp.layout.bottom_script_files');
 </body>
 </html>
 <script>

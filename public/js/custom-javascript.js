@@ -1,33 +1,50 @@
 // page link var
 const host = 'http://localhost:8000/';
 const expensesApp = "expenses-app";
-const home_Page = `${host+expensesApp}/user`;
-const login_Page = `${host+expensesApp}/login`;
-const in_add_Page = `${host+expensesApp}/in/add`;
-const in_list_Page = `${host+expensesApp}/in/list`;
-const in_view_Page = `${host+expensesApp}/in/single-view`;
+const home_Page = `${host + expensesApp}/user`;
+const login_Page = `${host + expensesApp}/login`;
+const in_add_Page = `${host + expensesApp}/in/add`;
+const in_list_Page = `${host + expensesApp}/in/list`;
+const in_view_Page = `${host + expensesApp}/in/single-view`;
+// dont remove this var
 let revoke_;
 // api link
+const apiLink = {
+    isValid: `${host}api/user/isValid`,
+    login: `${host}api/user/login`,
+    in_add: `${host}api/expenses_app/in/add`
+}
 const isValidLik = `${host}api/user/isValid`;
 const loginLik = `${host}api/user/login`;
+const in_add_api = `${host}api/expenses_app/in/add`;
+
+function getCurrentYear() {
+    const d = new Date();
+    return d.getFullYear();
+}
 
 function to_home() {
-    window.location.href=home_Page;
+    window.location.href = home_Page;
 }
+
 function to_profile() {
-    window.location.href=`${home_Page}/profile`;
+    window.location.href = `${home_Page}/profile`;
 }
+
 function to_settings() {
-    window.location.href=home_Page+"/settings";
+    window.location.href = home_Page + "/settings";
 }
+
 function to_contact() {
-    window.location.href=home_Page+"/contact";
+    window.location.href = home_Page + "/contact";
 }
+
 function logout() {
     revoke_()
-    //setToken('null');
-    window.location.href=login_Page;
+    setToken('null');
+    window.location.href = login_Page;
 }
+
 function setToken(key) {
     sessionStorage.setItem(`${host}key`, key);
 }
@@ -36,56 +53,74 @@ function getToken() {
     return sessionStorage.getItem(`${host}key`);
 }
 
-$(document).ready(function () {
+
+$(document).ready(async function () {
+    let server = new serverRQ(isValidLik);
+    server._async = false;
+    //server.url = isValidLik;
     checkUser_();
 
     function checkUser_() {
-        const isValid = isValidLik;
-        let xHttp = new XMLHttpRequest();
-        xHttp.open("GET", isValid, true);
-        xHttp.setRequestHeader('Accept', 'Application/json');
-        xHttp.setRequestHeader('contentType', 'json');
-        xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
-        xHttp.onload = () => {
-            let data = JSON.parse(xHttp.responseText);
-            if (data['isValid'] !== true) {
-                if (window.location.href !== login_Page) {
-                    window.location.href = login_Page;
-                }
+        server.send_();
+        if (server.success !== true) {
+            if (window.location.href !== login_Page) {
+                window.location.href = login_Page;
             }
-        };
-        xHttp.send();
+        }
+
+        // const isValid = isValidLik;
+        // let xHttp = new XMLHttpRequest();
+        // xHttp.open("GET", isValid, true);
+        // xHttp.setRequestHeader('Accept', 'Application/json');
+        // xHttp.setRequestHeader('contentType', 'json');
+        // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
+        // xHttp.onload = () => {
+        //     let data = JSON.parse(xHttp.responseText);
+        //     if (data['success'] !== true) {
+        //         if (window.location.href !== login_Page) {
+        //             window.location.href = login_Page;
+        //         }
+        //     }
+        // };
+        // xHttp.send();
     }
-     revoke_= function revokeUser_() {
+
+    revoke_ = function revokeUser_() {
         const revokeLink = `${host}api/user/logout`;
-        let xHttp = new XMLHttpRequest();
-        xHttp.open("GET", revokeLink, true);
-        xHttp.setRequestHeader('Accept', 'Application/json');
-        xHttp.setRequestHeader('contentType', 'json');
-        xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
-        xHttp.onload = () => {
-            let data = JSON.parse(xHttp.responseText);
-            console.log(data)
-            if (data['success'] !== true) {
-                if (window.location.href !== login_Page) {
-                   // window.location.href = login_Page;
-                    window.refresh();
-                }
+        // let xHttp = new XMLHttpRequest();
+        // xHttp.open("GET", revokeLink, true);
+        // xHttp.setRequestHeader('Accept', 'Application/json');
+        // xHttp.setRequestHeader('contentType', 'json');
+        // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
+        let revoke=new serverRQ(revokeLink);
+        revoke.send_();
+        if(revoke.success !== true) {
+            if (window.location.href !== login_Page) {
+                window.location.href = login_Page;
+                window.refresh();
             }
-        };
-        xHttp.send();
+        }
+
+        // xHttp.onload = () => {
+        //     let data = JSON.parse(xHttp.responseText);
+        //     console.log(data)
+        //     if (data['success'] !== true) {
+        //         if (window.location.href !== login_Page) {
+        //             // window.location.href = login_Page;
+        //             window.refresh();
+        //         }
+        //     }
+        // };
+       // xHttp.send();
     }
 
 
     $("#inAdd").click(function () {
-        // console.log('add')
         window.location.href = 'http://localhost:8000/expenses-app/in/add';
-    })
+    });
     $("#viewList").click(function () {
-        // console.log('list')
         window.location.href = 'http://localhost:8000/expenses-app/in/list';
-
-    })
+    });
 });
 
 function dangerAlertBox(setElement, message) {
@@ -94,7 +129,7 @@ function dangerAlertBox(setElement, message) {
 
 let div = ''
 
-$(document).ready(function () {
+function list() {
 
     let container = $('.container');
     // modal item var
@@ -124,22 +159,25 @@ $(document).ready(function () {
     let loading = $('#loadingIcon');
 
     // fetch data from server
-    function fetchData() {
+    async function fetchData() {
         // refresh.prop('hidden', true);
         refresh.css('display', 'none');
         loading.prop('hidden', false);
         let element = "";
-        const xHttp = new XMLHttpRequest();
-        xHttp.open("GET", url, true);
-        xHttp.setRequestHeader('Accept', 'Application/json');
-        xHttp.setRequestHeader('contentType', 'json');
-        xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
-        xHttp.onload = () => {
-            let toJson = JSON.parse(xHttp.responseText);
-            let list = toJson['data'];
-            if (toJson['success']) {
-                for (let i = 0; i < list.length; i++) {
-                    element += `<tr id='${list[i].id}'>
+        let fetch = new serverRQ(url);
+        fetch.send_();
+        // const xHttp = new XMLHttpRequest();
+        // xHttp.open("GET", url, true);
+        // xHttp.setRequestHeader('Accept', 'Application/json');
+        // xHttp.setRequestHeader('contentType', 'json');
+        // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
+        // xHttp.onload = () => {
+        //     let toJson = JSON.parse(xHttp.responseText);
+        //     let list = toJson['data'];
+        let list = fetch.response.data;
+        if (fetch.success) {
+            for (let i = 0; i < list.length; i++) {
+                element += `<tr id='${list[i].id}'>
 <td class='clickable'> ${i + 1} </td>
 <td class='clickable'> ${list[i].date} </td>
 <td class='clickable'> ${list[i].details}</td>
@@ -150,17 +188,18 @@ $(document).ready(function () {
 <i type='button' class='material-icons text-danger delete'>delete</i>
 </td>
 </tr>`;
-                }
-                tbody.empty();
-                tbody.append(element);
             }
+            tbody.empty();
+            tbody.append(element);
+            //}
             loading.prop("hidden", true);
             refresh.css('display', 'block');
-        };
-        xHttp.send();
+        }
+        // xHttp.send();
     } // end fetch data function
 
     // request update data to server
+
     function update_() {
         const updateLink = `${url + id}/update`;
         const formData = new FormData();
@@ -168,47 +207,67 @@ $(document).ready(function () {
         formData.append("details", detailsInput.val());
         formData.append("amount", amountInput.val());
         formData.append("remarks", remarksInput.val());
+        let update = new serverRQ(updateLink, 'POST', formData);
+        console.log(update)
+        update.send_();
+        if (!update.success) {
+            updateStatus.text(update.message);
+            updateElement('default');
+        } else {
+            updateStatus.text(update.message);
+            updateElement('success');
+        }
+        fetchData();
 
-        const xHttp = new XMLHttpRequest();
-        xHttp.open("POST", updateLink, true);
-        xHttp.setRequestHeader('Accept', 'Application/json');
-        xHttp.setRequestHeader('contentType', 'json');
-        xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
-        xHttp.onload = () => {
-            let toJson = JSON.parse(xHttp.responseText);
-            let mgs = toJson['message'];
-            let status = toJson['success'];
-            //console.log(`${status} : ${mgs}`);
-            if (!status) {
-                updateStatus.text("update failed");
-                updateElement('default');
-            } else {
-                updateStatus.text(mgs);
-                updateElement('success');
-            }
-            fetchData();
-        };
-        xHttp.send(formData);
+        // const xHttp = new XMLHttpRequest();
+        // xHttp.open("POST", updateLink, true);
+        // xHttp.setRequestHeader('Accept', 'Application/json');
+        // xHttp.setRequestHeader('contentType', 'json');
+        // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
+        // xHttp.onload = () => {
+        //     let toJson = JSON.parse(xHttp.responseText);
+        //     let mgs = toJson['message'];
+        //     let status = toJson['success'];
+        //     //console.log(`${status} : ${mgs}`);
+        //     if (!status) {
+        //         updateStatus.text("update failed");
+        //         updateElement('default');
+        //     } else {
+        //         updateStatus.text(mgs);
+        //         updateElement('success');
+        //     }
+        //     fetchData();
+        // };
+        // xHttp.send(formData);
     }
 
     // request remove data to server
     function remove_() {
+        c_delete.prop("disabled", true);
         const deleteLink = `${url + id}/delete`;
-        const xHttp = new XMLHttpRequest();
-        xHttp.open("GET", deleteLink, true);
-        xHttp.setRequestHeader('Accept', 'Application/json');
-        xHttp.setRequestHeader('contentType', 'json');
-        xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
-        xHttp.onload = () => {
-            let toJson = JSON.parse(xHttp.responseText);
-            let mgs = toJson['message'];
-            let status = toJson['success'];
-           // console.log(`${status} : ${mgs}`);
-            mgsArea.text(mgs);
+        let remove = new serverRQ(deleteLink, 'GET');
+        remove.send_();
+        if (!remove.success) {
             c_delete.prop("disabled", false);
-            fetchData();
-        };
-        xHttp.send();
+        }
+        mgsArea.text(remove.message);
+        fetchData();
+
+        // const xHttp = new XMLHttpRequest();
+        // xHttp.open("GET", deleteLink, true);
+        // xHttp.setRequestHeader('Accept', 'Application/json');
+        // xHttp.setRequestHeader('contentType', 'json');
+        // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
+        // xHttp.onload = () => {
+        //     let toJson = JSON.parse(xHttp.responseText);
+        //     let mgs = toJson['message'];
+        //     // let status = toJson['success'];
+        //     // console.log(`${status} : ${mgs}`);
+        //     mgsArea.text(mgs);
+        //     c_delete.prop("disabled", false);
+        //     fetchData();
+        // };
+        // xHttp.send();
     }
 
     // execute delete modal on delete icon click
@@ -260,16 +319,16 @@ $(document).ready(function () {
         }
         // div = event.target;
     });
-    $("#t_body").on('click','.clickable',function (event) {
+    $("#t_body").on('click', '.clickable', function () {
         // if (event.target !== event.target.parentElement.lastElementChild) {
         //     console.log('true');
         //container.load(in_view_Page);
-        window.location.href=in_view_Page;
+        window.location.href = in_view_Page;
         //
         // } else {
         //     console.log('false');
         // }
-         console.log(this.parentElement)
+        console.log(this.parentElement)
         // console.log(event.target.parentElement);
     });
 
@@ -316,4 +375,38 @@ $(document).ready(function () {
 
     // call function on document is loaded
     fetchData();
-});
+}
+
+// server request class
+class serverRQ {
+    url;
+    success;
+    response;
+    message;
+    method;
+    data;
+    _async;
+
+    constructor(url, method = "GET", data = null, async = false) {
+        this.method = method;
+        this.url = url;
+        this.data = data;
+        this._async = async;
+        // this.send_();
+    }
+
+    send_() {
+        let http = new XMLHttpRequest();
+        http.open(this.method, this.url, this._async);
+        http.setRequestHeader('Accept', 'Application/json');
+        http.setRequestHeader('contentType', 'json');
+        http.setRequestHeader('Authorization', 'Bearer ' + getToken());
+        http.onload = () => {
+            this.response = JSON.parse(http.responseText);
+            this.message = this.response['message'];
+            this.success = this.response['success'];
+        };
+        http.send(this.data);
+    }
+}
+

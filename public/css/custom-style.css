@@ -1,8 +1,10 @@
+.main-section{
+    margin-bottom: 50px;
+}
 i[type="button"] {
     cursor:pointer;
 }
 table tr :nth-last-child(1):not(i){
-
     width: 90px;
 }
 table thead,tbody {

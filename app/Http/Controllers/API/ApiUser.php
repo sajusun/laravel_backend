@@ -96,9 +96,15 @@ class ApiUser extends Guard
     {
         $id = Auth::id();
         if ($id !== null) {
-            return response()->json(['isValid' => true]);
+            return response()->json([
+                'success' => true,
+                'message' => "Valid User",
+                ]);
         } else {
-            return response()->json(['isValid' => false]);
+            return response()->json([
+                'success' => false,
+                'message' => "Invalid User",
+            ]);
         }
 
     }

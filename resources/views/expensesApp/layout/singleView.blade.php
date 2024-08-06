@@ -8,6 +8,9 @@
 </head>
 
 <body>
+<!-- Navbar -->
+@include('expensesApp.layout.navBar');
+<!-- Navbar -->
 <div class="container container-fluid">
     <div id="top"></div>
     <div id="middle">
@@ -56,5 +59,6 @@
     <div id="bottom"></div>
 </div>
 </body>
+@include('expensesApp.layout.bottom_script_files');
 
 </html>

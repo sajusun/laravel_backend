@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @method static where(string $string, string $id)
- * @method static find(string $id)
  * @method static create(array $all)
+ * @method static find(string $id)
+ * @method static where(string $string, string $id)
+ * @method static insert(array $array)
  */
 class expensesApp_Out extends Model
 {
@@ -19,6 +20,7 @@ class expensesApp_Out extends Model
         'user_id',
         'date',
         'details',
-        'amount'
+        'amount',
+        'remarks',
     ];
 }

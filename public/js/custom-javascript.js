@@ -12,7 +12,11 @@ let revoke_;
 const apiLink = {
     isValid: `${host}api/user/isValid`,
     login: `${host}api/user/login`,
-    in_add: `${host}api/expenses_app/in/add`
+    register: `${host}api/user/register`,
+    in_add: `${host}api/expenses_app/in/add`,
+    out_add: `${host}api/expenses_app/out/add`,
+    incomeList_url: `${host}api/expenses_app/in/list/`,
+    expensesList_url: `${host}api/expenses_app/out/list/`
 }
 const isValidLik = `${host}api/user/isValid`;
 const loginLik = `${host}api/user/login`;
@@ -55,8 +59,9 @@ function getToken() {
 
 
 $(document).ready(async function () {
-    let server = new serverRQ(isValidLik);
-    server._async = false;
+    let server = new serverRQ();
+    server.url=isValidLik;
+   //server._async = false;
     //server.url = isValidLik;
     checkUser_();
 
@@ -92,9 +97,9 @@ $(document).ready(async function () {
         // xHttp.setRequestHeader('Accept', 'Application/json');
         // xHttp.setRequestHeader('contentType', 'json');
         // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
-        let revoke=new serverRQ(revokeLink);
+        let revoke = new serverRQ(revokeLink);
         revoke.send_();
-        if(revoke.success !== true) {
+        if (revoke.success !== true) {
             if (window.location.href !== login_Page) {
                 window.location.href = login_Page;
                 window.refresh();
@@ -111,15 +116,22 @@ $(document).ready(async function () {
         //         }
         //     }
         // };
-       // xHttp.send();
+        // xHttp.send();
     }
 
 
     $("#inAdd").click(function () {
         window.location.href = 'http://localhost:8000/expenses-app/in/add';
     });
-    $("#viewList").click(function () {
+    $("#outAdd").click(function () {
+        window.location.href = 'http://localhost:8000/expenses-app/out/add';
+    });
+
+    $("#inList").click(function () {
         window.location.href = 'http://localhost:8000/expenses-app/in/list';
+    });
+    $("#outList").click(function () {
+        window.location.href = 'http://localhost:8000/expenses-app/out/list';
     });
 });
 
@@ -152,29 +164,62 @@ function list() {
     let remarksInput = $("#remarks");
 
     //
-    let url = `${host}api/expenses_app/in/list/`;
+    let incomeList_url = `${host}api/expenses_app/in/list/`;
+    let expensesList_url = `${host}api/expenses_app/in/list/`;
     let id = '';
     let tbody = $('#t_body');
     let refresh = $('#refreshIcon');
     let loading = $('#loadingIcon');
 
     // fetch data from server
-    async function fetchData() {
+    function fetchIncome() {
         // refresh.prop('hidden', true);
         refresh.css('display', 'none');
         loading.prop('hidden', false);
         let element = "";
-        let fetch = new serverRQ(url);
-        fetch.send_();
+        let fetch_i = new serverRQ();
+        fetch_i.url=incomeList_url;
+        fetch_i.send_();
         // const xHttp = new XMLHttpRequest();
-        // xHttp.open("GET", url, true);
+        // xHttp.open("GET", incomeList_url, true);
         // xHttp.setRequestHeader('Accept', 'Application/json');
         // xHttp.setRequestHeader('contentType', 'json');
         // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
         // xHttp.onload = () => {
         //     let toJson = JSON.parse(xHttp.responseText);
         //     let list = toJson['data'];
-        let list = fetch.response.data;
+        let list = fetch_i.response.data;
+        if (fetch_i.success) {
+            for (let i = 0; i < list.length; i++) {
+                element += `<tr id='${list[i].id}'>
+<td class='clickable'> ${i + 1} </td>
+<td class='clickable'> ${list[i].date} </td>
+<td class='clickable'> ${list[i].details}</td>
+ <td class='clickable'>${list[i].amount}</td>
+ <td class='clickable'>${list[i].remarks}</td>
+<td class='d-flex justify-content-between'>
+<i type='button' class='material-icons text-secondary update'>edit_square</i>
+<i type='button' class='material-icons text-danger delete'>delete</i>
+</td>
+</tr>`;
+            }
+            tbody.empty();
+            tbody.append(element);
+            //}
+            loading.prop("hidden", true);
+            refresh.css('display', 'block');
+        }
+        // xHttp.send();
+    } // end fetch data function
+    function fetchExpenses() {
+        // refresh.prop('hidden', true);
+        refresh.css('display', 'none');
+        loading.prop('hidden', false);
+        let element = "";
+        let fetch = new serverRQ(expensesList_url);
+        fetch.send_();
+
+        let list = fetch.response.data
         if (fetch.success) {
             for (let i = 0; i < list.length; i++) {
                 element += `<tr id='${list[i].id}'>
@@ -197,11 +242,10 @@ function list() {
         }
         // xHttp.send();
     } // end fetch data function
-
     // request update data to server
 
     function update_() {
-        const updateLink = `${url + id}/update`;
+        const updateLink = `${incomeList_url + id}/update`;
         const formData = new FormData();
         formData.append("date", dateInput.val());
         formData.append("details", detailsInput.val());
@@ -217,7 +261,7 @@ function list() {
             updateStatus.text(update.message);
             updateElement('success');
         }
-        fetchData();
+        fetchIncome();
 
         // const xHttp = new XMLHttpRequest();
         // xHttp.open("POST", updateLink, true);
@@ -236,7 +280,7 @@ function list() {
         //         updateStatus.text(mgs);
         //         updateElement('success');
         //     }
-        //     fetchData();
+        //     fetchIncome();
         // };
         // xHttp.send(formData);
     }
@@ -244,14 +288,14 @@ function list() {
     // request remove data to server
     function remove_() {
         c_delete.prop("disabled", true);
-        const deleteLink = `${url + id}/delete`;
+        const deleteLink = `${incomeList_url + id}/delete`;
         let remove = new serverRQ(deleteLink, 'GET');
         remove.send_();
         if (!remove.success) {
             c_delete.prop("disabled", false);
         }
         mgsArea.text(remove.message);
-        fetchData();
+        fetchIncome();
 
         // const xHttp = new XMLHttpRequest();
         // xHttp.open("GET", deleteLink, true);
@@ -265,7 +309,7 @@ function list() {
         //     // console.log(`${status} : ${mgs}`);
         //     mgsArea.text(mgs);
         //     c_delete.prop("disabled", false);
-        //     fetchData();
+        //     fetchIncome();
         // };
         // xHttp.send();
     }
@@ -301,12 +345,12 @@ function list() {
 
     // after modal dispose auto run
     deleteModalID.on('hidden.bs.modal', function () {
-        fetchData();
+        fetchIncome();
     });
     updateModalID.on('hidden.bs.modal', function () {
         updateStatus.text('');
         updateElement('default');
-        fetchData();
+        fetchIncome();
     });
 
     $("tbody").click(function (event) {
@@ -320,16 +364,8 @@ function list() {
         // div = event.target;
     });
     $("#t_body").on('click', '.clickable', function () {
-        // if (event.target !== event.target.parentElement.lastElementChild) {
-        //     console.log('true');
-        //container.load(in_view_Page);
         window.location.href = in_view_Page;
-        //
-        // } else {
-        //     console.log('false');
-        // }
         console.log(this.parentElement)
-        // console.log(event.target.parentElement);
     });
 
     c_delete.click(function () {
@@ -370,11 +406,11 @@ function list() {
 
     // on click refresh button
     refresh.click(function () {
-        fetchData();
+        fetchIncome();
     });
 
     // call function on document is loaded
-    fetchData();
+    fetchIncome();
 }
 
 // server request class
@@ -383,11 +419,13 @@ class serverRQ {
     success;
     response;
     message;
-    method;
+    method="GET";
     data;
-    _async;
+    _async=false;
 
-    constructor(url, method = "GET", data = null, async = false) {
+
+
+    constructor(url, method = "GET", data, async = false) {
         this.method = method;
         this.url = url;
         this.data = data;
@@ -408,5 +446,72 @@ class serverRQ {
         };
         http.send(this.data);
     }
+}
+
+class Expenses {
+    tbody;
+    refresh;
+    loading;
+
+    constructor() {
+     //   super();
+        this.tbody = $('#t_body');
+        this.refresh = $('#refreshIcon');
+        this.loading = $('#loadingIcon');
+    }
+
+    async add() {
+        let date = $("#date").val();
+        let details = $("#details").val();
+        let amount = $("#amount").val();
+        let remarks = $("#remarks").val();
+
+        const formData = new FormData();
+        formData.append("date", date);
+        formData.append("details", details);
+        formData.append("amount", amount);
+        formData.append("remarks", remarks);
+        const server = new  serverRQ(apiLink.out_add, 'GET', formData, false);
+        //server.url=apiLink.out_add;
+
+        //server.data=formData;
+         server.send_();
+       await console.log(server.response);
+
+        console.log(details);
+    }
+
+    viewList() {
+        this.refresh.css('display', 'none');
+        this.loading.prop('hidden', false);
+        let element = "";
+        let fetch = new serverRQ();
+        fetch.url=apiLink.expensesList_url;
+        fetch.send_();
+        let list = fetch.response.data
+        if (fetch.success) {
+            for (let i = 0; i < list.length; i++) {
+                element += `<tr id='${list[i].id}'>
+<td class='clickable'> ${i + 1} </td>
+<td class='clickable'> ${list[i].date} </td>
+<td class='clickable'> ${list[i].details}</td>
+ <td class='clickable'>${list[i].amount}</td>
+ <td class='clickable'>${list[i].remarks}</td>
+<td class='d-flex justify-content-between'>
+<i type='button' class='material-icons text-secondary update'>edit_square</i>
+<i type='button' class='material-icons text-danger delete'>delete</i>
+</td>
+</tr>`;
+            }
+            this.tbody.empty();
+            this.tbody.append(element);
+            //}
+            this.loading.prop("hidden", true);
+            this.refresh.css('display', 'block');
+        }
+
+    }
+
+
 }
 

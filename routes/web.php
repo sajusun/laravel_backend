@@ -30,7 +30,9 @@ Route::get('blog', function () {
 Route::get('single-blog', function () {
     return view('single-blog');
 });
-//expenses app
+
+
+//expenses app.............
 Route::any('expenses-app/user', function () {
     return view('expensesApp.app');
 });
@@ -40,11 +42,17 @@ Route::any('expenses-app/login', function () {
 Route::get('expenses-app/in/list', function () {
     return view('expensesApp.pages.expenses_in');
 });
+Route::get('expenses-app/out/list', function () {
+    return view('expensesApp.pages.expenses_out');
+});
 Route::get('expenses-app/in/single-view', function () {
     return view('expensesApp.layout.pages.singleView');
 });
 Route::get('expenses-app/in/add', function () {
     return view('expensesApp.pages.expenses_in_add');
+});
+Route::get('expenses-app/out/add', function () {
+    return view('expensesApp.pages.expenses_out_add');
 });
 
 Route::get('expenses-app/user/contact', function () {

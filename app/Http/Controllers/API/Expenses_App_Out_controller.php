@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\expensesApp_In;
 use App\Models\expensesApp_Out;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class Expenses_App_Out_controller extends Controller
 {
@@ -14,14 +17,14 @@ class Expenses_App_Out_controller extends Controller
      */
     public function index(): JsonResponse
     {
-        $list=expensesApp_Out::all(['id','date','details','amount']);
-        if($list->count()>0){
+        $list = expensesApp_Out::where('user_id', Auth::id())->get(['id', 'date', 'details', 'amount','remarks']);
+        if ($list->count() > 0) {
             return response()->json([
                 'success' => true,
-                'message' => 'List all Expenses App In',
+                'message' => 'List all Expenses',
                 'data' => $list
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'No data found'
@@ -34,18 +37,42 @@ class Expenses_App_Out_controller extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $data=expensesApp_Out::create(request()->all());
-        if($data){
-            return response()->json([
-                'success' => true,
-                'message' => 'Data inserted successfully',
-            ]);
-        }else{
+
+
+//$data=$request->headers;
+        $validate=$request->validate([
+            'date' => 'required|date',
+            'details' => 'required|string',
+            'amount' => 'required|int',
+            'remarks' => 'nullable|String'
+        ]);
+        if (!$validate){
             return response()->json([
                 'success' => false,
-                'message' => 'Data insert failed',
+                'message' => $validate
             ]);
         }
+        $data = expensesApp_Out::create([
+            'date' => request('date'),
+            'details' => request('details'),
+            'amount' => request('amount'),
+            'remarks' => request('remarks'),
+            'user_id' => Auth::user()->getAuthIdentifier(),
+        ]);
+
+        if ($data) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Expenses Added successfully',
+
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'failed',
+            ]);
+        }
+
     }
 
     /**
@@ -53,14 +80,14 @@ class Expenses_App_Out_controller extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $find=expensesApp_Out::find($id);
-        if($find){
+        $find = expensesApp_Out::find($id);
+        if ($find) {
             return response()->json([
                 'success' => true,
                 'message' => 'Data found',
                 'data' => $find
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => 'Data not found',
@@ -73,16 +100,17 @@ class Expenses_App_Out_controller extends Controller
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        $data=expensesApp_Out::where('id',$id)->update(['details'=>request()->details,'amount'=>request()->amount]);
-        if($data){
+        $data = expensesApp_Out::where('user_id', Auth::id())->where('id', $id)->
+        update(['date' => request()->date,'details' => request()->details, 'amount' => request()->amount,'remarks' => request()->remarks,]);
+        if ($data) {
             return response()->json([
                 'success' => true,
-                'message' => 'Data updated successfully',
+                'message' => 'Updated successfully',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Data update failed',
+                'message' => 'Update failed',
             ]);
         }
     }
@@ -92,16 +120,16 @@ class Expenses_App_Out_controller extends Controller
      */
     public function destroy(string $id): JsonResponse
     {
-        $data=expensesApp_Out::where('id',$id)->delete();
-        if($data){
+        $data = expensesApp_Out::where('id', $id)->where('user_id', Auth::user()->getAuthIdentifier())->delete();
+        if ($data) {
             return response()->json([
                 'success' => true,
-                'message' => 'Data removed successfully',
+                'message' => 'Remove successfully',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Data removed failed',
+                'message' => 'Remove failed',
             ]);
         }
 

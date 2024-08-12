@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('expenses_apps_out', function (Blueprint $table) {
             $table->id();
-           $table->integer('user_id');
+            $table->integer('user_id');
             $table->date('date');
             $table->string('details');
             $table->float('amount');
-            $table->string('remark')->nullable();
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
 

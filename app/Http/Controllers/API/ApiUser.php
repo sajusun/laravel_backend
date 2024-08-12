@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\Guard;
+use Illuminate\Validation\Rules;
 
 class ApiUser extends Guard
 {
@@ -22,9 +23,30 @@ class ApiUser extends Guard
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-//
+//        $request->validate([
+//            'name' => 'required|string|max:255',
+//            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+//            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+//        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        if ($user){
+            return response()->json([
+                'success' => true,
+                'message' => 'User created successfully',
+            ]);
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'User not created',
+            ]);
+        }
 
     }
 

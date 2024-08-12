@@ -10,3 +10,8 @@ table tr :nth-last-child(1):not(i){
 table thead,tbody {
     text-align: center;
 }
+#buttonSet button{
+    padding: 15px;
+    margin: 10px;
+    font-variant: all-small-caps;
+}

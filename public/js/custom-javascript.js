@@ -593,4 +593,19 @@ class serverRequest {
     }
 
 }
+class AlertMessages {
+    alertElementID;
+    constructor(alertElementID) {
+        this.alertElementID=$('#'+alertElementID)
+    }
+    success(message){
+        this.alertElementID.html(`<div class="alert alert-success" role="alert">${message}</div>`);
+    }
+    info(message){
+        this.alertElementID.html(`<div class="alert alert-info" role="alert">${message}</div>`);
+    }
+    danger(message){
+        this.alertElementID.html(`<div class="alert alert-danger" role="alert">${message}</div>`);
+    }
+}
 

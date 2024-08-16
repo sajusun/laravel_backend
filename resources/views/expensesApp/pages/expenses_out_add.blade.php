@@ -40,7 +40,15 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button id="submitBtn" type="button" class="btn btn-primary">Submit</button>
+                <div class="row">
+                    <div class="col-2">
+                        <button id="submitBtn" type="button" class="btn btn-primary">Submit</button>
+                    </div>
+                    <div class="col-10" id="response">
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </form>
@@ -58,7 +66,7 @@
         loadingName='';
         processing = false;
 
-        constructor(ButtonID, OnLoadingName, ProcessingElement='') {
+        constructor(ButtonID, OnLoadingName, ProcessingElement=null) {
             this.buttonID = ButtonID;
             this.loadingName = OnLoadingName;
             this.processingElement = ProcessingElement;
@@ -78,7 +86,7 @@
             this.defaultButton.text(this.loadingName);
             this.defaultButton.prop("disabled", true);
         }
-        boot() {
+        boot(processing) {
             this.processing=processing;
             if (this.processing) {
                 this.starProcessing();
@@ -92,6 +100,7 @@
 
     $(document).ready(function () {
         let btn = new Button_effect('submitBtn','submitting');
+        let responseMgs= new AlertMessages('response');
 
         const server = new serverRequest();
         $("#submitBtn").click(function () {
@@ -110,6 +119,11 @@
             btn.starProcessing();
             server.xPost().then(function (result) {
                 console.log(result)
+                if(!result['success']) {
+                    responseMgs.info(result['message']);
+                }else{
+                    responseMgs.success(result['message']);
+                }
                 btn.default();
             });
 

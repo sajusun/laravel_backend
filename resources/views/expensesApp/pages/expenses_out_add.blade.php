@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="en">
 
 <head>
@@ -51,20 +50,70 @@
 </body>
 @include('expensesApp.layout.bottom_script_files');
 <script>
+    class Button_effect {
+        defaultButton = null;
+        processingElement = `<button id="submitBtn" type="button" class="btn btn-primary">Loading</button>`;
+        buttonID;
+        displayName;
+        loadingName='';
+        processing = false;
+
+        constructor(ButtonID, OnLoadingName, ProcessingElement='') {
+            this.buttonID = ButtonID;
+            this.loadingName = OnLoadingName;
+            this.processingElement = ProcessingElement;
+
+            this.defaultButton = $('#'+ButtonID);
+            this.displayName = $('#'+ButtonID).text();
+
+        }
+
+         default() {
+            this.defaultButton.text(this.displayName);
+            this.defaultButton.prop("disabled", false);
+            //this.defaultButton.parentElement.html(this.processingElement);
+        }
+
+        starProcessing() {
+            this.defaultButton.text(this.loadingName);
+            this.defaultButton.prop("disabled", true);
+        }
+        boot() {
+            this.processing=processing;
+            if (this.processing) {
+                this.starProcessing();
+            } else {
+                this.default();
+            }
+        }
+    }
+
+    //btn.onBoot();
 
     $(document).ready(function () {
+        let btn = new Button_effect('submitBtn','submitting');
 
-        $("#submitBtn").click( function () {
-            const ex = new Expenses();
-             ex.add();
+        const server = new serverRequest();
+        $("#submitBtn").click(function () {
+            let date = $("#date").val();
+            let details = $("#details").val();
+            let amount = $("#amount").val();
+            let remarks = $("#remarks").val();
+            let data = {
+                date: date,
+                details: details,
+                amount: amount,
+                remarks: remarks,
+            };
+            server.url = apiLink.out_add;
+            server.data = data;
+            btn.starProcessing();
+            server.xPost().then(function (result) {
+                console.log(result)
+                btn.default();
+            });
 
-            // let date = $("#date").val();
-            // let details = $("#details").val();
-            // let amount = $("#amount").val();
-            // let remarks = $("#remarks").val();
-            // const url = "http://localhost:8000/api/expenses_app/out/add/";
-            // sendData();
-            //
+
             // function sendData() {
             //     const formData = new FormData();
             //     formData.append("date", date);
@@ -72,7 +121,7 @@
             //     formData.append("amount", amount);
             //     formData.append("remarks", remarks);
             //     const http = new XMLHttpRequest();
-            //     http.open("POST", url, true);
+            //     http.open("POST", apiLink.out_add, true);
             //     http.setRequestHeader('Accept', 'Application/json');
             //     http.setRequestHeader('contentType', 'json');
             //     http.setRequestHeader('Authorization', 'Bearer ' +getToken());
@@ -83,8 +132,18 @@
             // }
 
         });
+
+        // function ser() {
+        //     server2.url = apiLink.expensesList_url;
+        //     let list = server2.xFetch();
+        //     list.then(function (list) {
+        //         console.log(list)
+        //     })
+        // }
+        //
+        // ser();
     });
 </script>
 </html>
-
+{{--01717056504--}}
 

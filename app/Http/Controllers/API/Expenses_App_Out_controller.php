@@ -17,7 +17,7 @@ class Expenses_App_Out_controller extends Controller
      */
     public function index(): JsonResponse
     {
-        $list = expensesApp_Out::where('user_id', Auth::id())->get(['id', 'date', 'details', 'amount','remarks']);
+        $list = expensesApp_Out::where('user_id', Auth::id())->get(['id', 'date', 'details', 'amount', 'remarks']);
         if ($list->count() > 0) {
             return response()->json([
                 'success' => true,
@@ -37,39 +37,38 @@ class Expenses_App_Out_controller extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+//        $validate = request()->validate([
+//            'date' => 'required|date',
+//            'details' => 'required|string',
+//            'amount' => 'required|int',
+//            'remarks' => 'nullable|String'
+//        ]);
 
-
-//$data=$request->headers;
-        $validate=$request->validate([
-            'date' => 'required|date',
-            'details' => 'required|string',
-            'amount' => 'required|int',
-            'remarks' => 'nullable|String'
-        ]);
-        if (!$validate){
-            return response()->json([
-                'success' => false,
-                'message' => $validate
+        if (request('date') != '' & request('details') != '' & request('amount') != '') {
+            $data = expensesApp_Out::create([
+                'date' => request('date'),
+                'details' => request('details'),
+                'amount' => request('amount'),
+                'remarks' => request('remarks'),
+                'user_id' => Auth::user()->getAuthIdentifier(),
             ]);
-        }
-        $data = expensesApp_Out::create([
-            'date' => request('date'),
-            'details' => request('details'),
-            'amount' => request('amount'),
-            'remarks' => request('remarks'),
-            'user_id' => Auth::user()->getAuthIdentifier(),
-        ]);
 
-        if ($data) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Expenses Added successfully',
+            if ($data) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Expenses Added successfully',
 
-            ]);
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'failed',
+                ]);
+            }
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'failed',
+                'message' => "REQUIRED ALL FILED"
             ]);
         }
 
@@ -101,7 +100,7 @@ class Expenses_App_Out_controller extends Controller
     public function update(Request $request, string $id): JsonResponse
     {
         $data = expensesApp_Out::where('user_id', Auth::id())->where('id', $id)->
-        update(['date' => request()->date,'details' => request()->details, 'amount' => request()->amount,'remarks' => request()->remarks,]);
+        update(['date' => request()->date, 'details' => request()->details, 'amount' => request()->amount, 'remarks' => request()->remarks,]);
         if ($data) {
             return response()->json([
                 'success' => true,

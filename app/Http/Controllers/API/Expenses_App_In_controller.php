@@ -37,7 +37,6 @@ class Expenses_App_In_controller extends Controller
     public function store(Request $request): JsonResponse
     {
 
-
 //$data=$request->headers;
     $validate=$request->validate([
     'date' => 'required|date',

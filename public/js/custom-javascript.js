@@ -60,8 +60,8 @@ function getToken() {
 
 $(document).ready(async function () {
     let server = new serverRQ();
-    server.url=isValidLik;
-   //server._async = false;
+    server.url = isValidLik;
+    //server._async = false;
     //server.url = isValidLik;
     checkUser_();
 
@@ -178,7 +178,7 @@ function list() {
         loading.prop('hidden', false);
         let element = "";
         let fetch_i = new serverRQ();
-        fetch_i.url=incomeList_url;
+        fetch_i.url = incomeList_url;
         fetch_i.send_();
         // const xHttp = new XMLHttpRequest();
         // xHttp.open("GET", incomeList_url, true);
@@ -419,10 +419,9 @@ class serverRQ {
     success;
     response;
     message;
-    method="GET";
+    method = "GET";
     data;
-    _async=false;
-
+    _async = false;
 
 
     constructor(url, method = "GET", data, async = false) {
@@ -454,7 +453,7 @@ class Expenses {
     loading;
 
     constructor() {
-     //   super();
+        //   super();
         this.tbody = $('#t_body');
         this.refresh = $('#refreshIcon');
         this.loading = $('#loadingIcon');
@@ -471,12 +470,12 @@ class Expenses {
         formData.append("details", details);
         formData.append("amount", amount);
         formData.append("remarks", remarks);
-        const server = new  serverRQ(apiLink.out_add, 'GET', formData, false);
+        const server = new serverRQ(apiLink.out_add, 'GET', formData, false);
         //server.url=apiLink.out_add;
 
         //server.data=formData;
-         server.send_();
-       await console.log(server.response);
+        server.send_();
+        await console.log(server.response);
 
         console.log(details);
     }
@@ -486,7 +485,7 @@ class Expenses {
         this.loading.prop('hidden', false);
         let element = "";
         let fetch = new serverRQ();
-        fetch.url=apiLink.expensesList_url;
+        fetch.url = apiLink.expensesList_url;
         fetch.send_();
         let list = fetch.response.data
         if (fetch.success) {
@@ -512,6 +511,86 @@ class Expenses {
 
     }
 
+
+}
+
+class serverRequest {
+    url;
+    success;
+    response;
+    message;
+    method;
+    data;
+
+    send_() {
+        this.method = 'POST';
+        try {
+            fetch(this.url, {
+                method: this.method,
+                body: JSON.stringify(this.data),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Authorization': 'Bearer ' + getToken(),
+                },
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((json) => {
+                    console.log(json)
+                })
+                .catch((err) => console.log(err + 'error'));
+        } catch (e) {
+            console.log('attempt' + e)
+        }
+    }
+
+    fetch_() {
+        this.method = "GET";
+        fetch(this.url, {
+            method: this.method,
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Authorization': 'Bearer ' + getToken(),
+            },
+        })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+
+    }
+
+    async xPost() {
+        let result;
+        await axios.post(this.url, this.data, {
+            headers: {
+                'Authorization': 'Bearer ' + getToken(),
+            }
+        })
+            .then(async function (response) {
+                //console.log(response.data);
+                result = await response.data;
+            })
+            .catch(function (error) {
+                console.log("server rq error" + error);
+            });
+        return result;
+    }
+    async xFetch() {
+        let result;
+        await axios.get(this.url,{
+            headers: {
+                'Authorization': 'Bearer ' + getToken(),
+            }
+        })
+            .then(async function (response) {
+                //console.log(response.data);
+                result = await response.data;
+            })
+            .catch(function (error) {
+                console.log("server rq error" + error);
+            });
+        return result;
+    }
 
 }
 

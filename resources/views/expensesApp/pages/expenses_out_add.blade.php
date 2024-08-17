@@ -58,51 +58,12 @@
 </body>
 @include('expensesApp.layout.bottom_script_files');
 <script>
-    class Button_effect {
-        defaultButton = null;
-        processingElement = `<button id="submitBtn" type="button" class="btn btn-primary">Loading</button>`;
-        buttonID;
-        displayName;
-        loadingName='';
-        processing = false;
-
-        constructor(ButtonID, OnLoadingName, ProcessingElement=null) {
-            this.buttonID = ButtonID;
-            this.loadingName = OnLoadingName;
-            this.processingElement = ProcessingElement;
-
-            this.defaultButton = $('#'+ButtonID);
-            this.displayName = $('#'+ButtonID).text();
-
-        }
-
-         default() {
-            this.defaultButton.text(this.displayName);
-            this.defaultButton.prop("disabled", false);
-            //this.defaultButton.parentElement.html(this.processingElement);
-        }
-
-        starProcessing() {
-            this.defaultButton.text(this.loadingName);
-            this.defaultButton.prop("disabled", true);
-        }
-        boot(processing) {
-            this.processing=processing;
-            if (this.processing) {
-                this.starProcessing();
-            } else {
-                this.default();
-            }
-        }
-    }
-
-    //btn.onBoot();
 
     $(document).ready(function () {
         let btn = new Button_effect('submitBtn','submitting');
         let responseMgs= new AlertMessages('response');
-
         const server = new serverRequest();
+
         $("#submitBtn").click(function () {
             let date = $("#date").val();
             let details = $("#details").val();
@@ -120,7 +81,7 @@
             server.xPost().then(function (result) {
                 console.log(result)
                 if(!result['success']) {
-                    responseMgs.info(result['message']);
+                    responseMgs.danger(result['message']);
                 }else{
                     responseMgs.success(result['message']);
                 }

@@ -522,43 +522,6 @@ class serverRequest {
     method;
     data;
 
-    send_() {
-        this.method = 'POST';
-        try {
-            fetch(this.url, {
-                method: this.method,
-                body: JSON.stringify(this.data),
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                    'Authorization': 'Bearer ' + getToken(),
-                },
-            })
-                .then((response) => {
-                    return response.json();
-                })
-                .then((json) => {
-                    console.log(json)
-                })
-                .catch((err) => console.log(err + 'error'));
-        } catch (e) {
-            console.log('attempt' + e)
-        }
-    }
-
-    fetch_() {
-        this.method = "GET";
-        fetch(this.url, {
-            method: this.method,
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'Authorization': 'Bearer ' + getToken(),
-            },
-        })
-            .then((response) => response.json())
-            .then((json) => console.log(json));
-
-    }
-
     async xPost() {
         let result;
         await axios.post(this.url, this.data, {
@@ -575,9 +538,10 @@ class serverRequest {
             });
         return result;
     }
+
     async xFetch() {
         let result;
-        await axios.get(this.url,{
+        await axios.get(this.url, {
             headers: {
                 'Authorization': 'Bearer ' + getToken(),
             }
@@ -593,19 +557,59 @@ class serverRequest {
     }
 
 }
+
+class Button_effect {
+    defaultButton = null;
+    processingElement = `<button id="submitBtn" type="button" class="btn btn-primary">Loading</button>`;
+    buttonID;
+    displayName;
+    loadingName = '';
+    processing = false;
+
+    constructor(ButtonID, OnLoadingName, ProcessingElement = null) {
+        this.buttonID = ButtonID;
+        this.loadingName = OnLoadingName;
+        this.processingElement = ProcessingElement;
+
+        this.defaultButton = $('#' + ButtonID);
+        this.displayName = $('#' + ButtonID).text();
+
+    }
+
+    default() {
+        this.defaultButton.text(this.displayName);
+        this.defaultButton.prop("disabled", false);
+        //this.defaultButton.parentElement.html(this.processingElement);
+    }
+
+    starProcessing() {
+        this.defaultButton.text(this.loadingName);
+        this.defaultButton.prop("disabled", true);
+    }
+
+    boot(processing) {
+        this.processing = processing;
+        if (this.processing) {
+            this.starProcessing();
+        } else {
+            this.default();
+        }
+    }
+}
+
 class AlertMessages {
     alertElementID;
     constructor(alertElementID) {
-        this.alertElementID=$('#'+alertElementID)
+        this.alertElementID = $('#' + alertElementID)
     }
-    success(message){
-        this.alertElementID.html(`<div class="alert alert-success" role="alert">${message}</div>`);
+    success(message) {
+        this.alertElementID.html(`<div class="alert text-success" role="alert">${message}</div>`);
     }
-    info(message){
-        this.alertElementID.html(`<div class="alert alert-info" role="alert">${message}</div>`);
+    info(message) {
+        this.alertElementID.html(`<div class="alert text-info" role="alert">${message}</div>`);
     }
-    danger(message){
-        this.alertElementID.html(`<div class="alert alert-danger" role="alert">${message}</div>`);
+    danger(message) {
+        this.alertElementID.html(`<div class="alert text-danger" role="alert">${message}</div>`);
     }
 }
 

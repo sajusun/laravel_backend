@@ -37,19 +37,15 @@ class Expenses_App_In_controller extends Controller
     public function store(Request $request): JsonResponse
     {
 
-//$data=$request->headers;
-    $validate=$request->validate([
-    'date' => 'required|date',
-    'details' => 'required|string',
-    'amount' => 'required|int',
-    'remarks' => 'nullable|String'
-]);
-    if (!$validate){
-        return response()->json([
-            'success' => false,
-            'message' => $validate
-        ]);
-    }
+////$data=$request->headers;
+//        $validate = $request->validate([
+//            'date' => 'required|date',
+//            'details' => 'required|string',
+//            'amount' => 'required|int',
+//            'remarks' => 'nullable|String'
+//        ]);
+        if (request('date') != '' & request('details') != '' & request('amount') != '') {
+
         $data = expensesApp_In::create([
             'date' => request('date'),
             'details' => request('details'),
@@ -68,6 +64,12 @@ class Expenses_App_In_controller extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Data insert failed',
+            ]);
+        }
+    }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Required parameter missing',
             ]);
         }
 

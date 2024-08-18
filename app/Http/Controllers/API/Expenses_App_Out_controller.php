@@ -68,7 +68,7 @@ class Expenses_App_Out_controller extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => "REQUIRED ALL FILED"
+                'message' => 'Required parameter missing',
             ]);
         }
 

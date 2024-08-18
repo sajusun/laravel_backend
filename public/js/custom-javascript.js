@@ -180,14 +180,6 @@ function list() {
         let fetch_i = new serverRQ();
         fetch_i.url = incomeList_url;
         fetch_i.send_();
-        // const xHttp = new XMLHttpRequest();
-        // xHttp.open("GET", incomeList_url, true);
-        // xHttp.setRequestHeader('Accept', 'Application/json');
-        // xHttp.setRequestHeader('contentType', 'json');
-        // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
-        // xHttp.onload = () => {
-        //     let toJson = JSON.parse(xHttp.responseText);
-        //     let list = toJson['data'];
         let list = fetch_i.response.data;
         if (fetch_i.success) {
             for (let i = 0; i < list.length; i++) {
@@ -209,7 +201,6 @@ function list() {
             loading.prop("hidden", true);
             refresh.css('display', 'block');
         }
-        // xHttp.send();
     } // end fetch data function
     function fetchExpenses() {
         // refresh.prop('hidden', true);
@@ -262,27 +253,6 @@ function list() {
             updateElement('success');
         }
         fetchIncome();
-
-        // const xHttp = new XMLHttpRequest();
-        // xHttp.open("POST", updateLink, true);
-        // xHttp.setRequestHeader('Accept', 'Application/json');
-        // xHttp.setRequestHeader('contentType', 'json');
-        // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
-        // xHttp.onload = () => {
-        //     let toJson = JSON.parse(xHttp.responseText);
-        //     let mgs = toJson['message'];
-        //     let status = toJson['success'];
-        //     //console.log(`${status} : ${mgs}`);
-        //     if (!status) {
-        //         updateStatus.text("update failed");
-        //         updateElement('default');
-        //     } else {
-        //         updateStatus.text(mgs);
-        //         updateElement('success');
-        //     }
-        //     fetchIncome();
-        // };
-        // xHttp.send(formData);
     }
 
     // request remove data to server
@@ -296,22 +266,6 @@ function list() {
         }
         mgsArea.text(remove.message);
         fetchIncome();
-
-        // const xHttp = new XMLHttpRequest();
-        // xHttp.open("GET", deleteLink, true);
-        // xHttp.setRequestHeader('Accept', 'Application/json');
-        // xHttp.setRequestHeader('contentType', 'json');
-        // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
-        // xHttp.onload = () => {
-        //     let toJson = JSON.parse(xHttp.responseText);
-        //     let mgs = toJson['message'];
-        //     // let status = toJson['success'];
-        //     // console.log(`${status} : ${mgs}`);
-        //     mgsArea.text(mgs);
-        //     c_delete.prop("disabled", false);
-        //     fetchIncome();
-        // };
-        // xHttp.send();
     }
 
     // execute delete modal on delete icon click
@@ -422,7 +376,6 @@ class serverRQ {
     method = "GET";
     data;
     _async = false;
-
 
     constructor(url, method = "GET", data, async = false) {
         this.method = method;

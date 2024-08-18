@@ -12,7 +12,7 @@
 <br>
 <div class="container-lg" id="mainContainer">
     <div class="row justify-content-center">
-        <div id="buttonSet" class="col-sm-10 col-md-8 col-lg-6 " style="display: inline-grid">
+        <div id="buttonSet" class="col-sm-10 col-md-8 col-lg-6" style="display: inline-grid">
             <button id="inAdd" class=" btn btn-outline-primary" >income add</button>
             <button id="inList" class=" btn btn-outline-primary">income list</button>
             <button id="outAdd" class=" btn btn-outline-primary">expenses add</button>

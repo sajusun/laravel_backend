@@ -44,7 +44,8 @@
 @include('expensesApp.layout.bottom_script_files')
 <script>
     $(function() {
-        list();
+        let expenses= new DataList();
+        expenses.viewList(apiLink.incomeList_url);
     });
 </script>
 </html>

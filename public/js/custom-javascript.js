@@ -364,7 +364,7 @@ function list() {
     });
 
     // call function on document is loaded
-    fetchIncome();
+   // fetchIncome();
 }
 
 // server request class
@@ -400,50 +400,51 @@ class serverRQ {
     }
 }
 
-class Expenses {
+class DataList {
     tbody;
     refresh;
     loading;
 
     constructor() {
-        //   super();
         this.tbody = $('#t_body');
         this.refresh = $('#refreshIcon');
         this.loading = $('#loadingIcon');
     }
 
-    async add() {
-        let date = $("#date").val();
-        let details = $("#details").val();
-        let amount = $("#amount").val();
-        let remarks = $("#remarks").val();
+    // async add() {
+    //     let date = $("#date").val();
+    //     let details = $("#details").val();
+    //     let amount = $("#amount").val();
+    //     let remarks = $("#remarks").val();
+    //
+    //     const formData = new FormData();
+    //     formData.append("date", date);
+    //     formData.append("details", details);
+    //     formData.append("amount", amount);
+    //     formData.append("remarks", remarks);
+    //     const server = new serverRQ(apiLink.out_add, 'GET', formData, false);
+    //     //server.url=apiLink.out_add;
+    //
+    //     //server.data=formData;
+    //     server.send_();
+    //     await console.log(server.response);
+    //
+    //     console.log(details);
+    // }
 
-        const formData = new FormData();
-        formData.append("date", date);
-        formData.append("details", details);
-        formData.append("amount", amount);
-        formData.append("remarks", remarks);
-        const server = new serverRQ(apiLink.out_add, 'GET', formData, false);
-        //server.url=apiLink.out_add;
-
-        //server.data=formData;
-        server.send_();
-        await console.log(server.response);
-
-        console.log(details);
-    }
-
-    viewList() {
+    viewList(link) {
         this.refresh.css('display', 'none');
         this.loading.prop('hidden', false);
         let element = "";
-        let fetch = new serverRQ();
-        fetch.url = apiLink.expensesList_url;
-        fetch.send_();
-        let list = fetch.response.data
-        if (fetch.success) {
-            for (let i = 0; i < list.length; i++) {
-                element += `<tr id='${list[i].id}'>
+        let fetch = new serverRequest();
+        fetch.url = link;
+        const self = this;
+        fetch.xFetch().then(function (response) {
+            self.tbody.empty();
+            let list = response.data;
+            if (response.success) {
+                for (let i = 0; i < list.length; i++) {
+                    element += `<tr id='${list[i].id}'>
 <td class='clickable'> ${i + 1} </td>
 <td class='clickable'> ${list[i].date} </td>
 <td class='clickable'> ${list[i].details}</td>
@@ -454,16 +455,14 @@ class Expenses {
 <i type='button' class='material-icons text-danger delete'>delete</i>
 </td>
 </tr>`;
+                }
+                self.tbody.append(element);
+                //}
+                self.loading.prop("hidden", true);
+                self.refresh.css('display', 'block');
             }
-            this.tbody.empty();
-            this.tbody.append(element);
-            //}
-            this.loading.prop("hidden", true);
-            this.refresh.css('display', 'block');
-        }
-
+        });
     }
-
 
 }
 
@@ -511,7 +510,7 @@ class serverRequest {
 
 }
 
-class Button_effect {
+class Button_effect  {
     defaultButton = null;
     processingElement = `<button id="submitBtn" type="button" class="btn btn-primary">Loading</button>`;
     buttonID;
@@ -552,15 +551,19 @@ class Button_effect {
 
 class AlertMessages {
     alertElementID;
+
     constructor(alertElementID) {
         this.alertElementID = $('#' + alertElementID)
     }
+
     success(message) {
         this.alertElementID.html(`<div class="alert text-success" role="alert">${message}</div>`);
     }
+
     info(message) {
         this.alertElementID.html(`<div class="alert text-info" role="alert">${message}</div>`);
     }
+
     danger(message) {
         this.alertElementID.html(`<div class="alert text-danger" role="alert">${message}</div>`);
     }

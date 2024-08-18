@@ -1,62 +1,6 @@
-// page link var
-const host = 'http://localhost:8000/';
-const expensesApp = "expenses-app";
-const home_Page = `${host + expensesApp}/user`;
-const login_Page = `${host + expensesApp}/login`;
-const in_add_Page = `${host + expensesApp}/in/add`;
-const in_list_Page = `${host + expensesApp}/in/list`;
-const in_view_Page = `${host + expensesApp}/in/single-view`;
+
 // dont remove this var
 let revoke_;
-// api link
-const apiLink = {
-    isValid: `${host}api/user/isValid`,
-    login: `${host}api/user/login`,
-    register: `${host}api/user/register`,
-    in_add: `${host}api/expenses_app/in/add`,
-    out_add: `${host}api/expenses_app/out/add`,
-    incomeList_url: `${host}api/expenses_app/in/list/`,
-    expensesList_url: `${host}api/expenses_app/out/list/`
-}
-const isValidLik = `${host}api/user/isValid`;
-const loginLik = `${host}api/user/login`;
-const in_add_api = `${host}api/expenses_app/in/add`;
-
-function getCurrentYear() {
-    const d = new Date();
-    return d.getFullYear();
-}
-
-function to_home() {
-    window.location.href = home_Page;
-}
-
-function to_profile() {
-    window.location.href = `${home_Page}/profile`;
-}
-
-function to_settings() {
-    window.location.href = home_Page + "/settings";
-}
-
-function to_contact() {
-    window.location.href = home_Page + "/contact";
-}
-
-function logout() {
-    revoke_()
-    setToken('null');
-    window.location.href = login_Page;
-}
-
-function setToken(key) {
-    sessionStorage.setItem(`${host}key`, key);
-}
-
-function getToken() {
-    return sessionStorage.getItem(`${host}key`);
-}
-
 
 $(document).ready(async function () {
     let server = new serverRQ();
@@ -411,27 +355,6 @@ class DataList {
         this.loading = $('#loadingIcon');
     }
 
-    // async add() {
-    //     let date = $("#date").val();
-    //     let details = $("#details").val();
-    //     let amount = $("#amount").val();
-    //     let remarks = $("#remarks").val();
-    //
-    //     const formData = new FormData();
-    //     formData.append("date", date);
-    //     formData.append("details", details);
-    //     formData.append("amount", amount);
-    //     formData.append("remarks", remarks);
-    //     const server = new serverRQ(apiLink.out_add, 'GET', formData, false);
-    //     //server.url=apiLink.out_add;
-    //
-    //     //server.data=formData;
-    //     server.send_();
-    //     await console.log(server.response);
-    //
-    //     console.log(details);
-    // }
-
     viewList(link) {
         this.refresh.css('display', 'none');
         this.loading.prop('hidden', false);
@@ -466,106 +389,6 @@ class DataList {
 
 }
 
-class serverRequest {
-    url;
-    success;
-    response;
-    message;
-    method;
-    data;
 
-    async xPost() {
-        let result;
-        await axios.post(this.url, this.data, {
-            headers: {
-                'Authorization': 'Bearer ' + getToken(),
-            }
-        })
-            .then(async function (response) {
-                //console.log(response.data);
-                result = await response.data;
-            })
-            .catch(function (error) {
-                console.log("server rq error" + error);
-            });
-        return result;
-    }
 
-    async xFetch() {
-        let result;
-        await axios.get(this.url, {
-            headers: {
-                'Authorization': 'Bearer ' + getToken(),
-            }
-        })
-            .then(async function (response) {
-                //console.log(response.data);
-                result = await response.data;
-            })
-            .catch(function (error) {
-                console.log("server rq error" + error);
-            });
-        return result;
-    }
-
-}
-
-class Button_effect  {
-    defaultButton = null;
-    processingElement = `<button id="submitBtn" type="button" class="btn btn-primary">Loading</button>`;
-    buttonID;
-    displayName;
-    loadingName = '';
-    processing = false;
-
-    constructor(ButtonID, OnLoadingName, ProcessingElement = null) {
-        this.buttonID = ButtonID;
-        this.loadingName = OnLoadingName;
-        this.processingElement = ProcessingElement;
-
-        this.defaultButton = $('#' + ButtonID);
-        this.displayName = $('#' + ButtonID).text();
-
-    }
-
-    default() {
-        this.defaultButton.text(this.displayName);
-        this.defaultButton.prop("disabled", false);
-        //this.defaultButton.parentElement.html(this.processingElement);
-    }
-
-    starProcessing() {
-        this.defaultButton.text(this.loadingName);
-        this.defaultButton.prop("disabled", true);
-    }
-
-    boot(processing) {
-        this.processing = processing;
-        if (this.processing) {
-            this.starProcessing();
-        } else {
-            this.default();
-        }
-    }
-}
-
-class AlertMessages {
-    alertElementID;
-
-    constructor(alertElementID) {
-        this.alertElementID = $('#' + alertElementID)
-    }
-
-    success(message) {
-        this.alertElementID.html(`<div class="alert text-success" role="alert">${message}</div>`);
-    }
-
-    info(message) {
-        this.alertElementID.html(`<div class="alert text-info" role="alert">${message}</div>`);
-    }
-
-    danger(message) {
-        this.alertElementID.html(`<div class="alert text-danger" role="alert">${message}</div>`);
-    }
-}
 

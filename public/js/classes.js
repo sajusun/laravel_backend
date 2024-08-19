@@ -18,7 +18,7 @@ class AlertMessages {
     }
 }
 
-class Button_effect  {
+class Button_effect {
     defaultButton = null;
     processingElement = `<button id="submitBtn" type="button" class="btn btn-primary">Loading</button>`;
     buttonID;
@@ -57,6 +57,42 @@ class Button_effect  {
     }
 }
 
+class CircularLoading {
+    defaultElement = null;
+    processingElement;
+    displayElementID;
+    processing = false;
+
+    constructor(DisplayElementID, ProcessingElementID) {
+        this.displayElementID = DisplayElementID;
+        this.processingElement = $('#' + ProcessingElementID);
+        this.defaultElement = $('#' + DisplayElementID);
+    }
+
+    default() {
+        this.defaultElement.css('display', 'block');
+        this.processingElement.css('display', 'none');
+        //this.defaultButton.parentElement.html(this.processingElement);
+    }
+
+    starProcessing() {
+        this.defaultElement.css('display', 'none');
+        this.processingElement.css('display', 'block');
+
+        // this.defaultButton.text(this.loadingName);
+        // this.defaultButton.prop("disabled", true);
+    }
+
+    boot(processing) {
+        this.processing = processing;
+        if (this.processing) {
+            this.starProcessing();
+        } else {
+            this.default();
+        }
+    }
+}
+
 class serverRequest {
     url;
     success;
@@ -82,7 +118,7 @@ class serverRequest {
         return result;
     }
 
-    async xFetch() {
+    async xGet() {
         let result;
         await axios.get(this.url, {
             headers: {
@@ -100,3 +136,6 @@ class serverRequest {
     }
 
 }
+
+
+// modal class

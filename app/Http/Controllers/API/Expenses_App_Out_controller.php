@@ -119,7 +119,7 @@ class Expenses_App_Out_controller extends Controller
      */
     public function destroy(string $id): JsonResponse
     {
-        $data = expensesApp_Out::where('id', $id)->where('user_id', Auth::user()->getAuthIdentifier())->delete();
+        $data = expensesApp_Out::where('id', $id)->where('user_id', Auth::id())->delete();
         if ($data) {
             return response()->json([
                 'success' => true,

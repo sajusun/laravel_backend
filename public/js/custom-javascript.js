@@ -1,12 +1,9 @@
-
 // dont remove this var
 let revoke_;
 
 $(document).ready(async function () {
     let server = new serverRQ();
     server.url = isValidLik;
-    //server._async = false;
-    //server.url = isValidLik;
     checkUser_();
 
     function checkUser_() {
@@ -17,30 +14,10 @@ $(document).ready(async function () {
             }
         }
 
-        // const isValid = isValidLik;
-        // let xHttp = new XMLHttpRequest();
-        // xHttp.open("GET", isValid, true);
-        // xHttp.setRequestHeader('Accept', 'Application/json');
-        // xHttp.setRequestHeader('contentType', 'json');
-        // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
-        // xHttp.onload = () => {
-        //     let data = JSON.parse(xHttp.responseText);
-        //     if (data['success'] !== true) {
-        //         if (window.location.href !== login_Page) {
-        //             window.location.href = login_Page;
-        //         }
-        //     }
-        // };
-        // xHttp.send();
     }
 
     revoke_ = function revokeUser_() {
         const revokeLink = `${host}api/user/logout`;
-        // let xHttp = new XMLHttpRequest();
-        // xHttp.open("GET", revokeLink, true);
-        // xHttp.setRequestHeader('Accept', 'Application/json');
-        // xHttp.setRequestHeader('contentType', 'json');
-        // xHttp.setRequestHeader('Authorization', 'Bearer ' + getToken());
         let revoke = new serverRQ(revokeLink);
         revoke.send_();
         if (revoke.success !== true) {
@@ -49,18 +26,6 @@ $(document).ready(async function () {
                 window.refresh();
             }
         }
-
-        // xHttp.onload = () => {
-        //     let data = JSON.parse(xHttp.responseText);
-        //     console.log(data)
-        //     if (data['success'] !== true) {
-        //         if (window.location.href !== login_Page) {
-        //             // window.location.href = login_Page;
-        //             window.refresh();
-        //         }
-        //     }
-        // };
-        // xHttp.send();
     }
 
 
@@ -79,9 +44,6 @@ $(document).ready(async function () {
     });
 });
 
-function dangerAlertBox(setElement, message) {
-    return `<div class="alert alert-danger" role="alert">${message}</div>`;
-}
 
 let div = ''
 
@@ -266,14 +228,14 @@ function list() {
         console.log(this.parentElement)
     });
 
-    c_delete.click(function () {
-        c_delete.prop("disabled", true);
-        remove_();
-    });
-    c_update.click(function () {
-        updateElement();
-        update_();
-    });
+    // c_delete.click(function () {
+    //     c_delete.prop("disabled", true);
+    //     remove_();
+    // });
+    // c_update.click(function () {
+    //     updateElement();
+    //     update_();
+    // });
 
     //   button effect function
     function updateElement(status = '') {
@@ -303,12 +265,12 @@ function list() {
     }
 
     // on click refresh button
-    refresh.click(function () {
-        fetchIncome();
-    });
+    // refresh.click(function () {
+    //     fetchIncome();
+    // });
 
     // call function on document is loaded
-   // fetchIncome();
+    // fetchIncome();
 }
 
 // server request class
@@ -348,6 +310,8 @@ class DataList {
     tbody;
     refresh;
     loading;
+    circularBtn = new CircularLoading('refreshIcon', 'loadingIcon')
+    fetch = new serverRequest();
 
     constructor() {
         this.tbody = $('#t_body');
@@ -356,13 +320,11 @@ class DataList {
     }
 
     viewList(link) {
-        this.refresh.css('display', 'none');
-        this.loading.prop('hidden', false);
+        this.circularBtn.starProcessing();
         let element = "";
-        let fetch = new serverRequest();
-        fetch.url = link;
+        this.fetch.url = link;
         const self = this;
-        fetch.xFetch().then(function (response) {
+        this.fetch.xGet().then(function (response) {
             self.tbody.empty();
             let list = response.data;
             if (response.success) {
@@ -380,13 +342,181 @@ class DataList {
 </tr>`;
                 }
                 self.tbody.append(element);
-                //}
-                self.loading.prop("hidden", true);
-                self.refresh.css('display', 'block');
+                self.circularBtn.default();
             }
         });
     }
 
+}
+
+
+class Income extends DataList {
+    addLink = apiLink.in_add;
+    listLink = apiLink.incomeList_url;
+    deleteM = new DeleteModal();
+    updateM=new UpdateModal();
+
+    viewData() {
+        $("#t_body").on('click', '.clickable', function () {
+            window.location.href = in_view_Page;
+            console.log(this.parentElement)
+        });
+        $('#refreshIcon').click(() => {
+            this.#getData();
+        });
+        this.#getData();
+        this.#modalFunc();
+    }
+
+    #modalFunc() {
+        let self = this;
+        $("tbody").click(function (event) {
+            if (event.target.classList[2] === "delete") {
+                self.deleteM.show(event.target);
+            }
+            if (event.target.classList[2] === "update") {
+                self.updateM.show(event.target);
+            }
+            // div = event.target;
+        });
+        self.deleteM.deleteProcess(this.listLink);
+        self.updateM.updateProcess(this.listLink);
+    }
+    #getData() {
+        this.viewList(this.listLink);
+    }
+
+}
+
+class Expenses extends DataList {
+    addLink = apiLink.out_add;
+    listLink = apiLink.expensesList_url;
+    deleteM = new DeleteModal();
+    updateM=new UpdateModal();
+
+    viewData() {
+        $("#t_body").on('click', '.clickable', function () {
+            window.location.href = in_view_Page;
+            console.log(this.parentElement)
+        });
+        $('#refreshIcon').click(() => {
+            this.#getData();
+        });
+        this.#getData();
+        this.#modalFunc();
+    }
+
+    #modalFunc() {
+        let self = this;
+        $("tbody").click(function (event) {
+            if (event.target.classList[2] === "delete") {
+                self.deleteM.show(event.target);
+            }
+            if (event.target.classList[2] === "update") {
+                self.updateM.show(event.target);
+            }
+            // div = event.target;
+        });
+        self.deleteM.deleteProcess(this.listLink);
+        self.updateM.updateProcess(this.listLink);
+    }
+    #getData() {
+        this.viewList(this.listLink);
+    }
+
+}
+
+class DeleteModal extends DataList {
+    delete_modal = new bootstrap.Modal('#deleteModal');
+    btn_effect= new Button_effect('c_delete','Deleting');
+    deleteModalID = $('#deleteModal');
+    modalTitle = $('#deleteModalLabel');
+    mgsArea = $('#deleteMgs');
+    id;
+    c_delete = $('#c_delete');
+    server = new serverRequest();
+
+    show(tabKey) {
+        const columnId = tabKey.parentElement.parentElement.firstElementChild.innerText
+        this.id = tabKey.parentElement.parentElement.id;
+        if (this.delete_modal) {
+            this.modalTitle.text(`Select Column No : ${columnId}`);
+            this.mgsArea.text("Confirm to Delete!");
+            this.delete_modal.show();
+        }
+    }
+
+    deleteProcess(link) {
+        this.c_delete.click(() => {
+            this.btn_effect.starProcessing();
+            console.log('hello')
+            const deleteLink = `${link + this.id}/delete`;
+            let remove = new serverRQ(deleteLink, 'GET');
+            remove.send_();
+            if (!remove.success) {
+                this.c_delete.prop("disabled", false);
+            }
+            this.viewList(link)
+            this.mgsArea.text(remove.message);
+            this.btn_effect.default();
+        })
+    }
+}
+
+class UpdateModal extends DataList{
+    btn_effect= new Button_effect('c_update','Updating');
+    update_modal = new bootstrap.Modal('#updateModal');
+    updateModalID = $('#updateModal');
+    updateModalTitle = $('#updateModalLabel');
+    c_update = $('#c_update');
+    updateStatus = $('#updateStatus');
+
+    dateInput = $("#date");
+    detailsInput = $("#details");
+    amountInput = $("#amount");
+    remarksInput = $("#remarks");
+    id;
+
+    show(tabKey){
+        this.id = tabKey.parentElement.parentElement.id;
+        let index = tabKey.parentElement.parentElement.children[0].innerText;
+        let date = tabKey.parentElement.parentElement.children[1].innerText;
+        let details = tabKey.parentElement.parentElement.children[2].innerText;
+        let amount = tabKey.parentElement.parentElement.children[3].innerText;
+        let remarks = tabKey.parentElement.parentElement.children[4].innerText;
+        if (this.update_modal) {
+            this.updateModalTitle.text(`Select Column No : ${index}`);
+            this.dateInput.val(date);
+            this.detailsInput.val(details);
+            this.amountInput.val(amount);
+            this.remarksInput.val(remarks);
+            this.update_modal.show();
+        }
+
+    }
+    updateProcess(link) {
+        this.c_update.click(()=>{
+            this.btn_effect.starProcessing();
+            console.log('up')
+            const updateLink = `${link + this.id}/update`;
+            const formData = new FormData();
+            formData.append("date", this.dateInput.val());
+            formData.append("details", this.detailsInput.val());
+            formData.append("amount", this.amountInput.val());
+            formData.append("remarks", this.remarksInput.val());
+            let update = new serverRQ(updateLink, 'POST', formData);
+            console.log(update)
+            update.send_();
+            if (!update.success) {
+                this.updateStatus.text(update.message);
+            } else {
+                this.updateStatus.text(update.message);
+            }
+            this.viewList(link);
+            this.btn_effect.default();
+        })
+
+    }
 }
 
 

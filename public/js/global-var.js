@@ -26,6 +26,7 @@ const apiLink = {
 function getCurrentYear() {
     const d = new Date();
     return d.getFullYear();
+
 }
 
 function to_home() {
@@ -50,8 +51,18 @@ function logout() {
     window.location.href = login_Page;
 }
 
+const token = {
+    set(key) {
+        sessionStorage.setItem(`${host}key`, key);
+    },
+    get() {
+        return sessionStorage.getItem(`${host}key`);
+    }
+}
+
 function setToken(key) {
     sessionStorage.setItem(`${host}key`, key);
+
 }
 
 function getToken() {

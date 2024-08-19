@@ -36,16 +36,16 @@ Route::group(['middleware' => 'apiUser:api'], function () {
 });
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::any('expenses_app/in/list/',[Expenses_App_In_controller::class,'index']);
-    Route::any('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
+    Route::post('expenses_app/in/add',[Expenses_App_In_controller::class,'store']);
     Route::get('expenses_app/in/list/{id}/view',[Expenses_App_In_controller::class,'show']);
     Route::post('expenses_app/in/list/{id}/update',[Expenses_App_In_controller::class,'update']);
     Route::get('expenses_app/in/list/{id}/delete',[Expenses_App_In_controller::class,'destroy']);
 
-    Route::any('expenses_app/out/add',[Expenses_App_Out_controller::class,'store']);
-    Route::any('expenses_app/out/list/',[Expenses_App_Out_controller::class,'index']);
+    Route::post('expenses_app/out/add',[Expenses_App_Out_controller::class,'store']);
+    Route::get('expenses_app/out/list/',[Expenses_App_Out_controller::class,'index']);
     Route::get('expenses_app/out/list/{id}/view',[Expenses_App_Out_controller::class,'show']);
-    Route::patch('expenses_app/out/list/{id}/update',[Expenses_App_Out_controller::class,'update']);
-    Route::delete('expenses_app/out/list/{id}/delete',[Expenses_App_Out_controller::class,'delete']);
+    Route::post('expenses_app/out/list/{id}/update',[Expenses_App_Out_controller::class,'update']);
+    Route::get('expenses_app/out/list/{id}/delete',[Expenses_App_Out_controller::class,'destroy']);
 });
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user/logout',[apiUser::class,'destroy']);

@@ -15,3 +15,6 @@ table thead,tbody {
     margin: 10px;
     font-variant: all-small-caps;
 }
+.material-icons{
+    width: min-content;
+}

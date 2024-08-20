@@ -5,11 +5,12 @@ const home_Page = `${host + expensesApp}/user`;
 const login_Page = `${host + expensesApp}/login`;
 const in_add_Page = `${host + expensesApp}/in/add`;
 const in_list_Page = `${host + expensesApp}/in/list`;
-const in_view_Page = `${host + expensesApp}/in/single-view`;
+const in_view_Page = `${host + expensesApp}/in/view`;
 
 const isValidLik = `${host}api/user/isValid`;
 const loginLik = `${host}api/user/login`;
 const in_add_api = `${host}api/expenses_app/in/add`;
+
 
 // api link
 const apiLink = {
@@ -21,6 +22,21 @@ const apiLink = {
     incomeList_url: `${host}api/expenses_app/in/list/`,
     expensesList_url: `${host}api/expenses_app/out/list/`
 }
+methods={
+    // this method route data view page dynamically
+    go2singlePage(pageLink){
+        $("#t_body").on('click', '.clickable', function () {
+            window.location.href = `${window.location.href}/${this.parentElement.id}/view`;
+            console.log(this.parentElement.id)
+        });
+    },
+    // button effects
+      buttonEffect:{
+        delete(){return new Button_effect('c_delete', 'Deleting')},
+        update(){return new Button_effect('c_update', 'Updating')},
+    }
+}
+
 
 
 function getCurrentYear() {

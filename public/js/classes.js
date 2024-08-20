@@ -20,26 +20,27 @@ class AlertMessages {
 
 class Button_effect {
     defaultButton = null;
-    processingElement = `<button id="submitBtn" type="button" class="btn btn-primary">Loading</button>`;
     buttonID;
     displayName;
     loadingName = '';
     processing = false;
 
-    constructor(ButtonID, OnLoadingName, ProcessingElement = null) {
+    constructor(ButtonID, OnLoadingName) {
         this.buttonID = ButtonID;
         this.loadingName = OnLoadingName;
-        this.processingElement = ProcessingElement;
-
         this.defaultButton = $('#' + ButtonID);
         this.displayName = $('#' + ButtonID).text();
-
     }
 
     default() {
-        this.defaultButton.text(this.displayName);
-        this.defaultButton.prop("disabled", false);
-        //this.defaultButton.parentElement.html(this.processingElement);
+        if (this.processing) {
+            this.defaultButton.text(this.displayName);
+            this.defaultButton.prop("disabled", false);
+            //this.defaultButton.parentElement.html(this.processingElement);
+        }else{
+            this.defaultButton.text(this.displayName);
+            this.defaultButton.prop("disabled", true);
+        }
     }
 
     starProcessing() {

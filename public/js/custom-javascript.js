@@ -49,159 +49,159 @@ let div = ''
 
 function list() {
 
-    let container = $('.container');
-    // modal item var
-    const delete_modal = new bootstrap.Modal('#deleteModal');
-    const deleteModalID = $('#deleteModal');
-    const modalTitle = $('#deleteModalLabel');
-    const mgsArea = $('#deleteMgs');
-    const c_delete = $('#c_delete');
+    // let container = $('.container');
+    // // modal item var
+    // const delete_modal = new bootstrap.Modal('#deleteModal');
+    // const deleteModalID = $('#deleteModal');
+    // const modalTitle = $('#deleteModalLabel');
+    // const mgsArea = $('#deleteMgs');
+    // const c_delete = $('#c_delete');
 
-    // update modal var
-    const update_modal = new bootstrap.Modal('#updateModal');
-    const updateModalID = $('#updateModal');
-    const updateModalTitle = $('#updateModalLabel');
-    const c_update = $('#c_update');
-    const updateStatus = $('#updateStatus');
-
-    let dateInput = $("#date");
-    let detailsInput = $("#details");
-    let amountInput = $("#amount");
-    let remarksInput = $("#remarks");
+    // // update modal var
+    // const update_modal = new bootstrap.Modal('#updateModal');
+    // const updateModalID = $('#updateModal');
+    // const updateModalTitle = $('#updateModalLabel');
+    // const c_update = $('#c_update');
+    // const updateStatus = $('#updateStatus');
+    //
+    // let dateInput = $("#date");
+    // let detailsInput = $("#details");
+    // let amountInput = $("#amount");
+    // let remarksInput = $("#remarks");
 
     //
-    let incomeList_url = `${host}api/expenses_app/in/list/`;
-    let expensesList_url = `${host}api/expenses_app/in/list/`;
-    let id = '';
-    let tbody = $('#t_body');
-    let refresh = $('#refreshIcon');
-    let loading = $('#loadingIcon');
+    // let incomeList_url = `${host}api/expenses_app/in/list/`;
+    // let expensesList_url = `${host}api/expenses_app/in/list/`;
+    // let id = '';
+    // let tbody = $('#t_body');
+    // let refresh = $('#refreshIcon');
+    // let loading = $('#loadingIcon');
 
     // fetch data from server
-    function fetchIncome() {
-        // refresh.prop('hidden', true);
-        refresh.css('display', 'none');
-        loading.prop('hidden', false);
-        let element = "";
-        let fetch_i = new serverRQ();
-        fetch_i.url = incomeList_url;
-        fetch_i.send_();
-        let list = fetch_i.response.data;
-        if (fetch_i.success) {
-            for (let i = 0; i < list.length; i++) {
-                element += `<tr id='${list[i].id}'>
-<td class='clickable'> ${i + 1} </td>
-<td class='clickable'> ${list[i].date} </td>
-<td class='clickable'> ${list[i].details}</td>
- <td class='clickable'>${list[i].amount}</td>
- <td class='clickable'>${list[i].remarks}</td>
-<td class='d-flex justify-content-between'>
-<i type='button' class='material-icons text-secondary update'>edit_square</i>
-<i type='button' class='material-icons text-danger delete'>delete</i>
-</td>
-</tr>`;
-            }
-            tbody.empty();
-            tbody.append(element);
-            //}
-            loading.prop("hidden", true);
-            refresh.css('display', 'block');
-        }
-    } // end fetch data function
-    function fetchExpenses() {
-        // refresh.prop('hidden', true);
-        refresh.css('display', 'none');
-        loading.prop('hidden', false);
-        let element = "";
-        let fetch = new serverRQ(expensesList_url);
-        fetch.send_();
-
-        let list = fetch.response.data
-        if (fetch.success) {
-            for (let i = 0; i < list.length; i++) {
-                element += `<tr id='${list[i].id}'>
-<td class='clickable'> ${i + 1} </td>
-<td class='clickable'> ${list[i].date} </td>
-<td class='clickable'> ${list[i].details}</td>
- <td class='clickable'>${list[i].amount}</td>
- <td class='clickable'>${list[i].remarks}</td>
-<td class='d-flex justify-content-between'>
-<i type='button' class='material-icons text-secondary update'>edit_square</i>
-<i type='button' class='material-icons text-danger delete'>delete</i>
-</td>
-</tr>`;
-            }
-            tbody.empty();
-            tbody.append(element);
-            //}
-            loading.prop("hidden", true);
-            refresh.css('display', 'block');
-        }
-        // xHttp.send();
-    } // end fetch data function
+//     function fetchIncome() {
+//         // refresh.prop('hidden', true);
+//         refresh.css('display', 'none');
+//         loading.prop('hidden', false);
+//         let element = "";
+//         let fetch_i = new serverRQ();
+//         fetch_i.url = incomeList_url;
+//         fetch_i.send_();
+//         let list = fetch_i.response.data;
+//         if (fetch_i.success) {
+//             for (let i = 0; i < list.length; i++) {
+//                 element += `<tr id='${list[i].id}'>
+// <td class='clickable'> ${i + 1} </td>
+// <td class='clickable'> ${list[i].date} </td>
+// <td class='clickable'> ${list[i].details}</td>
+//  <td class='clickable'>${list[i].amount}</td>
+//  <td class='clickable'>${list[i].remarks}</td>
+// <td class='d-flex justify-content-between'>
+// <i type='button' class='material-icons text-secondary update'>edit_square</i>
+// <i type='button' class='material-icons text-danger delete'>delete</i>
+// </td>
+// </tr>`;
+//             }
+//             tbody.empty();
+//             tbody.append(element);
+//             //}
+//             loading.prop("hidden", true);
+//             refresh.css('display', 'block');
+//         }
+//     } // end fetch data function
+//     function fetchExpenses() {
+//         // refresh.prop('hidden', true);
+//         refresh.css('display', 'none');
+//         loading.prop('hidden', false);
+//         let element = "";
+//         let fetch = new serverRQ(expensesList_url);
+//         fetch.send_();
+//
+//         let list = fetch.response.data
+//         if (fetch.success) {
+//             for (let i = 0; i < list.length; i++) {
+//                 element += `<tr id='${list[i].id}'>
+// <td class='clickable'> ${i + 1} </td>
+// <td class='clickable'> ${list[i].date} </td>
+// <td class='clickable'> ${list[i].details}</td>
+//  <td class='clickable'>${list[i].amount}</td>
+//  <td class='clickable'>${list[i].remarks}</td>
+// <td class='d-flex justify-content-between'>
+// <i type='button' class='material-icons text-secondary update'>edit_square</i>
+// <i type='button' class='material-icons text-danger delete'>delete</i>
+// </td>
+// </tr>`;
+//             }
+//             tbody.empty();
+//             tbody.append(element);
+//             //}
+//             loading.prop("hidden", true);
+//             refresh.css('display', 'block');
+//         }
+//         // xHttp.send();
+//     } // end fetch data function
     // request update data to server
 
-    function update_() {
-        const updateLink = `${incomeList_url + id}/update`;
-        const formData = new FormData();
-        formData.append("date", dateInput.val());
-        formData.append("details", detailsInput.val());
-        formData.append("amount", amountInput.val());
-        formData.append("remarks", remarksInput.val());
-        let update = new serverRQ(updateLink, 'POST', formData);
-        console.log(update)
-        update.send_();
-        if (!update.success) {
-            updateStatus.text(update.message);
-            updateElement('default');
-        } else {
-            updateStatus.text(update.message);
-            updateElement('success');
-        }
-        fetchIncome();
-    }
+    // function update_() {
+    //     const updateLink = `${incomeList_url + id}/update`;
+    //     const formData = new FormData();
+    //     formData.append("date", dateInput.val());
+    //     formData.append("details", detailsInput.val());
+    //     formData.append("amount", amountInput.val());
+    //     formData.append("remarks", remarksInput.val());
+    //     let update = new serverRQ(updateLink, 'POST', formData);
+    //     console.log(update)
+    //     update.send_();
+    //     if (!update.success) {
+    //         updateStatus.text(update.message);
+    //         updateElement('default');
+    //     } else {
+    //         updateStatus.text(update.message);
+    //         updateElement('success');
+    //     }
+    //     fetchIncome();
+    // }
 
     // request remove data to server
-    function remove_() {
-        c_delete.prop("disabled", true);
-        const deleteLink = `${incomeList_url + id}/delete`;
-        let remove = new serverRQ(deleteLink, 'GET');
-        remove.send_();
-        if (!remove.success) {
-            c_delete.prop("disabled", false);
-        }
-        mgsArea.text(remove.message);
-        fetchIncome();
-    }
+    // function remove_() {
+    //     c_delete.prop("disabled", true);
+    //     const deleteLink = `${incomeList_url + id}/delete`;
+    //     let remove = new serverRQ(deleteLink, 'GET');
+    //     remove.send_();
+    //     if (!remove.success) {
+    //         c_delete.prop("disabled", false);
+    //     }
+    //     mgsArea.text(remove.message);
+    //     fetchIncome();
+    // }
 
     // execute delete modal on delete icon click
-    function deleteModal(tabKey) {
-        const columnId = tabKey.parentElement.parentElement.firstElementChild.innerText
-        id = tabKey.parentElement.parentElement.id;
-        if (delete_modal) {
-            modalTitle.text(`Select Column No : ${columnId}`);
-            mgsArea.text("Confirm to Delete!");
-            delete_modal.show();
-        }
-    }
-
-    // execute update modal on delete icon click
-    function updateModal(tabKey) {
-        id = tabKey.parentElement.parentElement.id;
-        let index = tabKey.parentElement.parentElement.children[0].innerText;
-        let date = tabKey.parentElement.parentElement.children[1].innerText;
-        let details = tabKey.parentElement.parentElement.children[2].innerText;
-        let amount = tabKey.parentElement.parentElement.children[3].innerText;
-        let remarks = tabKey.parentElement.parentElement.children[4].innerText;
-        if (update_modal) {
-            updateModalTitle.text(`Select Column No : ${index}`);
-            dateInput.val(date);
-            detailsInput.val(details);
-            amountInput.val(amount);
-            remarksInput.val(remarks);
-            update_modal.show();
-        }
-    }
+    // function deleteModal(tabKey) {
+    //     const columnId = tabKey.parentElement.parentElement.firstElementChild.innerText
+    //     id = tabKey.parentElement.parentElement.id;
+    //     if (delete_modal) {
+    //         modalTitle.text(`Select Column No : ${columnId}`);
+    //         mgsArea.text("Confirm to Delete!");
+    //         delete_modal.show();
+    //     }
+    // }
+    //
+    // // execute update modal on delete icon click
+    // function updateModal(tabKey) {
+    //     id = tabKey.parentElement.parentElement.id;
+    //     let index = tabKey.parentElement.parentElement.children[0].innerText;
+    //     let date = tabKey.parentElement.parentElement.children[1].innerText;
+    //     let details = tabKey.parentElement.parentElement.children[2].innerText;
+    //     let amount = tabKey.parentElement.parentElement.children[3].innerText;
+    //     let remarks = tabKey.parentElement.parentElement.children[4].innerText;
+    //     if (update_modal) {
+    //         updateModalTitle.text(`Select Column No : ${index}`);
+    //         dateInput.val(date);
+    //         detailsInput.val(details);
+    //         amountInput.val(amount);
+    //         remarksInput.val(remarks);
+    //         update_modal.show();
+    //     }
+    // }
 
     // after modal dispose auto run
     deleteModalID.on('hidden.bs.modal', function () {
@@ -213,16 +213,16 @@ function list() {
         fetchIncome();
     });
 
-    $("tbody").click(function (event) {
-        //console.log(event.target);
-        if (event.target.classList[2] === "delete") {
-            deleteModal(event.target);
-        }
-        if (event.target.classList[2] === "update") {
-            updateModal(event.target);
-        }
-        // div = event.target;
-    });
+    // $("tbody").click(function (event) {
+    //     //console.log(event.target);
+    //     if (event.target.classList[2] === "delete") {
+    //         deleteModal(event.target);
+    //     }
+    //     if (event.target.classList[2] === "update") {
+    //         updateModal(event.target);
+    //     }
+    //     // div = event.target;
+    // });
     $("#t_body").on('click', '.clickable', function () {
         window.location.href = in_view_Page;
         console.log(this.parentElement)
@@ -264,13 +264,6 @@ function list() {
         }
     }
 
-    // on click refresh button
-    // refresh.click(function () {
-    //     fetchIncome();
-    // });
-
-    // call function on document is loaded
-    // fetchIncome();
 }
 
 // server request class
@@ -354,13 +347,10 @@ class Income extends DataList {
     addLink = apiLink.in_add;
     listLink = apiLink.incomeList_url;
     deleteM = new DeleteModal();
-    updateM=new UpdateModal();
+    updateM = new UpdateModal();
 
     viewData() {
-        $("#t_body").on('click', '.clickable', function () {
-            window.location.href = in_view_Page;
-            console.log(this.parentElement)
-        });
+        methods.go2singlePage();
         $('#refreshIcon').click(() => {
             this.#getData();
         });
@@ -377,11 +367,11 @@ class Income extends DataList {
             if (event.target.classList[2] === "update") {
                 self.updateM.show(event.target);
             }
-            // div = event.target;
         });
         self.deleteM.deleteProcess(this.listLink);
         self.updateM.updateProcess(this.listLink);
     }
+
     #getData() {
         this.viewList(this.listLink);
     }
@@ -392,13 +382,10 @@ class Expenses extends DataList {
     addLink = apiLink.out_add;
     listLink = apiLink.expensesList_url;
     deleteM = new DeleteModal();
-    updateM=new UpdateModal();
+    updateM = new UpdateModal();
 
     viewData() {
-        $("#t_body").on('click', '.clickable', function () {
-            window.location.href = in_view_Page;
-            console.log(this.parentElement)
-        });
+        methods.go2singlePage();
         $('#refreshIcon').click(() => {
             this.#getData();
         });
@@ -420,6 +407,7 @@ class Expenses extends DataList {
         self.deleteM.deleteProcess(this.listLink);
         self.updateM.updateProcess(this.listLink);
     }
+
     #getData() {
         this.viewList(this.listLink);
     }
@@ -428,10 +416,10 @@ class Expenses extends DataList {
 
 class DeleteModal extends DataList {
     delete_modal = new bootstrap.Modal('#deleteModal');
-    btn_effect= new Button_effect('c_delete','Deleting');
+    // btn_effect = new Button_effect('c_delete', 'Deleting');
     deleteModalID = $('#deleteModal');
     modalTitle = $('#deleteModalLabel');
-    mgsArea = $('#deleteMgs');
+    response_status = $('#response_status');
     id;
     c_delete = $('#c_delete');
     server = new serverRequest();
@@ -441,30 +429,34 @@ class DeleteModal extends DataList {
         this.id = tabKey.parentElement.parentElement.id;
         if (this.delete_modal) {
             this.modalTitle.text(`Select Column No : ${columnId}`);
-            this.mgsArea.text("Confirm to Delete!");
+            this.response_status.text("Confirm to Delete!");
             this.delete_modal.show();
         }
     }
 
     deleteProcess(link) {
         this.c_delete.click(() => {
-            this.btn_effect.starProcessing();
-            console.log('hello')
+            let btn_effect=methods.buttonEffect.delete();
+            btn_effect.starProcessing();
+            let responseMgs = new AlertMessages('response_status');
             const deleteLink = `${link + this.id}/delete`;
-            let remove = new serverRQ(deleteLink, 'GET');
-            remove.send_();
-            if (!remove.success) {
-                this.c_delete.prop("disabled", false);
-            }
-            this.viewList(link)
-            this.mgsArea.text(remove.message);
-            this.btn_effect.default();
+            const server= new serverRequest();
+            server.url=deleteLink;
+            server.xGet().then((response)=>{
+                if (!response.success){
+                    btn_effect.processing=true;
+                }
+                console.log(btn_effect.processing)
+                this.viewList(link)
+                btn_effect.default()
+                this.response_status.text(response.message)
+            })
         })
     }
 }
 
-class UpdateModal extends DataList{
-    btn_effect= new Button_effect('c_update','Updating');
+class UpdateModal extends DataList {
+    // btn_effect = new Button_effect('c_update', 'Updating');
     update_modal = new bootstrap.Modal('#updateModal');
     updateModalID = $('#updateModal');
     updateModalTitle = $('#updateModalLabel');
@@ -477,7 +469,7 @@ class UpdateModal extends DataList{
     remarksInput = $("#remarks");
     id;
 
-    show(tabKey){
+    show(tabKey) {
         this.id = tabKey.parentElement.parentElement.id;
         let index = tabKey.parentElement.parentElement.children[0].innerText;
         let date = tabKey.parentElement.parentElement.children[1].innerText;
@@ -494,10 +486,11 @@ class UpdateModal extends DataList{
         }
 
     }
+
     updateProcess(link) {
-        this.c_update.click(()=>{
-            this.btn_effect.starProcessing();
-            console.log('up')
+        this.c_update.click(() => {
+            // this.btn_effect.starProcessing();
+            // console.log('up')
             const updateLink = `${link + this.id}/update`;
             const formData = new FormData();
             formData.append("date", this.dateInput.val());
@@ -513,7 +506,7 @@ class UpdateModal extends DataList{
                 this.updateStatus.text(update.message);
             }
             this.viewList(link);
-            this.btn_effect.default();
+            //this.btn_effect.default();
         })
 
     }

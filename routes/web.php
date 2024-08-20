@@ -45,8 +45,11 @@ Route::get('expenses-app/in/list', function () {
 Route::get('expenses-app/out/list', function () {
     return view('expensesApp.pages.expenses_out');
 });
-Route::get('expenses-app/in/single-view', function () {
-    return view('expensesApp.layout.pages.singleView');
+Route::get('expenses-app/out/list/{id}/view', function () {
+    return view('expensesApp.pages.single_view');
+});
+Route::get('expenses-app/in/list/{id}/view', function () {
+    return view('expensesApp.pages.single_view');
 });
 Route::get('expenses-app/in/add', function () {
     return view('expensesApp.pages.expenses_in_add');

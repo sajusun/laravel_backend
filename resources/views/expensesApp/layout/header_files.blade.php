@@ -6,8 +6,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="{{asset('/js/global-var.js')}}"></script>
 <script src="{{asset('/js/classes.js')}}"></script>
+<script src="{{asset('/js/global-var.js')}}"></script>
 
 <link rel="stylesheet" href="{{asset('/css/bootstrap.css')}}">
 <link rel="stylesheet" href="{{asset('/css/font-awesome.min.css')}}">

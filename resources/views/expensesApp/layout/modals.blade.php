@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p id="deleteMgs" class="text-info">Delete Success</p>
+                <p id="response_status" class="text-info">Delete Success</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
@@ -57,7 +57,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <span id="updateStatus"></span>
+                <span id="response_status"></span>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button id="c_update" type="button" class="btn btn-outline-primary">Update</button>
             </div>

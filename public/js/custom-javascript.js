@@ -223,10 +223,10 @@ function list() {
     //     }
     //     // div = event.target;
     // });
-    $("#t_body").on('click', '.clickable', function () {
-        window.location.href = in_view_Page;
-        console.log(this.parentElement)
-    });
+    // $("#t_body").on('click', '.clickable', function () {
+    //     window.location.href = in_view_Page;
+    //     console.log(this.parentElement)
+    // });
 
     // c_delete.click(function () {
     //     c_delete.prop("disabled", true);
@@ -350,10 +350,10 @@ class Income extends DataList {
     updateM = new UpdateModal();
 
     viewData() {
-        methods.go2singlePage();
         $('#refreshIcon').click(() => {
             this.#getData();
         });
+        methods.go2singlePage();
         this.#getData();
         this.#modalFunc();
     }
@@ -368,6 +368,7 @@ class Income extends DataList {
                 self.updateM.show(event.target);
             }
         });
+
         self.deleteM.deleteProcess(this.listLink);
         self.updateM.updateProcess(this.listLink);
     }
@@ -402,8 +403,9 @@ class Expenses extends DataList {
             if (event.target.classList[2] === "update") {
                 self.updateM.show(event.target);
             }
-            // div = event.target;
         });
+        self.deleteM.modalOnClose();
+        self.updateM.modalOnClose();
         self.deleteM.deleteProcess(this.listLink);
         self.updateM.updateProcess(this.listLink);
     }
@@ -416,7 +418,8 @@ class Expenses extends DataList {
 
 class DeleteModal extends DataList {
     delete_modal = new bootstrap.Modal('#deleteModal');
-    // btn_effect = new Button_effect('c_delete', 'Deleting');
+    btn_effect=methods.buttonEffect.delete();
+
     deleteModalID = $('#deleteModal');
     modalTitle = $('#deleteModalLabel');
     response_status = $('#response_status');
@@ -432,27 +435,33 @@ class DeleteModal extends DataList {
             this.response_status.text("Confirm to Delete!");
             this.delete_modal.show();
         }
+
+    }
+    modalOnClose(){
+        let self=this;
+        this.deleteModalID.on('hidden.bs.modal', function () {
+            self.btn_effect.default();
+        });
     }
 
     deleteProcess(link) {
         this.c_delete.click(() => {
-            let btn_effect=methods.buttonEffect.delete();
-            btn_effect.starProcessing();
+            this.btn_effect.starProcessing();
             let responseMgs = new AlertMessages('response_status');
             const deleteLink = `${link + this.id}/delete`;
             const server= new serverRequest();
             server.url=deleteLink;
             server.xGet().then((response)=>{
                 if (!response.success){
-                    btn_effect.processing=true;
+                    this.btn_effect.default()
                 }
-                console.log(btn_effect.processing)
                 this.viewList(link)
-                btn_effect.default()
+                this.btn_effect.disabled()
                 this.response_status.text(response.message)
             })
         })
     }
+
 }
 
 class UpdateModal extends DataList {
@@ -485,6 +494,12 @@ class UpdateModal extends DataList {
             this.update_modal.show();
         }
 
+    }
+    modalOnClose(){
+        let self=this;
+        this.updateModalID.on('hidden.bs.modal', function () {
+            self.btn_effect.default();
+        });
     }
 
     updateProcess(link) {

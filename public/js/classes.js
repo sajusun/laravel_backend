@@ -33,14 +33,8 @@ class Button_effect {
     }
 
     default() {
-        if (this.processing) {
-            this.defaultButton.text(this.displayName);
-            this.defaultButton.prop("disabled", false);
-            //this.defaultButton.parentElement.html(this.processingElement);
-        }else{
-            this.defaultButton.text(this.displayName);
-            this.defaultButton.prop("disabled", true);
-        }
+        this.defaultButton.text(this.displayName);
+        this.defaultButton.prop("disabled", false);
     }
 
     starProcessing() {
@@ -48,13 +42,9 @@ class Button_effect {
         this.defaultButton.prop("disabled", true);
     }
 
-    boot(processing) {
-        this.processing = processing;
-        if (this.processing) {
-            this.starProcessing();
-        } else {
-            this.default();
-        }
+    disabled() {
+        this.defaultButton.text(this.displayName);
+        this.defaultButton.prop("disabled", true);
     }
 }
 

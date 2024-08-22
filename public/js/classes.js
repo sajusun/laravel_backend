@@ -19,32 +19,32 @@ class AlertMessages {
 }
 
 class Button_effect {
-    defaultButton = null;
+    #defaultButton = null;
     buttonID;
-    displayName;
+    #displayName;
     loadingName = '';
-    processing = false;
+    _processing = false;
 
     constructor(ButtonID, OnLoadingName) {
         this.buttonID = ButtonID;
         this.loadingName = OnLoadingName;
-        this.defaultButton = $('#' + ButtonID);
-        this.displayName = $('#' + ButtonID).text();
+        this.#defaultButton = $('#' + ButtonID);
+        this.#displayName = $('#' + ButtonID).text();
     }
 
     default() {
-        this.defaultButton.text(this.displayName);
-        this.defaultButton.prop("disabled", false);
+        this.#defaultButton.text(this.#displayName);
+        this.#defaultButton.prop("disabled", false);
     }
 
     starProcessing() {
-        this.defaultButton.text(this.loadingName);
-        this.defaultButton.prop("disabled", true);
+        this.#defaultButton.text(this.loadingName);
+        this.#defaultButton.prop("disabled", true);
     }
 
     disabled() {
-        this.defaultButton.text(this.displayName);
-        this.defaultButton.prop("disabled", true);
+        this.#defaultButton.text(this.#displayName);
+        this.#defaultButton.prop("disabled", true);
     }
 }
 

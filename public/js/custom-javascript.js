@@ -301,15 +301,15 @@ class serverRQ {
 
 class DataList {
     tbody;
-    refresh;
-    loading;
+    // refresh;
+    // loading;
     circularBtn = new CircularLoading('refreshIcon', 'loadingIcon')
     fetch = new serverRequest();
 
     constructor() {
         this.tbody = $('#t_body');
-        this.refresh = $('#refreshIcon');
-        this.loading = $('#loadingIcon');
+        // this.refresh = $('#refreshIcon');
+        // this.loading = $('#loadingIcon');
     }
 
     viewList(link) {
@@ -465,7 +465,6 @@ class DeleteModal extends DataList {
 }
 
 class UpdateModal extends DataList {
-    // btn_effect = new Button_effect('c_update', 'Updating');
     update_modal = new bootstrap.Modal('#updateModal');
     updateModalID = $('#updateModal');
     updateModalTitle = $('#updateModalLabel');
@@ -504,8 +503,6 @@ class UpdateModal extends DataList {
 
     updateProcess(link) {
         this.c_update.click(() => {
-            // this.btn_effect.starProcessing();
-            // console.log('up')
             const updateLink = `${link + this.id}/update`;
             const formData = new FormData();
             formData.append("date", this.dateInput.val());
@@ -521,7 +518,6 @@ class UpdateModal extends DataList {
                 this.updateStatus.text(update.message);
             }
             this.viewList(link);
-            //this.btn_effect.default();
         })
 
     }

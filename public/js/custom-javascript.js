@@ -49,13 +49,7 @@ let div = ''
 
 function list() {
 
-    // let container = $('.container');
-    // // modal item var
-    // const delete_modal = new bootstrap.Modal('#deleteModal');
-    // const deleteModalID = $('#deleteModal');
-    // const modalTitle = $('#deleteModalLabel');
-    // const mgsArea = $('#deleteMgs');
-    // const c_delete = $('#c_delete');
+
 
     // // update modal var
     // const update_modal = new bootstrap.Modal('#updateModal');
@@ -204,14 +198,14 @@ function list() {
     // }
 
     // after modal dispose auto run
-    deleteModalID.on('hidden.bs.modal', function () {
-        fetchIncome();
-    });
-    updateModalID.on('hidden.bs.modal', function () {
-        updateStatus.text('');
-        updateElement('default');
-        fetchIncome();
-    });
+    // deleteModalID.on('hidden.bs.modal', function () {
+    //     fetchIncome();
+    // });
+    // updateModalID.on('hidden.bs.modal', function () {
+    //     updateStatus.text('');
+    //     updateElement('default');
+    //     fetchIncome();
+    // });
 
     // $("tbody").click(function (event) {
     //     //console.log(event.target);
@@ -238,31 +232,31 @@ function list() {
     // });
 
     //   button effect function
-    function updateElement(status = '') {
-        if (status !== "default") {
-            c_update.prop("disabled", true);
-            c_update.text("Updating");
-            c_update.removeClass("btn-outline-primary");
-            c_update.addClass("btn-outline-info");
-        } else {
-            // for default action
-            c_update.prop("disabled", false);
-            c_update.text("Update");
-            // c_update.removeAttribute("class");
-            //c_update.setAttribute("class",'');
-
-            c_update.removeClass("btn-outline-success");
-            c_update.addClass("btn-outline-primary");
-        }
-        if (status === 'success') {
-            // c_update.prop("disabled", false);
-            c_update.text("Updated");
-            // c_update.removeAttribute("class");
-            //c_update.setAttribute("class",'');
-            c_update.removeClass("btn-outline-info").addClass("btn-outline-success");
-            // c_update.addClass("btn-outline-success");
-        }
-    }
+    // function updateElement(status = '') {
+    //     if (status !== "default") {
+    //         c_update.prop("disabled", true);
+    //         c_update.text("Updating");
+    //         c_update.removeClass("btn-outline-primary");
+    //         c_update.addClass("btn-outline-info");
+    //     } else {
+    //         // for default action
+    //         c_update.prop("disabled", false);
+    //         c_update.text("Update");
+    //         // c_update.removeAttribute("class");
+    //         //c_update.setAttribute("class",'');
+    //
+    //         c_update.removeClass("btn-outline-success");
+    //         c_update.addClass("btn-outline-primary");
+    //     }
+    //     if (status === 'success') {
+    //         // c_update.prop("disabled", false);
+    //         c_update.text("Updated");
+    //         // c_update.removeAttribute("class");
+    //         //c_update.setAttribute("class",'');
+    //         c_update.removeClass("btn-outline-info").addClass("btn-outline-success");
+    //         // c_update.addClass("btn-outline-success");
+    //     }
+    // }
 
 }
 
@@ -465,6 +459,7 @@ class DeleteModal extends DataList {
 }
 
 class UpdateModal extends DataList {
+    btn_effect=methods.buttonEffect.update();
     update_modal = new bootstrap.Modal('#updateModal');
     updateModalID = $('#updateModal');
     updateModalTitle = $('#updateModalLabel');
@@ -503,21 +498,33 @@ class UpdateModal extends DataList {
 
     updateProcess(link) {
         this.c_update.click(() => {
+            this.btn_effect.starProcessing();
             const updateLink = `${link + this.id}/update`;
-            const formData = new FormData();
-            formData.append("date", this.dateInput.val());
-            formData.append("details", this.detailsInput.val());
-            formData.append("amount", this.amountInput.val());
-            formData.append("remarks", this.remarksInput.val());
-            let update = new serverRQ(updateLink, 'POST', formData);
-            console.log(update)
-            update.send_();
-            if (!update.success) {
-                this.updateStatus.text(update.message);
-            } else {
-                this.updateStatus.text(update.message);
-            }
-            this.viewList(link);
+            let data = {
+                date: this.dateInput.val(),
+                details: this.detailsInput.val(),
+                amount: this.amountInput.val(),
+                remarks: this.remarksInput.val(),
+            };
+            // const formData = new FormData();
+            // formData.append("date", this.dateInput.val());
+            // formData.append("details", this.detailsInput.val());
+            // formData.append("amount", this.amountInput.val());
+            // formData.append("remarks", this.remarksInput.val());
+            //let update = new serverRQ(updateLink, 'POST', formData);
+            let update= new serverRequest();
+            update.url=updateLink;
+            update.data=data;
+            update.xPost().then((response)=>{
+                if (!response.success) {
+                    this.updateStatus.text(response.message);
+                } else {
+                    this.updateStatus.text(response.message);
+                }
+                this.btn_effect.default();
+                this.viewList(link);
+            })
+
         })
 
     }

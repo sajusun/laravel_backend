@@ -64,7 +64,7 @@
 <script>
 
     $(document).ready(function () {
-        let btn = new Button_effect('submitBtn', 'submitting');
+        let btn = new Button_effect('submitBtn', 'Submitting');
         let responseMgs = new AlertMessages('response');
         const server = new serverRequest();
 

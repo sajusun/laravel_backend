@@ -1,33 +1,35 @@
 class AlertMessages {
-    alertElementID;
+    #alertElementID;
 
     constructor(alertElementID) {
-        this.alertElementID = $('#' + alertElementID)
+        this.#alertElementID = $('#' + alertElementID)
     }
 
     success(message) {
-        this.alertElementID.html(`<div class="alert text-success" role="alert">${message}</div>`);
+        this.#alertElementID.html(`<div class="alert text-success" role="alert">${message}</div>`);
     }
 
     info(message) {
-        this.alertElementID.html(`<div class="alert text-info" role="alert">${message}</div>`);
+        this.#alertElementID.html(`<div class="alert text-info" role="alert">${message}</div>`);
     }
 
     danger(message) {
-        this.alertElementID.html(`<div class="alert text-danger" role="alert">${message}</div>`);
+        this.#alertElementID.html(`<div class="alert text-danger" role="alert">${message}</div>`);
     }
 }
 
 class Button_effect {
     #defaultButton = null;
-    buttonID;
+    #buttonID;
     #displayName;
-    loadingName = '';
+    #onFinishedName;
+    #loadingName = '';
     _processing = false;
 
-    constructor(ButtonID, OnLoadingName) {
-        this.buttonID = ButtonID;
-        this.loadingName = OnLoadingName;
+    constructor(ButtonID, OnLoadingName,OnFinishedName=null) {
+        this.#buttonID = ButtonID;
+        this.#loadingName = OnLoadingName;
+        this.#onFinishedName=OnFinishedName
         this.#defaultButton = $('#' + ButtonID);
         this.#displayName = $('#' + ButtonID).text();
     }
@@ -38,12 +40,16 @@ class Button_effect {
     }
 
     starProcessing() {
-        this.#defaultButton.text(this.loadingName);
+        this.#defaultButton.text(this.#loadingName);
         this.#defaultButton.prop("disabled", true);
     }
 
     disabled() {
-        this.#defaultButton.text(this.#displayName);
+        if (this.#onFinishedName!=null) {
+            this.#defaultButton.text(this.#onFinishedName);
+        }else {
+            this.#defaultButton.text(this.#displayName);
+        }
         this.#defaultButton.prop("disabled", true);
     }
 }

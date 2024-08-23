@@ -32,7 +32,7 @@ methods={
     },
     // button effects
       buttonEffect:{
-        delete(){return new Button_effect('c_delete', 'Deleting')},
+        delete(){return new Button_effect('c_delete', 'Deleting','Deleted')},
         update(){return new Button_effect('c_update', 'Updating')},
     }
 }

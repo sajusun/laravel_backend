@@ -1,3 +1,4 @@
+// Alert message DOM class
 class AlertMessages {
     #alertElementID;
 
@@ -17,7 +18,7 @@ class AlertMessages {
         this.#alertElementID.html(`<div class="alert text-danger" role="alert">${message}</div>`);
     }
 }
-
+// button effect class-make button onLoading effect
 class Button_effect {
     #defaultButton = null;
     #buttonID;
@@ -89,7 +90,7 @@ class CircularLoading {
         }
     }
 }
-
+// server Request class-send all server request trough here
 class serverRequest {
     url;
     success;
@@ -97,7 +98,6 @@ class serverRequest {
     message;
     method;
     data;
-
     async xPost() {
         let result;
         await axios.post(this.url, this.data, {
@@ -110,7 +110,11 @@ class serverRequest {
                 result = await response.data;
             })
             .catch(function (error) {
-                console.log("server rq error" + error);
+                console.log(error);
+                result= {
+                    success:false,
+                    message:error.response.data.message
+                }
             });
         return result;
     }
@@ -127,12 +131,45 @@ class serverRequest {
                 result = await response.data;
             })
             .catch(function (error) {
-                console.log("server rq error" + error);
+                console.log(error);
+               result= {
+                    success:false,
+                    message:error.response.data.message
+                }
             });
         return result;
     }
 
 }
 
+// User Model Class
+class User {
+    #revokeLink = `${host}api/user/logout`;
+    #isValid_link = isValidLik;
+    #server = new serverRequest();
+    // checking if user is valid or logged in
+    isValid_User() {
+        this.#server.url = isValidLik;
+        this.#server.xGet().then((response) => {
+            if (response.success !== true) {
+                if (window.location.href !== login_Page) {
+                    window.location.href = login_Page;
+                }
+            }
+            console.log(response);
+        })
+    }
+    // user logout method
+    logout() {
+        this.#server.url = this.#revokeLink;
+        this.#server.xGet().then((response) => {
+            if (response.success === true) {
+                if (window.location.href !== login_Page) {
+                    window.location.href = login_Page;
+                    // window.refresh();
+                }
+            }
+        })
+    }
+}
 
-// modal class

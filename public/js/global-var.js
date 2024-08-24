@@ -22,21 +22,24 @@ const apiLink = {
     incomeList_url: `${host}api/expenses_app/in/list/`,
     expensesList_url: `${host}api/expenses_app/out/list/`
 }
-methods={
+methods = {
     // this method route data view page dynamically
-    go2singlePage(pageLink){
+    go2singlePage(pageLink) {
         $("#t_body").on('click', '.clickable', function () {
             window.location.href = `${window.location.href}/${this.parentElement.id}/view`;
             console.log(this.parentElement.id)
         });
     },
     // button effects
-      buttonEffect:{
-        delete(){return new Button_effect('c_delete', 'Deleting','Deleted')},
-        update(){return new Button_effect('c_update', 'Updating')},
+    buttonEffect: {
+        delete() {
+            return new Button_effect('c_delete', 'Deleting', 'Deleted')
+        },
+        update() {
+            return new Button_effect('c_update', 'Updating')
+        },
     }
 }
-
 
 
 function getCurrentYear() {
@@ -60,11 +63,12 @@ function to_settings() {
 function to_contact() {
     window.location.href = home_Page + "/contact";
 }
-
+// logout function
 function logout() {
-    revoke_()
-    setToken('null');
-    window.location.href = login_Page;
+    new User().logout();
+    //revoke_()
+    //setToken('null');
+   // window.location.href = login_Page;
 }
 
 const token = {

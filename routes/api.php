@@ -50,7 +50,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user/logout',[apiUser::class,'destroy']);
     Route::get('/user/isValid/',[apiUser::class,'isValid']);
-
 });
 // All protected routes End ..............................................
 

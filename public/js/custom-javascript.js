@@ -1,10 +1,13 @@
+
 // dont remove this var
 let revoke_;
 
-$(document).ready(async function () {
-    let server = new serverRQ();
-    server.url = isValidLik;
-    checkUser_();
+$(document).ready(function () {
+    const user= new User();
+    user.isValid_User();
+    //let server = new serverRQ();
+   // server.url = isValidLik;
+   // checkUser_();
 
     function checkUser_() {
         server.send_();
@@ -16,17 +19,17 @@ $(document).ready(async function () {
 
     }
 
-    revoke_ = function revokeUser_() {
-        const revokeLink = `${host}api/user/logout`;
-        let revoke = new serverRQ(revokeLink);
-        revoke.send_();
-        if (revoke.success !== true) {
-            if (window.location.href !== login_Page) {
-                window.location.href = login_Page;
-                window.refresh();
-            }
-        }
-    }
+    // revoke_ = function revokeUser_() {
+    //     const revokeLink = `${host}api/user/logout`;
+    //     let revoke = new serverRQ(revokeLink);
+    //     revoke.send_();
+    //     if (revoke.success !== true) {
+    //         if (window.location.href !== login_Page) {
+    //             window.location.href = login_Page;
+    //             window.refresh();
+    //         }
+    //     }
+    // }
 
 
     $("#inAdd").click(function () {
@@ -48,7 +51,6 @@ $(document).ready(async function () {
 let div = ''
 
 function list() {
-
 
 
     // // update modal var
@@ -412,7 +414,7 @@ class Expenses extends DataList {
 
 class DeleteModal extends DataList {
     delete_modal = new bootstrap.Modal('#deleteModal');
-    btn_effect=methods.buttonEffect.delete();
+    btn_effect = methods.buttonEffect.delete();
 
     deleteModalID = $('#deleteModal');
     modalTitle = $('#deleteModalLabel');
@@ -431,8 +433,9 @@ class DeleteModal extends DataList {
         }
 
     }
-    modalOnClose(){
-        let self=this;
+
+    modalOnClose() {
+        let self = this;
         this.deleteModalID.on('hidden.bs.modal', function () {
             self.btn_effect.default();
         });
@@ -443,10 +446,10 @@ class DeleteModal extends DataList {
             this.btn_effect.starProcessing();
             let responseMgs = new AlertMessages('response_status');
             const deleteLink = `${link + this.id}/delete`;
-            const server= new serverRequest();
-            server.url=deleteLink;
-            server.xGet().then((response)=>{
-                if (!response.success){
+            const server = new serverRequest();
+            server.url = deleteLink;
+            server.xGet().then((response) => {
+                if (!response.success) {
                     this.btn_effect.default()
                 }
                 this.viewList(link)
@@ -459,7 +462,7 @@ class DeleteModal extends DataList {
 }
 
 class UpdateModal extends DataList {
-    btn_effect=methods.buttonEffect.update();
+    btn_effect = methods.buttonEffect.update();
     update_modal = new bootstrap.Modal('#updateModal');
     updateModalID = $('#updateModal');
     updateModalTitle = $('#updateModalLabel');
@@ -489,8 +492,9 @@ class UpdateModal extends DataList {
         }
 
     }
-    modalOnClose(){
-        let self=this;
+
+    modalOnClose() {
+        let self = this;
         this.updateModalID.on('hidden.bs.modal', function () {
             self.btn_effect.default();
         });
@@ -506,16 +510,10 @@ class UpdateModal extends DataList {
                 amount: this.amountInput.val(),
                 remarks: this.remarksInput.val(),
             };
-            // const formData = new FormData();
-            // formData.append("date", this.dateInput.val());
-            // formData.append("details", this.detailsInput.val());
-            // formData.append("amount", this.amountInput.val());
-            // formData.append("remarks", this.remarksInput.val());
-            //let update = new serverRQ(updateLink, 'POST', formData);
-            let update= new serverRequest();
-            update.url=updateLink;
-            update.data=data;
-            update.xPost().then((response)=>{
+            let update = new serverRequest();
+            update.url = updateLink;
+            update.data = data;
+            update.xPost().then((response) => {
                 if (!response.success) {
                     this.updateStatus.text(response.message);
                 } else {

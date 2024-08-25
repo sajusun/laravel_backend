@@ -3,6 +3,7 @@ const host = 'http://localhost:8000/';
 const expensesApp = "expenses-app";
 const home_Page = `${host + expensesApp}/user`;
 const login_Page = `${host + expensesApp}/login`;
+const signup_Page = `${host + expensesApp}/register`;
 const in_add_Page = `${host + expensesApp}/in/add`;
 const in_list_Page = `${host + expensesApp}/in/list`;
 const in_view_Page = `${host + expensesApp}/in/view`;
@@ -37,6 +38,9 @@ methods = {
         login() {
             return new Button_effect('login_btn', 'Logging')
         },
+        signup() {
+            return new Button_effect('resister_btn', 'Processing')
+        },
     }
 }
 
@@ -49,6 +53,9 @@ function getCurrentYear() {
 
 function to_home() {
     window.location.href = home_Page;
+}
+function redirect(url) {
+    window.location.href = url;
 }
 
 function to_profile() {
@@ -65,9 +72,6 @@ function to_contact() {
 // logout function
 function logout() {
     new User().logout();
-    //revoke_()
-    //setToken('null');
-   // window.location.href = login_Page;
 }
 
 const token = {

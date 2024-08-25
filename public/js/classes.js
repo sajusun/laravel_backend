@@ -150,7 +150,42 @@ class User {
     #revokeLink = `${host}api/user/logout`;
     #isValid_link = apiLink.isValid;
     #loginLink = apiLink.login;
+    #registerLink=apiLink.register;
     #server = new serverRequest();
+
+    // user registration method
+    signup(){
+        const responseMgs = $('#responseMgs');
+        const btnEffect = methods.buttonEffect.signup();
+        this.#server.url = this.#registerLink;
+        let name = $("#name").val();
+        let email = $("#email").val();
+        let pass = $("#password").val();
+        let c_pass = $("#c_password").val();
+        const data = {
+            name:name,
+            email: email,
+            password: pass,
+            c_password:c_pass
+        }
+        if (name === "" || email === "" || pass === "" || c_pass === "") {
+            responseMgs.html(`<div class='alert alert-danger'>Enter Required Field</div>`);
+        } else {
+            this.#server.data = data;
+            btnEffect.starProcessing();
+            this.#server.xPost().then((response) => {
+                if (response['success']) {
+                    setToken(response['access_token']);
+                    window.location.href = home_Page;
+                } else {
+                    btnEffect.default();
+                    responseMgs.html(`<div class='alert alert-danger' role='alert'>${response['message']}</div>`);
+                }
+
+            })
+        }
+
+    }
 
     // login method.
     login() {
@@ -186,15 +221,16 @@ class User {
         this.#server.url = this.#isValid_link;
         this.#server.xGet().then((response) => {
             if (response.success !== true) {
-                if (window.location.href !== login_Page) {
-                    window.location.href = login_Page;
+                if (window.location.href !== signup_Page) {
+                    if (window.location.href !== login_Page) {
+                        window.location.href = login_Page;
+                    }
                 }
-            }else {
+            } else {
                 if (window.location.href === login_Page) {
                     window.location.href = home_Page;
                 }
             }
-            console.log(response);
         })
     }
 

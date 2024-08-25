@@ -39,6 +39,9 @@ Route::any('expenses-app/user', function () {
 Route::any('expenses-app/login', function () {
     return view('expensesApp.pages.login');
 });
+Route::any('expenses-app/register', function () {
+    return view('expensesApp.pages.register');
+});
 Route::get('expenses-app/in/list', function () {
     return view('expensesApp.pages.expenses_in');
 });

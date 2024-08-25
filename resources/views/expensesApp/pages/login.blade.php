@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Income List</title>
+    <title>Login</title>
     @include('expensesApp.layout.header_files');
     <!------ Include the above in your HEAD tag ---------->
     {{--    <style rel="stylesheet">--}}
@@ -320,7 +320,7 @@
                             </button>
                         </div>
                         <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">Forgot password?</a></p>
-                        <p>Don't have an account? <a href="#!" class="link-info">Register here</a></p>
+                        <p>Don't have an account? <a href="#!" class="link-info" onclick="redirect(signup_Page)">Register here</a></p>
                     </form>
                 </div>
             </div>
@@ -330,40 +330,6 @@
 @include('expensesApp.layout.bottom_script_files');
 </body>
 </html>
-<script>
-
-    $(document).ready(function () {
-
-        // $("#login_btn").click(function () {
-        //     let loginMgs = $('#loginMgs');
-        //     const server = new serverRequest();
-        //     const btnEffect = methods.buttonEffect.login();
-        //     server.url = apiLink.login
-        //     let email = $("#email").val();
-        //     let pass = $("#password").val();
-        //     const data = {
-        //         email: email,
-        //         password: pass
-        //     }
-        //     if (email === "" || pass === "") {
-        //         loginMgs.html(`<div class='alert alert-danger'>Enter Required Field</div>`);
-        //     } else {
-        //         server.data = data;
-        //         btnEffect.starProcessing();
-        //         server.xPost().then((response) => {
-        //             if (response['success']) {
-        //                 setToken(response['access_token']);
-        //                 window.location.href = home_Page;
-        //             } else {
-        //                 loginMgs.html(`<div class='alert alert-danger' role='alert'>${response['message']}</div>`);
-        //             }
-        //             btnEffect.default();
-        //         })
-        //     }
-        //
-        // });
-    });
-</script>
 
 
 

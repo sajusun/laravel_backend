@@ -7,10 +7,6 @@ const in_add_Page = `${host + expensesApp}/in/add`;
 const in_list_Page = `${host + expensesApp}/in/list`;
 const in_view_Page = `${host + expensesApp}/in/view`;
 
-const isValidLik = `${host}api/user/isValid`;
-const loginLik = `${host}api/user/login`;
-const in_add_api = `${host}api/expenses_app/in/add`;
-
 
 // api link
 const apiLink = {
@@ -37,6 +33,9 @@ methods = {
         },
         update() {
             return new Button_effect('c_update', 'Updating')
+        },
+        login() {
+            return new Button_effect('login_btn', 'Logging')
         },
     }
 }

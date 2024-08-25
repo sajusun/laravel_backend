@@ -1,23 +1,23 @@
 
 // dont remove this var
-let revoke_;
-
+//let revoke_;
+const user= new User();
+user.isValid_User();
 $(document).ready(function () {
-    const user= new User();
-    user.isValid_User();
+
     //let server = new serverRQ();
    // server.url = isValidLik;
    // checkUser_();
 
-    function checkUser_() {
-        server.send_();
-        if (server.success !== true) {
-            if (window.location.href !== login_Page) {
-                window.location.href = login_Page;
-            }
-        }
-
-    }
+    // function checkUser_() {
+    //     server.send_();
+    //     if (server.success !== true) {
+    //         if (window.location.href !== login_Page) {
+    //             window.location.href = login_Page;
+    //         }
+    //     }
+    //
+    // }
 
     // revoke_ = function revokeUser_() {
     //     const revokeLink = `${host}api/user/logout`;
@@ -263,37 +263,37 @@ function list() {
 }
 
 // server request class
-class serverRQ {
-    url;
-    success;
-    response;
-    message;
-    method = "GET";
-    data;
-    _async = false;
-
-    constructor(url, method = "GET", data, async = false) {
-        this.method = method;
-        this.url = url;
-        this.data = data;
-        this._async = async;
-        // this.send_();
-    }
-
-    send_() {
-        let http = new XMLHttpRequest();
-        http.open(this.method, this.url, this._async);
-        http.setRequestHeader('Accept', 'Application/json');
-        http.setRequestHeader('contentType', 'json');
-        http.setRequestHeader('Authorization', 'Bearer ' + getToken());
-        http.onload = () => {
-            this.response = JSON.parse(http.responseText);
-            this.message = this.response['message'];
-            this.success = this.response['success'];
-        };
-        http.send(this.data);
-    }
-}
+// class serverRQ {
+//     url;
+//     success;
+//     response;
+//     message;
+//     method = "GET";
+//     data;
+//     _async = false;
+//
+//     constructor(url, method = "GET", data, async = false) {
+//         this.method = method;
+//         this.url = url;
+//         this.data = data;
+//         this._async = async;
+//         // this.send_();
+//     }
+//
+//     send_() {
+//         let http = new XMLHttpRequest();
+//         http.open(this.method, this.url, this._async);
+//         http.setRequestHeader('Accept', 'Application/json');
+//         http.setRequestHeader('contentType', 'json');
+//         http.setRequestHeader('Authorization', 'Bearer ' + getToken());
+//         http.onload = () => {
+//             this.response = JSON.parse(http.responseText);
+//             this.message = this.response['message'];
+//             this.success = this.response['success'];
+//         };
+//         http.send(this.data);
+//     }
+// }
 
 class DataList {
     tbody;

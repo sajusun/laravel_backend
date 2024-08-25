@@ -20,7 +20,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item" href="#" onclick="logout()">Log out</a>
+                        <a class="dropdown-item" href="" onclick="logout()">Log out</a>
                     </li>
                 </ul>
             </li>

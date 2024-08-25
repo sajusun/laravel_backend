@@ -18,6 +18,7 @@ class AlertMessages {
         this.#alertElementID.html(`<div class="alert text-danger" role="alert">${message}</div>`);
     }
 }
+
 // button effect class-make button onLoading effect
 class Button_effect {
     #defaultButton = null;
@@ -27,10 +28,10 @@ class Button_effect {
     #loadingName = '';
     _processing = false;
 
-    constructor(ButtonID, OnLoadingName,OnFinishedName=null) {
+    constructor(ButtonID, OnLoadingName, OnFinishedName = null) {
         this.#buttonID = ButtonID;
         this.#loadingName = OnLoadingName;
-        this.#onFinishedName=OnFinishedName
+        this.#onFinishedName = OnFinishedName
         this.#defaultButton = $('#' + ButtonID);
         this.#displayName = $('#' + ButtonID).text();
     }
@@ -46,9 +47,9 @@ class Button_effect {
     }
 
     disabled() {
-        if (this.#onFinishedName!=null) {
+        if (this.#onFinishedName != null) {
             this.#defaultButton.text(this.#onFinishedName);
-        }else {
+        } else {
             this.#defaultButton.text(this.#displayName);
         }
         this.#defaultButton.prop("disabled", true);
@@ -90,6 +91,7 @@ class CircularLoading {
         }
     }
 }
+
 // server Request class-send all server request trough here
 class serverRequest {
     url;
@@ -98,6 +100,7 @@ class serverRequest {
     message;
     method;
     data;
+
     async xPost() {
         let result;
         await axios.post(this.url, this.data, {
@@ -111,9 +114,9 @@ class serverRequest {
             })
             .catch(function (error) {
                 console.log(error);
-                result= {
-                    success:false,
-                    message:error.response.data.message
+                result = {
+                    success: false,
+                    message: error.response.data.message
                 }
             });
         return result;
@@ -132,9 +135,9 @@ class serverRequest {
             })
             .catch(function (error) {
                 console.log(error);
-               result= {
-                    success:false,
-                    message:error.response.data.message
+                result = {
+                    success: false,
+                    message: error.response.data.message
                 }
             });
         return result;
@@ -145,20 +148,56 @@ class serverRequest {
 // User Model Class
 class User {
     #revokeLink = `${host}api/user/logout`;
-    #isValid_link = isValidLik;
+    #isValid_link = apiLink.isValid;
+    #loginLink = apiLink.login;
     #server = new serverRequest();
+
+    // login method.
+    login() {
+        const loginMgs = $('#loginMgs');
+        const btnEffect = methods.buttonEffect.login();
+        this.#server.url = this.#loginLink;
+        let email = $("#email").val();
+        let pass = $("#password").val();
+        const data = {
+            email: email,
+            password: pass
+        }
+        if (email === "" || pass === "") {
+            loginMgs.html(`<div class='alert alert-danger'>Enter Required Field</div>`);
+        } else {
+            this.#server.data = data;
+            btnEffect.starProcessing();
+            this.#server.xPost().then((response) => {
+                if (response['success']) {
+                    setToken(response['access_token']);
+                    window.location.href = home_Page;
+                } else {
+                    btnEffect.default();
+                    loginMgs.html(`<div class='alert alert-danger' role='alert'>${response['message']}</div>`);
+                }
+
+            })
+        }
+    }
+
     // checking if user is valid or logged in
     isValid_User() {
-        this.#server.url = isValidLik;
+        this.#server.url = this.#isValid_link;
         this.#server.xGet().then((response) => {
             if (response.success !== true) {
                 if (window.location.href !== login_Page) {
                     window.location.href = login_Page;
                 }
+            }else {
+                if (window.location.href === login_Page) {
+                    window.location.href = home_Page;
+                }
             }
             console.log(response);
         })
     }
+
     // user logout method
     logout() {
         this.#server.url = this.#revokeLink;

@@ -31,20 +31,32 @@ class ApiUser extends Guard
 //            'password' => ['required', 'confirmed', Rules\Password::defaults()],
 //        ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-        if ($user){
-            return response()->json([
-                'success' => true,
-                'message' => 'User created successfully',
+        $findEmail = User::where('email', $request->email)->first();
+        if (!$findEmail) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
             ]);
-        }else{
+            $token = $user->createToken($request->email)->plainTextToken;
+            if ($token) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Registration success',
+                    'access_token' => $token,
+                    'token_type' => 'Bearer',
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Registration Failed',
+                ]);
+            }
+        } else {
             return response()->json([
                 'success' => false,
-                'message' => 'User not created',
+                'message' => 'Email already exists',
+                'data' => null
             ]);
         }
 
@@ -74,6 +86,7 @@ class ApiUser extends Guard
         ]);
         if ($validator->fails()) {
             return response()->json([
+                'success' => false,
                 'message' => $validator->errors(),
                 'data' => $request->all()
             ]);
@@ -104,9 +117,6 @@ class ApiUser extends Guard
      */
     public function destroy(): JsonResponse
     {
-        //Auth::guard('api')->logout();
-        // Auth::guard('web')->logout();
-        // delete all tokens, essentially logging the user out
         Auth::User()->tokens()->delete();
         return response()->json([
             "message" => "Logout success",
@@ -121,7 +131,7 @@ class ApiUser extends Guard
             return response()->json([
                 'success' => true,
                 'message' => "Valid User",
-                ]);
+            ]);
         } else {
             return response()->json([
                 'success' => false,

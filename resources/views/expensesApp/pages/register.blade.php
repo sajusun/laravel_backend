@@ -41,7 +41,7 @@
                         <div class="pt-0.5 mb-4">
                             <span id="responseMgs"
                                   style="text-align: center;"></span>
-                            <button data-mdb-button-init data-mdb-ripple-init id="login_btn"
+                            <button data-mdb-button-init data-mdb-ripple-init id="resister_btn"
                                     class="btn btn-info btn-lg btn-block" type="button" onclick="new User().signup();">Register
                             </button>
                         </div>

@@ -105,7 +105,7 @@ class serverRequest {
         let result;
         await axios.post(this.url, this.data, {
             headers: {
-                'Authorization': 'Bearer ' + getToken(),
+                'Authorization': 'Bearer ' + token.get(),
             }
         })
             .then(async function (response) {
@@ -126,7 +126,7 @@ class serverRequest {
         let result;
         await axios.get(this.url, {
             headers: {
-                'Authorization': 'Bearer ' + getToken(),
+                'Authorization': 'Bearer ' + token.get(),
             }
         })
             .then(async function (response) {
@@ -156,6 +156,7 @@ class User {
     // user registration method
     signup(){
         const responseMgs = $('#responseMgs');
+        responseMgs.html('');
         const btnEffect = methods.buttonEffect.signup();
         this.#server.url = this.#registerLink;
         let name = $("#name").val();
@@ -175,14 +176,16 @@ class User {
             btnEffect.starProcessing();
             this.#server.xPost().then((response) => {
                 if (response['success']) {
-                    setToken(response['access_token']);
-                    window.location.href = home_Page;
+                    console.log(response)
+                    token.set(response['access_token']);
+                    responseMgs.html(`<div class='alert alert-danger' role='alert'>${response['message']}</div>`);
+                   // window.location.href = home_Page;
                 } else {
                     btnEffect.default();
                     responseMgs.html(`<div class='alert alert-danger' role='alert'>${response['message']}</div>`);
                 }
 
-            })
+            });
         }
 
     }
@@ -205,7 +208,7 @@ class User {
             btnEffect.starProcessing();
             this.#server.xPost().then((response) => {
                 if (response['success']) {
-                    setToken(response['access_token']);
+                    token.set(response['access_token']);
                     window.location.href = home_Page;
                 } else {
                     btnEffect.default();

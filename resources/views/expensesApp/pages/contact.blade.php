@@ -54,7 +54,7 @@
                 }
             };
             http.open("GET", "http://localhost:8000/api/ui?", false);
-            http.setRequestHeader('Authorization', getToken());
+            http.setRequestHeader('Authorization', token.get());
             http.setRequestHeader('Accept', 'Application/json');
             http.setRequestHeader('contentType', 'json');
             http.send();

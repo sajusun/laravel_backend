@@ -54,6 +54,7 @@ function getCurrentYear() {
 function to_home() {
     window.location.href = home_Page;
 }
+
 function redirect(url) {
     window.location.href = url;
 }
@@ -69,18 +70,20 @@ function to_settings() {
 function to_contact() {
     window.location.href = home_Page + "/contact";
 }
+
 // logout function
 function logout() {
     new User().logout();
 }
 
 const token = {
-    set(key) {
+    set:function(key) {
         sessionStorage.setItem(`${host}key`, key);
     },
-    get() {
+    get:function () {
         return sessionStorage.getItem(`${host}key`);
-    }
+    },
+
 }
 
 function setToken(key) {
@@ -91,3 +94,4 @@ function setToken(key) {
 function getToken() {
     return sessionStorage.getItem(`${host}key`);
 }
+

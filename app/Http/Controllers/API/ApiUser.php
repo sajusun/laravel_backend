@@ -25,38 +25,44 @@ class ApiUser extends Guard
      */
     public function store(Request $request): JsonResponse
     {
-//        $request->validate([
-//            'name' => 'required|string|max:255',
-//            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-//            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-//        ]);
-
-        $findEmail = User::where('email', $request->email)->first();
-        if (!$findEmail) {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
-            $token = $user->createToken($request->email)->plainTextToken;
-            if ($token) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Registration success',
-                    'access_token' => $token,
-                    'token_type' => 'Bearer',
+        $validator = validator()->make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+        if (!$validator->fails()) {
+            $findEmail = User::where('email', $request->email)->first();
+            if (!$findEmail) {
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
                 ]);
+                $token = $user->createToken($request->email)->plainTextToken;
+                if ($token) {
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Registration success',
+                        'access_token' => $token,
+                        'token_type' => 'Bearer',
+                    ]);
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Registration Failed',
+                    ]);
+                }
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Registration Failed',
+                    'message' => 'Email already exists',
+                    'data' => null
                 ]);
             }
-        } else {
+        }else{
             return response()->json([
                 'success' => false,
-                'message' => 'Email already exists',
-                'data' => null
+                'message' => $validator->errors()->first(),
             ]);
         }
 
@@ -87,7 +93,7 @@ class ApiUser extends Guard
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => $validator->errors(),
+                'message' => $validator->errors()->first(),
                 'data' => $request->all()
             ]);
         } else {

@@ -8,8 +8,20 @@ const in_add_Page = `${host + expensesApp}/in/add`;
 const in_list_Page = `${host + expensesApp}/in/list`;
 const in_view_Page = `${host + expensesApp}/in/view`;
 
+// url Links
+const urlLink = {
+    host: 'http://localhost:8000/',
+    appName: "expenses-app",
+    home_Page: `${this.host + this.appName}/user`,
+    login_Page: `${this.host + this.appName}/login`,
+    signup_Page: `${this.host + this.appName}/register`,
+    in_add_Page: `${this.host + this.appName}/in/add`,
+    in_list_Page: `${this.host + this.appName}/in/list`,
+    in_view_Page: `${this.host + this.appName}/in/view`,
+}
 
-// api link
+
+// api links
 const apiLink = {
     isValid: `${host}api/user/isValid`,
     login: `${host}api/user/login`,
@@ -19,6 +31,7 @@ const apiLink = {
     incomeList_url: `${host}api/expenses_app/in/list/`,
     expensesList_url: `${host}api/expenses_app/out/list/`
 }
+// all kind of global methods here
 methods = {
     // this method route data view page dynamically
     go2singlePage(pageLink) {
@@ -27,7 +40,7 @@ methods = {
             console.log(this.parentElement.id)
         });
     },
-    // button effects
+    // button effects object
     buttonEffect: {
         delete() {
             return new Button_effect('c_delete', 'Deleting', 'Deleted')
@@ -39,59 +52,63 @@ methods = {
             return new Button_effect('login_btn', 'Logging')
         },
         signup() {
-            return new Button_effect('resister_btn', 'Processing')
+            return new Button_effect('resister_btn', 'Processing', 'Go To Next')
         },
     }
 }
 
-
+// return current year
 function getCurrentYear() {
     const d = new Date();
     return d.getFullYear();
 
 }
 
+// redirect home page
 function to_home() {
     window.location.href = home_Page;
 }
 
+//custom redirect function
 function redirect(url) {
     window.location.href = url;
 }
 
+// redirect to profile page
 function to_profile() {
     window.location.href = `${home_Page}/profile`;
 }
 
+// redirect to setting page
 function to_settings() {
     window.location.href = home_Page + "/settings";
 }
 
+// redirect to contact page
 function to_contact() {
     window.location.href = home_Page + "/contact";
 }
 
-// logout function
+// call to user logout process
 function logout() {
     new User().logout();
 }
 
 const token = {
-    set:function(key) {
+    set: function (key) {
         sessionStorage.setItem(`${host}key`, key);
     },
-    get:function () {
+    get: function () {
         return sessionStorage.getItem(`${host}key`);
     },
-
 }
 
-function setToken(key) {
-    sessionStorage.setItem(`${host}key`, key);
-
-}
-
-function getToken() {
-    return sessionStorage.getItem(`${host}key`);
-}
+// function setToken(key) {
+//     sessionStorage.setItem(`${host}key`, key);
+//
+// }
+//
+// function getToken() {
+//     return sessionStorage.getItem(`${host}key`);
+// }
 

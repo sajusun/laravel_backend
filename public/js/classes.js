@@ -167,26 +167,27 @@ class User {
             name:name,
             email: email,
             password: pass,
-            c_password:c_pass
+            password_confirmation:c_pass
         }
-        if (name === "" || email === "" || pass === "" || c_pass === "") {
-            responseMgs.html(`<div class='alert alert-danger'>Enter Required Field</div>`);
-        } else {
+        // if (pass !==  c_pass) {
+        //     responseMgs.html(`<div class='alert alert-danger'>Password not match</div>`);
+        // } else {
             this.#server.data = data;
             btnEffect.starProcessing();
             this.#server.xPost().then((response) => {
                 if (response['success']) {
                     console.log(response)
                     token.set(response['access_token']);
-                    responseMgs.html(`<div class='alert alert-danger' role='alert'>${response['message']}</div>`);
+                    responseMgs.html(`<div class='alert alert-success' role='alert'>${response['message']}</div>`);
                    // window.location.href = home_Page;
+                    btnEffect.disabled();
                 } else {
                     btnEffect.default();
                     responseMgs.html(`<div class='alert alert-danger' role='alert'>${response['message']}</div>`);
                 }
 
             });
-        }
+       // }
 
     }
 

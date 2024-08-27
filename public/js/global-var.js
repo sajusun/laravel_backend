@@ -8,7 +8,7 @@ const in_add_Page = `${host + expensesApp}/in/add`;
 const in_list_Page = `${host + expensesApp}/in/list`;
 const in_view_Page = `${host + expensesApp}/in/view`;
 
-// url Links
+// app url Links
 const urlLink = {
     host: 'http://localhost:8000/',
     appName: "expenses-app",
@@ -21,7 +21,7 @@ const urlLink = {
 }
 
 
-// api links
+//app api links
 const apiLink = {
     isValid: `${host}api/user/isValid`,
     login: `${host}api/user/login`,
@@ -31,10 +31,10 @@ const apiLink = {
     incomeList_url: `${host}api/expenses_app/in/list/`,
     expensesList_url: `${host}api/expenses_app/out/list/`
 }
-// all kind of global methods here
+// all kind of app global methods here
 methods = {
-    // this method route data view page dynamically
-    go2singlePage(pageLink) {
+    // onclick this method route data view page dynamically
+    go2singlePage:function (pageLink) {
         $("#t_body").on('click', '.clickable', function () {
             window.location.href = `${window.location.href}/${this.parentElement.id}/view`;
             console.log(this.parentElement.id)
@@ -57,7 +57,7 @@ methods = {
     }
 }
 
-// return current year
+// return current year js
 function getCurrentYear() {
     const d = new Date();
     return d.getFullYear();
@@ -93,7 +93,7 @@ function to_contact() {
 function logout() {
     new User().logout();
 }
-
+// app token object that set anf get api token
 const token = {
     set: function (key) {
         sessionStorage.setItem(`${host}key`, key);
@@ -103,12 +103,5 @@ const token = {
     },
 }
 
-// function setToken(key) {
-//     sessionStorage.setItem(`${host}key`, key);
-//
-// }
-//
-// function getToken() {
-//     return sessionStorage.getItem(`${host}key`);
-// }
+
 

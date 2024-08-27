@@ -33,7 +33,7 @@ class Button_effect {
         this.#loadingName = OnLoadingName;
         this.#onFinishedName = OnFinishedName
         this.#defaultButton = $('#' + ButtonID);
-        this.#displayName = $('#' + ButtonID).text();
+        this.#displayName = this.#defaultButton.text();
     }
 
     default() {
@@ -163,16 +163,15 @@ class User {
         let email = $("#email").val();
         let pass = $("#password").val();
         let c_pass = $("#c_password").val();
-        const data = {
-            name:name,
-            email: email,
-            password: pass,
-            password_confirmation:c_pass
-        }
         // if (pass !==  c_pass) {
         //     responseMgs.html(`<div class='alert alert-danger'>Password not match</div>`);
         // } else {
-            this.#server.data = data;
+            this.#server.data = {
+                name: name,
+                email: email,
+                password: pass,
+                password_confirmation: c_pass
+            };
             btnEffect.starProcessing();
             this.#server.xPost().then((response) => {
                 if (response['success']) {

@@ -1,36 +1,9 @@
-
-// dont remove this var
-//let revoke_;
-const user= new User();
-user.isValid_User();
+/*don`t remove any global var*/
+(function () {
+    const user = new User();
+    user.isValid_User();
+})();
 $(document).ready(function () {
-
-    //let server = new serverRQ();
-   // server.url = isValidLik;
-   // checkUser_();
-
-    // function checkUser_() {
-    //     server.send_();
-    //     if (server.success !== true) {
-    //         if (window.location.href !== login_Page) {
-    //             window.location.href = login_Page;
-    //         }
-    //     }
-    //
-    // }
-
-    // revoke_ = function revokeUser_() {
-    //     const revokeLink = `${host}api/user/logout`;
-    //     let revoke = new serverRQ(revokeLink);
-    //     revoke.send_();
-    //     if (revoke.success !== true) {
-    //         if (window.location.href !== login_Page) {
-    //             window.location.href = login_Page;
-    //             window.refresh();
-    //         }
-    //     }
-    // }
-
 
     $("#inAdd").click(function () {
         window.location.href = 'http://localhost:8000/expenses-app/in/add';
@@ -46,9 +19,6 @@ $(document).ready(function () {
         window.location.href = 'http://localhost:8000/expenses-app/out/list';
     });
 });
-
-
-let div = ''
 
 function list() {
 
@@ -262,50 +232,14 @@ function list() {
 
 }
 
-// server request class
-// class serverRQ {
-//     url;
-//     success;
-//     response;
-//     message;
-//     method = "GET";
-//     data;
-//     _async = false;
-//
-//     constructor(url, method = "GET", data, async = false) {
-//         this.method = method;
-//         this.url = url;
-//         this.data = data;
-//         this._async = async;
-//         // this.send_();
-//     }
-//
-//     send_() {
-//         let http = new XMLHttpRequest();
-//         http.open(this.method, this.url, this._async);
-//         http.setRequestHeader('Accept', 'Application/json');
-//         http.setRequestHeader('contentType', 'json');
-//         http.setRequestHeader('Authorization', 'Bearer ' + getToken());
-//         http.onload = () => {
-//             this.response = JSON.parse(http.responseText);
-//             this.message = this.response['message'];
-//             this.success = this.response['success'];
-//         };
-//         http.send(this.data);
-//     }
-// }
-
+// display data dynamically dataList
 class DataList {
     tbody;
-    // refresh;
-    // loading;
     circularBtn = new CircularLoading('refreshIcon', 'loadingIcon')
     fetch = new serverRequest();
 
     constructor() {
         this.tbody = $('#t_body');
-        // this.refresh = $('#refreshIcon');
-        // this.loading = $('#loadingIcon');
     }
 
     viewList(link) {
@@ -335,10 +269,9 @@ class DataList {
             }
         });
     }
-
 }
 
-
+//Income Model
 class Income extends DataList {
     addLink = apiLink.in_add;
     listLink = apiLink.incomeList_url;
@@ -374,6 +307,8 @@ class Income extends DataList {
     }
 
 }
+
+/*// Expenses Model*/
 
 class Expenses extends DataList {
     addLink = apiLink.out_add;
@@ -412,10 +347,11 @@ class Expenses extends DataList {
 
 }
 
+/*Delete Model*/
 class DeleteModal extends DataList {
+
     delete_modal = new bootstrap.Modal('#deleteModal');
     btn_effect = methods.buttonEffect.delete();
-
     deleteModalID = $('#deleteModal');
     modalTitle = $('#deleteModalLabel');
     response_status = $('#response_status');
@@ -423,6 +359,7 @@ class DeleteModal extends DataList {
     c_delete = $('#c_delete');
     server = new serverRequest();
 
+    /*delete model show method*/
     show(tabKey) {
         const columnId = tabKey.parentElement.parentElement.firstElementChild.innerText
         this.id = tabKey.parentElement.parentElement.id;
@@ -434,6 +371,7 @@ class DeleteModal extends DataList {
 
     }
 
+    /*onModel close method*/
     modalOnClose() {
         let self = this;
         this.deleteModalID.on('hidden.bs.modal', function () {
@@ -441,6 +379,7 @@ class DeleteModal extends DataList {
         });
     }
 
+    /*delete process method*/
     deleteProcess(link) {
         this.c_delete.click(() => {
             this.btn_effect.starProcessing();
@@ -458,23 +397,24 @@ class DeleteModal extends DataList {
             })
         })
     }
-
 }
 
+/*Update model*/
 class UpdateModal extends DataList {
+    /*[Update model properties]*/
     btn_effect = methods.buttonEffect.update();
     update_modal = new bootstrap.Modal('#updateModal');
     updateModalID = $('#updateModal');
     updateModalTitle = $('#updateModalLabel');
     c_update = $('#c_update');
     updateStatus = $('#updateStatus');
-
     dateInput = $("#date");
     detailsInput = $("#details");
     amountInput = $("#amount");
     remarksInput = $("#remarks");
     id;
 
+    /*display model on call*/
     show(tabKey) {
         this.id = tabKey.parentElement.parentElement.id;
         let index = tabKey.parentElement.parentElement.children[0].innerText;
@@ -493,6 +433,7 @@ class UpdateModal extends DataList {
 
     }
 
+    /*model on close method*/
     modalOnClose() {
         let self = this;
         this.updateModalID.on('hidden.bs.modal', function () {
@@ -500,6 +441,7 @@ class UpdateModal extends DataList {
         });
     }
 
+    /*Update process method*/
     updateProcess(link) {
         this.c_update.click(() => {
             this.btn_effect.starProcessing();

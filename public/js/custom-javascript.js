@@ -383,7 +383,7 @@ class DeleteModal extends DataList {
     deleteProcess(link) {
         this.c_delete.click(() => {
             this.btn_effect.starProcessing();
-            let responseMgs = new AlertMessages('response_status');
+           // let responseMgs = new AlertMessages('response_status');
             const deleteLink = `${link + this.id}/delete`;
             const server = new serverRequest();
             server.url = deleteLink;

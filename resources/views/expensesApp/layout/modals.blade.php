@@ -64,3 +64,82 @@
         </div>
     </div>
 </div>
+
+
+{{--nice modal--}}
+{{--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">--}}
+{{--<div class="buttons-preview">--}}
+{{--    <button class="btn btn-success" data-toggle="modal" data-target="#modal-success">Success</button>--}}
+{{--    <button class="btn btn-info" data-toggle="modal" data-target="#modal-info">Info</button>--}}
+{{--    <button class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">Danger</button>--}}
+{{--    <button class="btn btn-warning" data-toggle="modal" data-target="#modal-warning">Warning</button>--}}
+{{--</div>--}}
+
+<!--Success Modal Templates-->
+<div id="modal-success" class="modal modal-message modal-success fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="glyphicon glyphicon-check"></i>
+            </div>
+            <div class="modal-title">Success</div>
+            <div class="modal-body">You have done great!</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+            </div>
+        </div> <!-- / .modal-content -->
+    </div> <!-- / .modal-dialog -->
+</div>
+<!--End Success Modal Templates-->
+<!--Info Modal Templates-->
+<div id="modal-info" class="modal modal-message modal-info fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-envelope"></i>
+            </div>
+            <div class="modal-title">Alert</div>
+
+            <div class="modal-body">You'vd got mail!</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">OK</button>
+            </div>
+        </div> <!-- / .modal-content -->
+    </div> <!-- / .modal-dialog -->
+</div>
+<!--End Info Modal Templates-->
+<!--Danger Modal Templates-->
+<div id="modal-danger" class="modal modal-message modal-danger fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="glyphicon glyphicon-fire"></i>
+            </div>
+            <div class="modal-title">Alert</div>
+
+            <div class="modal-body">You'vd done bad!</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+            </div>
+        </div> <!-- / .modal-content -->
+    </div> <!-- / .modal-dialog -->
+</div>
+<!--End Danger Modal Templates-->
+<!--Danger Modal Templates-->
+<div id="modal-warning" class="modal modal-message modal-warning fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fa fa-warning"></i>
+            </div>
+            <div class="modal-title">Warning</div>
+
+            <div class="modal-body">Is something wrong?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">OK</button>
+            </div>
+        </div> <!-- / .modal-content -->
+    </div> <!-- / .modal-dialog -->
+</div>
+<!--End Danger Modal Templates-->
+{{--nice modal end--}}

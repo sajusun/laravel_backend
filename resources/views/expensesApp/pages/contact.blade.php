@@ -3,38 +3,59 @@
 
 <head>
     <title>Contact Page</title>
-    @include('expensesApp.layout.header_files');
+    @include('expensesApp.layout.header_files')
 </head>
 
 
 <body>
 <!-- Navbar -->
-@include('expensesApp.layout.navBar');
+@include('expensesApp.layout.navBar')
 <!-- Navbar -->
 <div class="container">
-    <h2>Horizontal form</h2>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="well well-sm">
+                <form class="form-horizontal" action="" method="post">
+                    <fieldset>
+                        <legend class="text-center">Contact us</legend>
 
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button id="login_btn" type="button" class="btn btn-default">Submit</button>
+                        <!-- Name input-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="name">Name</label>
+                            <div class="col-md-9">
+                                <input id="name" name="name" type="text" placeholder="Your name" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Email input-->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="email">Your E-mail</label>
+                            <div class="col-md-9">
+                                <input id="email" name="email" type="text" placeholder="Your email" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Message body -->
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="message">Your message</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Form actions -->
+                        <div class="form-group">
+                            <div class="col-md-12 text-right">
+                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
         </div>
     </div>
-    <form method="get" enctype="text/plain" class="form-horizontal" action="#">
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="email">Email:</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="link" placeholder="Enter link" name="link">
-            </div>
-        </div>
-        <p id="output"></p>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button id="btn" type="submit" class="btn btn-default">check</button>
-            </div>
-        </div>
-    </form>
-
 </div>
+
 @include('expensesApp.layout.footer');
 </body>
 @include('expensesApp.layout.bottom_script_files');
@@ -59,5 +80,5 @@
             http.setRequestHeader('contentType', 'json');
             http.send();
         }
-    });
+    })
 </script>

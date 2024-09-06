@@ -15,9 +15,9 @@
 
                 <div class="h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
                     <!-- Icon -->
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center" style="height: 220px">
                         <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_nFqg830P_VriGxOXvv4QbA13rkzVC8YwRA&s"
+                            src="https://cdn-icons-png.flaticon.com/512/9771/9771679.png"
                             id="icon" alt="User Icon"/>
                     </div>
                     <br>

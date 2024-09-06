@@ -113,7 +113,7 @@ class serverRequest {
                 result = await response.data;
             })
             .catch(function (error) {
-                console.log(error);
+                //console.log(error);
                 result = {
                     success: false,
                     message: error.response.data.message
@@ -134,7 +134,7 @@ class serverRequest {
                 result = await response.data;
             })
             .catch(function (error) {
-                console.log(error);
+              //  console.log(error);
                 result = {
                     success: false,
                     message: error.response.data.message

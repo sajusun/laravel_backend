@@ -1,3 +1,6 @@
+// all month in array
+const monthsInArray = ['January', "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 // page link var
 const host = 'http://localhost:8000/';
 const expensesApp = "expenses-app";
@@ -34,7 +37,7 @@ const apiLink = {
 // all kind of app global methods here
 methods = {
     // onclick this method route data view page dynamically
-    go2singlePage:function (pageLink) {
+    go2singlePage: function (pageLink) {
         $("#t_body").on('click', '.clickable', function () {
             window.location.href = `${window.location.href}/${this.parentElement.id}/view`;
             console.log(this.parentElement.id)
@@ -54,6 +57,10 @@ methods = {
         signup() {
             return new Button_effect('resister_btn', 'Processing', 'Go To Next')
         },
+    },
+
+    getMonth: function (monthNumber) {
+        return monthsInArray[monthNumber];
     }
 }
 
@@ -61,7 +68,6 @@ methods = {
 function getCurrentYear() {
     const d = new Date();
     return d.getFullYear();
-
 }
 
 // redirect home page
@@ -93,6 +99,7 @@ function to_contact() {
 function logout() {
     new User().logout();
 }
+
 // app token object that set anf get api token
 const token = {
     set: function (key) {
@@ -102,6 +109,8 @@ const token = {
         return sessionStorage.getItem(`${host}key`);
     },
 }
+
+
 
 
 

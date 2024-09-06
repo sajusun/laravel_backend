@@ -19,6 +19,21 @@ table thead,tbody {
     margin: 10px;
     font-variant: all-small-caps;
 }
+.filter-section{
+    display: grid;
+    /*border-top: 1px solid #000;*/
+    /*border-bottom: 1px solid #000;*/
+}
+.filter-section span{
+    font-size: small;
+    font-family: FontAwesome cursive;
+}
+hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    border-top: 1px solid #000;
+}
 .material-icons{
     width: min-content;
 }

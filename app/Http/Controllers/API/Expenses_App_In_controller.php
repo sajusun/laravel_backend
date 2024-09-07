@@ -16,12 +16,14 @@ class Expenses_App_In_controller extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $list = expensesApp_In::where('user_id', Auth::id())->get(['id', 'date', 'details', 'amount','remarks']);
+
+        $list = expensesApp_In::where('user_id', Auth::id())->orderBy($request->orderBy,$request->orderType)->get(['id', 'date', 'details', 'amount','remarks']);
         if ($list->count() > 0) {
             return response()->json([
                 'success' => true,
                 'message' => 'List all Expenses App In',
-                'data' => $list
+                'data' => $list,
+                'link'=>$request->fullUrl()
             ]);
         } else {
             return response()->json([

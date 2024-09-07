@@ -25,7 +25,7 @@ const urlLink = {
 
 
 //app api links
-const apiLink = {
+let apiLink = {
     isValid: `${host}api/user/isValid`,
     login: `${host}api/user/login`,
     register: `${host}api/user/register`,

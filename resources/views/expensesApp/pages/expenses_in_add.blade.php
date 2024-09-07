@@ -47,10 +47,8 @@
                                 <button id="submitBtn" type="button" class="btn btn-primary">Submit</button>
                             </div>
                             <div class="col-10" id="response">
-
                             </div>
                         </div>
-
                     </div>
                 </div>
             </form>
@@ -87,7 +85,10 @@
                     responseMgs.danger(result['message']);
                 } else {
                     responseMgs.success(result['message']);
-                    data.clear();
+                   // data.clear();
+                   //  for (let ele in data){
+                   //      data.ele="";
+                   //  }
                 }
                 btn.default();
             });

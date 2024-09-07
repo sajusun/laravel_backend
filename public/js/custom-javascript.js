@@ -250,6 +250,7 @@ class DataList {
         this.fetch.xGet().then(function (response) {
             self.tbody.empty();
             let list = response.data;
+            console.log(response)
             if (response.success) {
                 for (let i = 0; i < list.length; i++) {
                     element += `<tr id='${list[i].id}'>

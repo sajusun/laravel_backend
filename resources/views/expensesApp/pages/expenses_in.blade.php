@@ -17,7 +17,7 @@
             <div class="filter-section">
                 <span>Filter By Month:</span>
                 {{--          Small button groups (default and split) --}}
-                <div class="btn-group">
+                <div class="btn-group" style="display: grid">
                     <button id="filterBtn" class="btn btn-info btn-sm dropdown-toggle" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Filter By Months
@@ -29,16 +29,27 @@
             <hr>
             <div class="filter-section">
                 <span>Order By:</span>
-                <div class="btn-group">
+                <div style="display: grid">
+                    <div style="font-size: small">
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="radio1" name="opt_radio" value="ASC" checked>Ascending
+                            <label class="form-check-label" for="radio1"></label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="radio2" name="opt_radio" value="DESC">Descending
+                            <label class="form-check-label" for="radio2"></label>
+                        </div>
+                    </div>
+
                     <button id="orderBtn" class="btn btn-info btn-sm dropdown-toggle" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Order By
                     </button>
                     <div class="dropdown-menu" id="ordersName">
                         <a class="dropdown-item" href="#" id="date">Date</a>
+                        <a class="dropdown-item" href="#" id="details">Description</a>
                         <a class="dropdown-item" href="#" id="amount">Amount</a>
-                        <a class="dropdown-item" href="#" id="descending">Ascending</a>
-                        <a class="dropdown-item" href="#" id="descending">Descending</a>
+                        <a class="dropdown-item" href="#" id="remarks">Remarks</a>
                     </div>
                     {{--                END filter by month --}}
                 </div>
@@ -94,10 +105,24 @@
 </body>
 @include('expensesApp.layout.bottom_script_files')
 <script>
+    const income = new Income();
+
+    class makeLinks {
+        orderName;
+        orderType=null;
+        monthBY = null;
+        searchBY = null;
+
+        getLink() {
+            income.listLink = `${apiLink.incomeList_url}?orderBy=${this.orderName}&orderType=${this.orderType}&monthBy=${this.monthBY}&searchBy=${this.searchBY}`;
+        }
+    }
+
     $(function () {
+        // fetch data from server
+        const makeLink = new makeLinks();
         const date = new Date();
         let month = date.getMonth();
-
 
         function detectMonth(x) {
             if (month === parseInt(x)) {
@@ -107,30 +132,60 @@
             }
         }
 
+        let displayBy;
+
         let monthNameDiv = $('#monthsName');
         let filterBtn = $('#filterBtn');
 
         let orderNameDiv = $('#ordersName');
         let orderBtn = $('#orderBtn');
 
+        let orderRadioBtn= $('[name=opt_radio]');
+
         let elements = "";
         for (let i = 0; i < monthsInArray.length; i++) {
-            elements += `<a class="dropdown-item" href="#" id="${i}">${detectMonth(i)}</a>`
+            elements += `<a class="dropdown-item" href="#" name="${detectMonth(i)}" id="${i}">${detectMonth(i)}</a>`
         }
+        //
         monthNameDiv.html(elements);
         filterBtn.text(detectMonth(month));
 
         monthNameDiv.click(function (event) {
             filterBtn.text(event.target.text);
+            makeLink.monthBY = event.target.id;
+            makeLink.getLink();
+            income.viewData();
+            console.log(income.listLink)
         });
 
         orderNameDiv.click(function (event) {
             orderBtn.text(event.target.text);
-        });
+            makeLink.orderName = event.target.id;
+            makeLink.getLink();
+            console.log(income.listLink)
+            income.viewData();
 
-        // fetch data from server
-        let income = new Income();
+        });
+        orderRadioBtn.change(function(){
+            ascOrDesc();
+        });
+        function ascOrDesc() {
+            displayBy = orderRadioBtn.filter(":checked").val();
+            makeLink.orderType = displayBy;
+            makeLink.orderName='date';
+            orderBtn.text("Date");
+            makeLink.getLink();
+            income.viewData();
+            console.log(displayBy);
+        }
+
+        ascOrDesc();
+        makeLink.monthBY = month;
+        makeLink.getLink();
+        console.log(income.listLink);
+
         income.viewData();
+        console.log(income.listLink);
     });
 </script>
 </html>

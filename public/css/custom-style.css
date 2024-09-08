@@ -37,6 +37,11 @@ hr {
 .material-icons{
     width: min-content;
 }
+.search-loading-icon{
+    display: block;
+    line-height: 38px;
+    font-size: xx-large;
+}
 
 
 /*modal css*/

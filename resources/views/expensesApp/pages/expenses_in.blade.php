@@ -15,9 +15,17 @@
             <h2 class="grid-title"><i class="fa fa-filter"></i> Filters</h2>
             <hr>
             <div class="filter-section">
-                <span>Filter By Month:</span>
+
                 {{--          Small button groups (default and split) --}}
                 <div class="btn-group" style="display: grid">
+                    <span>Filter By Year:</span>
+
+                    <div class="filter-section">
+                        <input type="text" class="form-control" name="year" id="yearInput" value=""
+                               placeholder="Find By Year">
+                    </div>
+                    {{--                    year--}}
+                    <span>Filter By Month:</span>
                     <button id="filterBtn" class="btn btn-info btn-sm dropdown-toggle" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Filter By Months
@@ -32,7 +40,8 @@
                 <div style="display: grid">
                     <div style="font-size: small">
                         <div class="form-check">
-                            <input type="radio" class="form-check-input" id="radio1" name="opt_radio" value="ASC" checked>Ascending
+                            <input type="radio" class="form-check-input" id="radio1" name="opt_radio" value="ASC"
+                                   checked>Ascending
                             <label class="form-check-label" for="radio1"></label>
                         </div>
                         <div class="form-check">
@@ -55,17 +64,25 @@
                 </div>
             </div>
             <hr>
-            <div class="filter-section">
-                <input type="text" class="form-control" placeholder="Search">
-            </div>
+{{--            <div class="filter-section">--}}
+{{--                <input type="text" class="form-control" placeholder="Search">--}}
+{{--            </div>--}}
+
+            {{--        end filter section--}}
         </div>
+
 
         <div class="col">
             <!-- BEGIN SEARCH INPUT -->
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search By Text | Date | Year like 2000">
+                <input type="text" class="form-control" id="searchInput"
+                       placeholder="Search By Text | Date | Year like 2000">
                 <span class="input-group-btn">
-                <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+
+                    <i id="refreshIcon" type="button" class="search-loading-icon material-icons text-primary"
+                       style="display: none">refresh</i>
+                    <i id="loadingIcon" class=" search-loading-icon material-icons text-danger">autorenew</i>
+
               </span>
             </div>
             <!-- END SEARCH INPUT -->
@@ -86,13 +103,13 @@
                     <tbody id="t_body"></tbody>
                 </table>
             </section>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <i id="refreshIcon" type="button" class="material-icons text-primary"
-                       style="display: none">refresh</i>
-                    <i id="loadingIcon" class="material-icons text-danger">autorenew</i>
-                </div>
-            </div>
+            {{--            <div class="form-group">--}}
+            {{--                <div class="col-sm-offset-2 col-sm-10">--}}
+            {{--                    <i id="refreshIcon" type="button" class="material-icons text-primary"--}}
+            {{--                       style="display: none">refresh</i>--}}
+            {{--                    <i id="loadingIcon" class="material-icons text-danger">autorenew</i>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
         </div>
     </div>
 
@@ -107,18 +124,31 @@
 <script>
     const income = new Income();
 
-    class makeLinks {
-        orderName;
-        orderType=null;
-        monthBY = null;
-        searchBY = null;
-
-        getLink() {
-            income.listLink = `${apiLink.incomeList_url}?orderBy=${this.orderName}&orderType=${this.orderType}&monthBy=${this.monthBY}&searchBy=${this.searchBY}`;
-        }
-    }
 
     $(function () {
+        class makeLinks {
+            orderName = 'date';
+            orderType = null;
+            monthBY = null;
+            searchBY = false;
+            yearBy = null;
+
+            isSearch() {
+                income.listLink = `${apiLink.incomeList_url}?orderBy=${this.orderName}&orderType=${this.orderType}&monthBy=${Math.floor(parseInt(this.monthBY) + 1)}&yearBy=${this.yearBy}&searchBy=${this.searchBY}`;
+                income.viewData();
+            }
+
+            yearFilter() {
+                income.listLink = `${apiLink.incomeList_url}?orderBy=${this.orderName}&orderType=${this.orderType}&monthBy=${Math.floor(parseInt(this.monthBY) + 1)}&yearBy=${this.yearBy}&searchBy=${this.searchBY}`;
+                income.viewData();
+            }
+
+            generateLink() {
+                income.listLink = `${apiLink.incomeList_url}?orderBy=${this.orderName}&orderType=${this.orderType}&monthBy=${Math.floor(parseInt(this.monthBY) + 1)}&yearBy=${this.yearBy}`;
+                income.viewData();
+            }
+        }
+
         // fetch data from server
         const makeLink = new makeLinks();
         const date = new Date();
@@ -133,16 +163,17 @@
         }
 
         let displayBy;
-
         let monthNameDiv = $('#monthsName');
         let filterBtn = $('#filterBtn');
 
         let orderNameDiv = $('#ordersName');
         let orderBtn = $('#orderBtn');
-
-        let orderRadioBtn= $('[name=opt_radio]');
+        let yearInput = $('#yearInput');
+        let searchInput = $('#searchInput');
+        let orderRadioBtn = $('[name=opt_radio]');
 
         let elements = "";
+
         for (let i = 0; i < monthsInArray.length; i++) {
             elements += `<a class="dropdown-item" href="#" name="${detectMonth(i)}" id="${i}">${detectMonth(i)}</a>`
         }
@@ -153,39 +184,63 @@
         monthNameDiv.click(function (event) {
             filterBtn.text(event.target.text);
             makeLink.monthBY = event.target.id;
-            makeLink.getLink();
-            income.viewData();
-            console.log(income.listLink)
+            fetchData();
         });
 
         orderNameDiv.click(function (event) {
             orderBtn.text(event.target.text);
             makeLink.orderName = event.target.id;
-            makeLink.getLink();
-            console.log(income.listLink)
-            income.viewData();
+            fetchData();
 
         });
-        orderRadioBtn.change(function(){
-            ascOrDesc();
+        orderRadioBtn.change(function () {
+            defaultValueSet();
         });
-        function ascOrDesc() {
-            displayBy = orderRadioBtn.filter(":checked").val();
-            makeLink.orderType = displayBy;
-            makeLink.orderName='date';
-            orderBtn.text("Date");
-            makeLink.getLink();
-            income.viewData();
-            console.log(displayBy);
+        yearInput.change(function () {
+            yearFunc($(this).val());
+        });
+        searchInput.change(function () {
+            searchFunc($(this).val())
+        });
+        // searchInput.keyup(function (event) {
+        //     searchFunc($(this).val())
+        // })
+        function searchFunc(data) {
+            console.log(data)
+            if (!data.empty) {
+                makeLink.searchBY = data;
+                makeLink.isSearch();
+            } else {
+                makeLink.generateLink();
+            }
         }
 
-        ascOrDesc();
-        makeLink.monthBY = month;
-        makeLink.getLink();
-        console.log(income.listLink);
+        function yearFunc(data) {
+            if (data !== "") {
+                makeLink.yearBy = parseInt(data);
+                fetchData();
+            } else {
+                defaultValueSet()
+            }
+            console.log(data)
+        }
 
-        income.viewData();
-        console.log(income.listLink);
+        function defaultValueSet() {
+            displayBy = orderRadioBtn.filter(":checked").val();
+            makeLink.orderType = displayBy;
+            makeLink.monthBY = month;
+            makeLink.yearBy = getCurrentYear();
+            yearInput.val(getCurrentYear());
+            fetchData();
+        }
+
+        function fetchData() {
+            makeLink.generateLink();
+            console.log(income.listLink)
+        }
+
+        defaultValueSet();
+
     });
 </script>
 </html>

@@ -87,7 +87,6 @@
             </div>
             <!-- END SEARCH INPUT -->
             <hr>
-
             <section id="data_table">
                 <table class="table table-bordered">
                     <thead>
@@ -103,16 +102,8 @@
                     <tbody id="t_body"></tbody>
                 </table>
             </section>
-            {{--            <div class="form-group">--}}
-            {{--                <div class="col-sm-offset-2 col-sm-10">--}}
-            {{--                    <i id="refreshIcon" type="button" class="material-icons text-primary"--}}
-            {{--                       style="display: none">refresh</i>--}}
-            {{--                    <i id="loadingIcon" class="material-icons text-danger">autorenew</i>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
         </div>
     </div>
-
 </div>
 {{--modals area--}}
 @include('expensesApp.layout.modals')
@@ -123,6 +114,8 @@
 @include('expensesApp.layout.bottom_script_files')
 <script>
     const income = new Income();
+
+
 
 
     $(function () {
@@ -138,10 +131,10 @@
                 income.viewData();
             }
 
-            yearFilter() {
-                income.listLink = `${apiLink.incomeList_url}?orderBy=${this.orderName}&orderType=${this.orderType}&monthBy=${Math.floor(parseInt(this.monthBY) + 1)}&yearBy=${this.yearBy}&searchBy=${this.searchBY}`;
-                income.viewData();
-            }
+            // yearFilter() {
+            //     income.listLink = `${apiLink.incomeList_url}?orderBy=${this.orderName}&orderType=${this.orderType}&monthBy=${Math.floor(parseInt(this.monthBY) + 1)}&yearBy=${this.yearBy}&searchBy=${this.searchBY}`;
+            //     income.viewData();
+            // }
 
             generateLink() {
                 income.listLink = `${apiLink.incomeList_url}?orderBy=${this.orderName}&orderType=${this.orderType}&monthBy=${Math.floor(parseInt(this.monthBY) + 1)}&yearBy=${this.yearBy}`;
@@ -175,7 +168,7 @@
         let elements = "";
 
         for (let i = 0; i < monthsInArray.length; i++) {
-            elements += `<a class="dropdown-item" href="#" name="${detectMonth(i)}" id="${i}">${detectMonth(i)}</a>`
+            elements += `<a class="dropdown-item" href="#"  id="${i}">${detectMonth(i)}</a>`
         }
         //
         monthNameDiv.html(elements);
@@ -194,7 +187,8 @@
 
         });
         orderRadioBtn.change(function () {
-            defaultValueSet();
+            makeLink.orderType=$(this).val();
+            fetchData();
         });
         yearInput.change(function () {
             yearFunc($(this).val());
@@ -220,9 +214,8 @@
                 makeLink.yearBy = parseInt(data);
                 fetchData();
             } else {
-                defaultValueSet()
+                defaultValueSet();
             }
-            console.log(data)
         }
 
         function defaultValueSet() {
@@ -235,7 +228,11 @@
         }
 
         function fetchData() {
-            makeLink.generateLink();
+            if (searchInput.val()!==""){
+                searchFunc(searchInput.val())
+            }else {
+                makeLink.generateLink();
+            }
             console.log(income.listLink)
         }
 

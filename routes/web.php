@@ -42,6 +42,12 @@ Route::any('expenses-app/login', function () {
 Route::any('expenses-app/register', function () {
     return view('expensesApp.pages.register');
 });
+Route::any('expenses-app/reset', function () {
+    return view('expensesApp.pages.reset');
+});
+Route::any('expenses-app/reset/token/', function () {
+    return view('expensesApp.pages.reset_password');
+});
 Route::get('expenses-app/in/list', function () {
     return view('expensesApp.pages.expenses_in');
 });

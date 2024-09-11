@@ -50,13 +50,13 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="m-sm-4">
-                                <form>
+                                <form action="#">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input class="form-control form-control-lg" type="email" name="email" placeholder="Enter your email">
+                                        <input class="form-control form-control-lg" type="email" id="email" name="email" placeholder="Enter your email">
                                     </div>
                                     <div class="text-center mt-3">
-                                        <a href="#" class="btn btn-lg btn-primary">Reset password</a>
+                                        <a  id="resetBtn" class="btn btn-lg btn-primary">Reset Password</a>
                                         <!-- <button type="submit" class="btn btn-lg btn-primary">Reset password</button> -->
                                     </div>
                                 </form>
@@ -74,6 +74,20 @@
 
 </body>
 @include('expensesApp.layout.bottom_script_files')
+<script>
+    let email=$('#email');
+    let resetBtn=$('#resetBtn');
+
+    resetBtn.on('click',function (event) {
+        console.log(email.val());
+        let server = new serverRequest();
+        server.url=apiLink.reset;
+        server.data={email:email.val()}
+        server.xPost().then((response)=>{
+            console.log(response)
+        });
+    })
+</script>
 
 </html>
 

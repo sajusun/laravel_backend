@@ -319,8 +319,8 @@
                                     class="btn btn-info btn-lg btn-block" type="button" onclick="new User().login();">Login
                             </button>
                         </div>
-                        <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">Forgot password?</a></p>
-                        <p>Don't have an account? <a href="#!" class="link-info" onclick="redirect(signup_Page)">Register here</a></p>
+                        <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#" onclick="redirect(urlLink.reset_Page)">Forgot password?</a></p>
+                        <p>Don't have an account? <a href="#!" class="link-info" onclick="redirect(urlLink.signup_Page)">Register here</a></p>
                     </form>
                 </div>
             </div>

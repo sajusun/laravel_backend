@@ -57,6 +57,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 //All public routes..........................................................
 Route::post('/user/login',[apiUser::class,'login']);
 Route::post('/user/register',[apiUser::class,'store']);
+Route::post('/user/reset/',[apiUser::class,'reset']);
+Route::post('/user/reset/{token}',[apiUser::class,'reset_WithToken']);
+
 
 //subscription api routes...........
 Route::any('news_later/add',[email_subscription_controller::class,'store']);

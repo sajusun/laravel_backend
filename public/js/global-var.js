@@ -3,24 +3,23 @@ const monthsInArray = ['January', "February", "March", "April", "May", "June", "
 
 // page link var
 const host = 'http://localhost:8000/';
-const expensesApp = "expenses-app";
-const home_Page = `${host + expensesApp}/user`;
-const login_Page = `${host + expensesApp}/login`;
-const signup_Page = `${host + expensesApp}/register`;
-const in_add_Page = `${host + expensesApp}/in/add`;
-const in_list_Page = `${host + expensesApp}/in/list`;
-const in_view_Page = `${host + expensesApp}/in/view`;
+const appName = "expenses-app";
+const home_Page = `${host + appName}/user`;
+const login_Page = `${host + appName}/login`;
+const signup_Page = `${host + appName}/register`;
+const in_add_Page = `${host + appName}/in/add`;
+const in_list_Page = `${host + appName}/in/list`;
+const in_view_Page = `${host + appName}/in/view`;
 
 // app url Links
-const urlLink = {
-    host: 'http://localhost:8000/',
-    appName: "expenses-app",
-    home_Page: `${this.host + this.appName}/user`,
-    login_Page: `${this.host + this.appName}/login`,
-    signup_Page: `${this.host + this.appName}/register`,
-    in_add_Page: `${this.host + this.appName}/in/add`,
-    in_list_Page: `${this.host + this.appName}/in/list`,
-    in_view_Page: `${this.host + this.appName}/in/view`,
+let urlLink = {
+    home_Page: `${host+appName}/user`,
+    login_Page: `${host+appName}/login`,
+    signup_Page: `${host+appName}/register`,
+    reset_Page: `${host+appName}/reset`,
+    in_add_Page: `${host+appName}/in/add`,
+    in_list_Page: `${host+appName}/in/list`,
+    in_view_Page: `${host+appName}/in/view`,
 }
 
 
@@ -29,6 +28,7 @@ let apiLink = {
     isValid: `${host}api/user/isValid`,
     login: `${host}api/user/login`,
     register: `${host}api/user/register`,
+    reset: `${host}api/user/reset`,
     in_add: `${host}api/expenses_app/in/add`,
     out_add: `${host}api/expenses_app/out/add`,
     incomeList_url: `${host}api/expenses_app/in/list/`,

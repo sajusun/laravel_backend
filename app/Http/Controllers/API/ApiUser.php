@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\Guard;
 use Illuminate\Validation\Rules;
 
@@ -27,7 +32,7 @@ class ApiUser extends Guard
     {
         $validator = validator()->make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
         if (!$validator->fails()) {
@@ -59,7 +64,7 @@ class ApiUser extends Guard
                     'data' => null
                 ]);
             }
-        }else{
+        } else {
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors()->first(),
@@ -147,8 +152,36 @@ class ApiUser extends Guard
 
     }
 
-    static public function api_login(Request $request): void
+    static public function reset(Request $request): JsonResponse
     {
+        $user = User::where('email', request()->email)->first();
+        if (!is_null($user)) {
+            $token = str::random(64);
 
+            $query = DB::table('password_reset_tokens')->where('email', request()->email)->first();
+            if (!$query) {
+                DB::table('password_reset_tokens')->insert([
+                    'email' => request()->email,
+                    'token' => $token,
+                    'created_at' => Carbon::now()
+                ]);
+            } else {
+                DB::table('password_reset_tokens')->where('email', request()->email)->update([
+                    'token' => $token,
+                    'created_at' => Carbon::now()
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => "Send Resend Link to your registered Email",
+                'token' => $token
+
+            ]);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => "Email Doesn't Exist",
+        ]);
     }
 }

@@ -134,7 +134,7 @@ class serverRequest {
                 result = await response.data;
             })
             .catch(function (error) {
-              //  console.log(error);
+                //  console.log(error);
                 result = {
                     success: false,
                     message: error.response.data.message
@@ -150,11 +150,11 @@ class User {
     #revokeLink = `${host}api/user/logout`;
     #isValid_link = apiLink.isValid;
     #loginLink = apiLink.login;
-    #registerLink=apiLink.register;
+    #registerLink = apiLink.register;
     #server = new serverRequest();
 
     // user registration method
-    signup(){
+    signup() {
         const responseMgs = $('#responseMgs');
         responseMgs.html('');
         const btnEffect = methods.buttonEffect.signup();
@@ -166,27 +166,27 @@ class User {
         // if (pass !==  c_pass) {
         //     responseMgs.html(`<div class='alert alert-danger'>Password not match</div>`);
         // } else {
-            this.#server.data = {
-                name: name,
-                email: email,
-                password: pass,
-                password_confirmation: c_pass
-            };
-            btnEffect.starProcessing();
-            this.#server.xPost().then((response) => {
-                if (response['success']) {
-                    console.log(response)
-                    token.set(response['access_token']);
-                    responseMgs.html(`<div class='alert alert-success' role='alert'>${response['message']}</div>`);
-                   // window.location.href = home_Page;
-                    btnEffect.disabled();
-                } else {
-                    btnEffect.default();
-                    responseMgs.html(`<div class='alert alert-danger' role='alert'>${response['message']}</div>`);
-                }
+        this.#server.data = {
+            name: name,
+            email: email,
+            password: pass,
+            password_confirmation: c_pass
+        };
+        btnEffect.starProcessing();
+        this.#server.xPost().then((response) => {
+            if (response['success']) {
+                console.log(response)
+                token.set(response['access_token']);
+                responseMgs.html(`<div class='alert alert-success' role='alert'>${response['message']}</div>`);
+                // window.location.href = home_Page;
+                btnEffect.disabled();
+            } else {
+                btnEffect.default();
+                responseMgs.html(`<div class='alert alert-danger' role='alert'>${response['message']}</div>`);
+            }
 
-            });
-       // }
+        });
+        // }
 
     }
 
@@ -224,7 +224,9 @@ class User {
         this.#server.url = this.#isValid_link;
         this.#server.xGet().then((response) => {
             if (response.success !== true) {
-                if (window.location.href !== signup_Page) {
+                if (window.location.href !== urlLink.signup_Page
+                    && window.location.href !== urlLink.reset_Page
+                    && window.location.href !== urlLink.reset_Page+'/token') {
                     if (window.location.href !== login_Page) {
                         window.location.href = login_Page;
                     }

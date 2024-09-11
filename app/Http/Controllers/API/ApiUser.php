@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Models\expensesApp_Out;
 use App\Models\User;
 use Carbon\Carbon;
+use http\Message;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\Guard;
@@ -171,6 +174,10 @@ class ApiUser extends Guard
                     'created_at' => Carbon::now()
                 ]);
             }
+            Mail::send('expensesApp.layout.email_template', ['token' => $token], function (\Illuminate\Mail\Message $message) {
+                $message->subject("hello");
+                $message->to(request()->email);
+            });
 
             return response()->json([
                 'success' => true,

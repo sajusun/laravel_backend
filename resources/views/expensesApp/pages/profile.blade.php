@@ -3,6 +3,10 @@
 <head>
     <title>Profile</title>
     @include('expensesApp.layout.header_files')
+    <script>
+        const user= new User();
+        user.userGuard();
+    </script>
 <style>
     body{
         color: #8e9194;

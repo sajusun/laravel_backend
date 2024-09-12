@@ -108,6 +108,8 @@ class ApiUser extends Guard
             $data = User::where('email', $request->email)->first();
             if ($data && Hash::check($request->password, $data->password)) {
                 $token = $data->createToken($request->email)->plainTextToken;
+
+
                 return response()->json([
                     'success' => true,
                     'message' => 'login success',
@@ -174,15 +176,16 @@ class ApiUser extends Guard
                     'created_at' => Carbon::now()
                 ]);
             }
-            Mail::send('expensesApp.layout.email_template', ['token' => $token], function (\Illuminate\Mail\Message $message) {
-                $message->subject("hello");
+            Mail::send('expensesApp.layout.email_template', ['token' => $token,'name'=>$user['name']], function (\Illuminate\Mail\Message $message) {
+                $message->subject("Password Reset Request");
+                $message->from("myapp@gmail.com",'ExpensesApp');
                 $message->to(request()->email);
             });
 
             return response()->json([
                 'success' => true,
                 'message' => "Send Resend Link to your registered Email",
-                'token' => $token
+                'token' => $user
 
             ]);
         }

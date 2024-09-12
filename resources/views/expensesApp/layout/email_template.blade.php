@@ -1,53 +1,34 @@
-<BODY style="font-size: 10pt; font-family: Arial, sans-serif;">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>email</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body style="padding: 30px;">
+<div class="container">
+    <div class="mail-logo" style="
+        font-size: 20px;
+        font-weight: 500;
+        font-family: monospace;">
+        <img style="height: 40px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPpEJF5DDj_yV4IUO8EcNh2wMTDoTbYLBBtQ&s" alt="mail Logo">
+        <span>Company name</span>
+    </div>
+    <div class="text-content" style="font-size: 18px;font-family: 'Times New Roman', Times, serif;">
+        <p>Hi {{$name}},</p>
 
-<table cellspacing="0" cellpadding="0" border="0" style="COLOR: #808080; FONT-FAMILY: Arial, sans-serif; width: 440px; background: transparent !important;">
-    <tbody>
-    <tr>
-        <td colspan="2">
-            <span style="FONT-SIZE: 18pt; COLOR: #0c5bb4; line-height: 22pt; FONT-FAMILY: Arial, sans-serif;"><strong>{firstName} {lastName}</strong></span>
-        </td>
-    </tr>
-    <tr>
-        <td style="FONT-SIZE: 12pt; FONT-FAMILY: Arial, sans-serif; WIDTH: 260px; COLOR: #808080;line-height:14pt;  padding-bottom: 15px;">
-            <span style="FONT-SIZE: 12pt; LINE-HEIGHT: 20px; COLOR: #808080; FONT-FAMILY: Arial, sans-serif;">{title}</span>
-        </td>
-        <td style="FONT-SIZE: 10pt; FONT-FAMILY: Arial, sans-serif; WIDTH: 160px; COLOR: #808080;padding-bottom: 4px; vertical-align: bottom; text-align: right; padding-bottom: 15px;">
-            <table style="float: right;  background: transparent !important;">
-                <tbody>
-                <tr>
-                    <td style="width: 30px;"><a href="https://www.facebook.com/MyCompanyFacebook" target="_blank" rel="noopener"><img border="0" src="fb.png" alt="facebook icon" width="20" height="20" style="border:0; width:20px; height:20px"></a></td>
-                    <td style="width: 30px;"><a href="https://twitter.com/MyCompanyTwitter" target="_blank" rel="noopener"><img border="0" src="tt.png" alt="twitter icon" width="20" height="20" style="border:0; width:20px; height:20px"></a></td>
-                    <td style="width: 30px;"><a href="https://www.youtube.com/user/MyCompanyChannel" target="_blank" rel="noopener"><img border="0" src="yt.png" alt="youtube icon" width="20" height="20" style="border:0; width:20px; height:20px"></a></td>
-                    <td style="width: 30px;"><a href="https://www.linkedin.com/company/mycompanylinkedin" target="_blank" rel="noopener"><img border="0" src="ln.png" alt="linkedin icon" width="20" height="20" style="border:0; width:20px; height:20px"></a></td>
-                    <td style="width: 30px;"><a href="https://www.instagram.com/mycompanyinstagram/" target="_blank" rel="noopener"><img border="0" src="it.png" alt="instagram icon" width="20" height="20" style="border:0; width:20px; height:20px"></a></td>
-                    <td style="width: 30px;"><a href="https://pinterest.com/mycompanypinterest/" target="_blank" rel="noopener"><img border="0" src="pt.png" alt="pinterest icon" width="20" height="20" style="border:0; width:20px; height:20px"></a></td>
-                </tr>
-                </tbody>
-            </table>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" style="padding-top: 15px; border-top: solid 1px #0c5bb4; FONT-SIZE: 9pt; line-height: 14px;">
-            <span style="FONT-SIZE: 9pt; COLOR: #808080; FONT-FAMILY: Arial, sans-serif;"><span style="color: #000000;"><strong>Mobile:</strong></span> {mobile}<span> | </span></span>
-            <span style="FONT-SIZE: 9pt; COLOR: #808080;FONT-FAMILY: Arial, sans-serif;"><span style="color: #000000;"><strong>Phone:</strong></span> {phone}</span>
+        <p>If you don't make the request, just ignore this message. Otherwise, <br>you can reset your password - by clicking <u style="color: burlywood">Reset Password</u> button below.</p>
 
-            <span style="FONT-SIZE: 9pt; COLOR: #000000;"><br><span style="color: #000000;"><strong>Email:</strong></span> <a href="mailto:{email}" style="FONT-SIZE: 9pt; COLOR: #808080; text-decoration: none;"><span style="FONT-SIZE: 9pt; COLOR: #808080; text-decoration: none;">{email}</span></a></span>
+        <a style="padding: 15px;margin:10px 0;
+            width: 200px;
+            font-size: large;" href="http://localhost:8000/expenses-app/reset/{{$token}}" type="button" class="btn btn-danger">Reset Password</a>
 
-            <span style="FONT-SIZE: 9pt; COLOR: #808080;"><br>
-
-                <span style="color: #000000;FONT-FAMILY: Arial, sans-serif"><strong>{company}</strong><span>, </span></span>
-                <span>{address1}<span>, </span></span>
-                <span>{address2}</span>
-            </span>
-
-            <span>
-                <br><br>
-                <a href="http://localhost:8000/expenses-app/reset/token/{{$token}}" target="_blank" rel="noopener" style=" text-decoration:none;FONT-FAMILY: Arial, sans-serif"><strong style="color:#0c5bb4; font-family:Arial, sans-serif; font-size:9pt">{website}</strong></a>
-            </span>
-        </td>
-    </tr>
-
-    </tbody></table>
-
-
-</BODY>
+        <p>Thanks,</p>
+        <p>Dear User</p>
+    </div>
+</div>
+</body>
+</html>
+<!-- email template -->

@@ -236,7 +236,15 @@ class User {
                     window.location.href = home_Page;
                 }
             }
-        })
+        });
+    }
+    userGuard(){
+        this.#server.url = this.#isValid_link;
+        this.#server.xGet().then((response) => {
+            if (response.success !== true) {
+                redirect(urlLink.login_Page);
+            }
+        });
     }
 
     // user logout method
@@ -252,4 +260,5 @@ class User {
         })
     }
 }
+
 

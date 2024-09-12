@@ -1,9 +1,13 @@
 <!doctype html>
 <html lang="en">
 <head>
+
     <title>Home</title>
     @include('expensesApp.layout.header_files')
-
+    <script>
+        const user= new User();
+       // user.userGuard();
+    </script>
 </head>
 <body>
 <!-- Navbar -->
@@ -19,7 +23,6 @@
             <button id="outList" class=" btn btn-outline-primary">expenses list</button>
         </div>
     </div>
-
 </div>
 <div class="container-lg">
     <section id="loadContent"></section>

@@ -3,6 +3,10 @@
     <!-- Required meta tags -->
     <title>Income List</title>
     @include('expensesApp.layout.header_files')
+    <script>
+        const user= new User();
+        user.userGuard();
+    </script>
 </head>
 
 <body>

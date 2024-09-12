@@ -5,7 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactUsController;
 
 Route::get('/', function () {
-    return view('index');
+    return view('welcome');
 });
 
 Route::get('about', function () {
@@ -35,7 +35,7 @@ Route::get('single-blog', function () {
 //expenses app.............
 Route::any('expenses-app/user', function () {
     return view('expensesApp.app');
-});
+})->middleware(['auth']);
 Route::any('expenses-app/login', function () {
     return view('expensesApp.pages.login');
 });

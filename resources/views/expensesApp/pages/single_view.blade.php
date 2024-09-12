@@ -4,6 +4,10 @@
 <head>
     <title>Full View</title>
     @include('expensesApp.layout.header_files')
+    <script>
+        const user= new User();
+        user.userGuard();
+    </script>
     <!-- choose one -->
 </head>
 

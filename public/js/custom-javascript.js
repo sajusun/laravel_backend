@@ -1,8 +1,8 @@
 /*don`t remove any global var*/
-(function () {
-    const user = new User();
-    user.isValid_User();
-})();
+// (function () {
+//     const user = new User();
+//     user.isValid_User();
+// })();
 $(document).ready(function () {
 
     $("#inAdd").click(function () {

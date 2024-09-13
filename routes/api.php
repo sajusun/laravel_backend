@@ -58,7 +58,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 Route::post('/user/login',[apiUser::class,'login']);
 Route::post('/user/register',[apiUser::class,'store']);
 Route::post('/user/reset/',[apiUser::class,'reset']);
-Route::post('/user/reset/{token}',[apiUser::class,'reset_WithToken']);
+Route::post('/user/reset/{token}',[apiUser::class,'password_reset']);
+Route::get('/user/uac_verification/{token}',[apiUser::class,'emailVerification']);
 
 
 //subscription api routes...........

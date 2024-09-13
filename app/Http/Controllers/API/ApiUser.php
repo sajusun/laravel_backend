@@ -194,4 +194,19 @@ class ApiUser extends Guard
             'message' => "Email Doesn't Exist",
         ]);
     }
+    public function emailVerification(Request $request): JsonResponse
+    {
+        return response()->json([
+            'success' => true,
+            'message' => "Email Verification Success",
+        ]);
+    }
+    public function password_reset(Request $request): JsonResponse
+    {
+        return response()->json([
+            'success' => true,
+            'message' => "Password Reset Success",
+        ]);
+    }
+
 }

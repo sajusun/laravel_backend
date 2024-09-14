@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContactUsController;
@@ -45,7 +47,11 @@ Route::any('expenses-app/register', function () {
 Route::any('expenses-app/reset', function () {
     return view('expensesApp.pages.reset');
 });
-Route::any('expenses-app/reset/token/', function () {
+Route::any('expenses-app/reset/{token}', function (Request $request) {
+    $query = DB::table('password_reset_tokens')->where('token', $request->token)->first();
+    if (!$query){
+        return view('expensesApp.pages.invalid');
+    }
     return view('expensesApp.pages.reset_password');
 });
 Route::get('expenses-app/in/list', function () {
@@ -78,10 +84,10 @@ Route::get('expenses-app/user/settings', function () {
     return view('expensesApp.pages.settings');
 });
 
+Route::get('/user/invalid', function (){
+    return view('expensesApp.pages.invalid');
+})->name('invalid');
 
-// Route::get('contact', function () {
-//     return view('contact');
-// });
 Route::get('/contact', [ContactUsController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactUsController::class, 'store']);
 

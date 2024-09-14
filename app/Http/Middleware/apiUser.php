@@ -3,9 +3,13 @@
 namespace App\Http\Middleware;
 
 use App\Http\Controllers\API\ApiTokenController;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\Sanctum;
@@ -16,24 +20,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class apiUser
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next): Response
+
+    public function handle(Request $request, Closure $next): response
     {
 
-        if (ApiTokenController::getTokenId($request)==null) {
-
-                return response()->json([
-                    'message' => 'Unauthenticated Request',
-                ]);
-            }
-       // Auth::attempt(['email'=>'sajuislam266@gmail.com','password'=>'$2y$12$1KsQPxxehwvqXVw9enB1CuNXPownnL1EJb0AiD2uqi3zkMZbc6Pwy']);
-
-        //Auth::loginUsingId(PersonalAccessToken::findToken($request->query('token'))['id']);
-       // Auth::authenticate();
+        $query = DB::table('password_reset_tokens')->where('token', $request->token)->first();
+        if (!$query) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid Request',
+            ]);
+        }
         return $next($request);
     }
+
 }

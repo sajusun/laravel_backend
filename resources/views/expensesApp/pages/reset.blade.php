@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Settings</title>
+    <title>Reset Request</title>
     @include('expensesApp.layout.header_files')
 <style>
     body{

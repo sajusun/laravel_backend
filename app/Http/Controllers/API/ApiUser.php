@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use http\Message;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -207,6 +208,12 @@ class ApiUser extends Guard
             'success' => true,
             'message' => "Password Reset Success",
         ]);
+    }
+
+    public function view_to()
+    {
+
+        view('expensesApp.pages.invalid');
     }
 
 }

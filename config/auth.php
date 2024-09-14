@@ -41,7 +41,7 @@ return [
             'provider' => 'users',
         ],
 
-        'apiUser' => [
+        'api' => [
             'driver' => 'token',
             'provider' => 'users',
             'hash' => true,
@@ -70,7 +70,7 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-        'api_users' => [
+        'api' => [
             'driver' => 'database',
             'table' => 'users',
         ],

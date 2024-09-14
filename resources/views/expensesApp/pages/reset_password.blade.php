@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <title>Login</title>
-    @include('expensesApp.layout.header_files');
+    <title>Reset Password</title>
+    @include('expensesApp.layout.header_files')
 
 </head>
 <body>
